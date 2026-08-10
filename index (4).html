@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<!-- Autor: José Ubeda © 2026 -->
+<meta name="author" content="José Ubeda">
+<meta name="copyright" content="© 2026 José Ubeda — Uso educativo exclusivo">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Actividades de Matemática — Prof. José Ubeda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --board:#1b3a2f;
+    --board-line:#2e5443;
+    --chalk:#f5f3ea;
+    --chalk-dim:#c9d6cd;
+    --ochre:#d9a441;
+    --ochre-dim:#a97f31;
+    --error:#e0796b;
+  }
+
+  *{ box-sizing:border-box; }
+
+  html,body{
+    margin:0;
+    padding:0;
+    min-height:100vh;
+    background:
+      linear-gradient(var(--board-line) 1px, transparent 1px) 0 0/38px 38px,
+      linear-gradient(90deg, var(--board-line) 1px, transparent 1px) 0 0/38px 38px,
+      var(--board);
+    color:var(--chalk);
+    font-family:'IBM Plex Sans', sans-serif;
+  }
+
+  .wrap{
+    max-width:760px;
+    margin:0 auto;
+    padding:64px 24px 80px;
+  }
+
+  header{ margin-bottom:56px; }
+
+  .eyebrow{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--ochre);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:18px;
+  }
+
+  .eyebrow::before{
+    content:"";
+    width:22px;
+    height:2px;
+    background:var(--ochre);
+    display:inline-block;
+  }
+
+  h1{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:clamp(32px, 5.4vw, 48px);
+    line-height:1.08;
+    margin:0 0 14px;
+    letter-spacing:-.01em;
+  }
+
+  h1 .eq{ color:var(--ochre); }
+
+  .sub{
+    color:var(--chalk-dim);
+    font-size:16px;
+    line-height:1.6;
+    max-width:52ch;
+    margin:0;
+  }
+
+  .list{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+
+  .item{
+    display:flex;
+    align-items:center;
+    gap:18px;
+    padding:20px 22px;
+    text-decoration:none;
+    color:var(--chalk);
+    border:1px solid var(--board-line);
+    border-left:3px solid var(--ochre-dim);
+    background:rgba(255,255,255,0.02);
+    transition:border-color .15s ease, background .15s ease, transform .15s ease;
+  }
+
+  .item:hover{
+    border-left-color:var(--ochre);
+    background:rgba(217,164,65,0.08);
+    transform:translateX(4px);
+  }
+
+  .item:focus-visible{
+    outline:2px solid var(--ochre);
+    outline-offset:2px;
+  }
+
+  .tag{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--ochre);
+    background:rgba(217,164,65,0.12);
+    border:1px solid var(--ochre-dim);
+    padding:3px 8px;
+    border-radius:3px;
+    flex-shrink:0;
+    white-space:nowrap;
+  }
+
+  .item-body{ flex:1; min-width:0; }
+
+  .item-title{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    font-size:17px;
+    margin:0 0 3px;
+  }
+
+  .item-desc{
+    font-size:13.5px;
+    color:var(--chalk-dim);
+    margin:0;
+    font-family:'JetBrains Mono', monospace;
+  }
+
+  .arrow{
+    font-family:'JetBrains Mono', monospace;
+    color:var(--chalk-dim);
+    font-size:18px;
+    flex-shrink:0;
+  }
+
+  .state{
+    padding:40px 22px;
+    border:1px dashed var(--board-line);
+    color:var(--chalk-dim);
+    font-size:14.5px;
+    text-align:center;
+  }
+
+  .state.err{
+    border-color:var(--error);
+    color:var(--error);
+  }
+
+  @keyframes pulse{
+    0%,100%{ opacity:.5; }
+    50%{ opacity:1; }
+  }
+
+  .state.loading{ animation:pulse 1.4s ease-in-out infinite; }
+
+  footer{
+    margin-top:64px;
+    padding-top:22px;
+    border-top:1px solid var(--board-line);
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--chalk-dim);
+    letter-spacing:.02em;
+  }
+
+  @media (max-width:480px){
+    .item{ padding:16px; gap:12px; }
+    .tag{ display:none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">Prof. José Ubeda · 1º año secundaria</div>
+    <h1>Actividades <span class="eq">=</span> Matemática</h1>
+    <p class="sub">Elegí la actividad que corresponde a la clase de hoy.</p>
+  </header>
+
+  <div class="list" id="list">
+    <div class="state loading" id="state">Cargando actividades…</div>
+  </div>
+
+  <footer>
+    © 2026 José Ubeda — Uso educativo exclusivo
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  // ── CONFIGURACIÓN: si alguna vez cambiás de usuario o de repo, actualizá esto ──
+  var OWNER = "josubeda2-star";
+  var REPO  = "proyecto_mat_2026";
+  // ─────────────────────────────────────────────────────────────────────────────
+
+  var listEl = document.getElementById("list");
+  var stateEl = document.getElementById("state");
+
+  function showError(msg) {
+    stateEl.className = "state err";
+    stateEl.textContent = msg;
+  }
+
+  function titleFromFilename(name) {
+    var base = name.replace(/\.html?$/i, "");
+    base = base.replace(/[_-]+/g, " ").trim();
+    return base.charAt(0).toUpperCase() + base.slice(1);
+  }
+
+  function tagFromFilename(name) {
+    var base = name.replace(/\.html?$/i, "").replace(/[0-9]+$/,"");
+    base = base.replace(/[_-]+/g, " ").trim();
+    return base ? base.toUpperCase() : "ACTIVIDAD";
+  }
+
+  fetch("https://api.github.com/repos/" + OWNER + "/" + REPO + "/contents/")
+    .then(function (res) {
+      if (!res.ok) throw new Error("api-error");
+      return res.json();
+    })
+    .then(function (files) {
+      var htmlFiles = files.filter(function (f) {
+        return f.type === "file" &&
+               /\.html?$/i.test(f.name) &&
+               f.name.toLowerCase() !== "index.html";
+      }).sort(function (a, b) { return a.name.localeCompare(b.name); });
+
+      if (htmlFiles.length === 0) {
+        stateEl.className = "state";
+        stateEl.textContent = "Todavía no hay actividades publicadas.";
+        return;
+      }
+
+      // Para cada archivo, intentamos leer su <title> real; si falla, usamos el nombre del archivo.
+      var promises = htmlFiles.map(function (f) {
+        return fetch(f.download_url)
+          .then(function (r) { return r.ok ? r.text() : ""; })
+          .then(function (html) {
+            var m = html.match(/<title>([^<]*)<\/title>/i);
+            return {
+              name: f.name,
+              title: m && m[1].trim() ? m[1].trim() : titleFromFilename(f.name)
+            };
+          })
+          .catch(function () {
+            return { name: f.name, title: titleFromFilename(f.name) };
+          });
+      });
+
+      Promise.all(promises).then(function (items) {
+        listEl.innerHTML = "";
+        items.forEach(function (item) {
+          var a = document.createElement("a");
+          a.className = "item";
+          a.href = item.name;
+          a.innerHTML =
+            '<span class="tag">' + tagFromFilename(item.name) + '</span>' +
+            '<span class="item-body">' +
+              '<p class="item-title">' + item.title + '</p>' +
+              '<p class="item-desc">' + item.name + '</p>' +
+            '</span>' +
+            '<span class="arrow">→</span>';
+          listEl.appendChild(a);
+        });
+      });
+    })
+    .catch(function () {
+      showError("No se pudo cargar la lista de actividades. Probá recargar la página.");
+    });
+})();
+</script>
+
+</body>
+</html>
