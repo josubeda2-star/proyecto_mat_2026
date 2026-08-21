@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ecuaciones de Primer Grado — Marco Teórico</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#101b2d;
+    --navy-deep:#0a1220;
+    --paper:#f7f4ea;
+    --paper-dim:#efe9db;
+    --gold:#d4a24c;
+    --gold-soft:#e9c67e;
+    --teal:#3e8e82;
+    --ink:#1b2430;
+    --ink-soft:#4a5568;
+    --line:#dcd3bd;
+    --red-x:#b5544a;
+    --green:#3e8e5f;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:var(--navy);color:var(--paper);font-family:'Inter',sans-serif;line-height:1.6;}
+  h1,h2,h3{font-family:'Fraunces',serif;font-weight:600;margin:0 0 .4em 0;letter-spacing:-.01em;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  section{padding:5rem 1.5rem;}
+  .wrap{max-width:920px;margin:0 auto;}
+  .eyebrow{text-transform:uppercase;letter-spacing:.14em;font-size:.72rem;color:var(--gold-soft);font-weight:600;margin-bottom:.8rem;}
+
+  /* ---------- HERO ---------- */
+  .hero{min-height:88vh;min-height:88svh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:2rem 1.5rem;position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 0%, rgba(212,162,76,.14), transparent 60%),var(--navy);}
+  .hero h1{font-size:clamp(2.2rem,6vw,3.6rem);color:var(--paper);max-width:14ch;}
+  .hero .sub{color:#b9c2d0;font-size:1.05rem;max-width:46ch;margin-top:.6rem;}
+  .hero .tag{margin-top:2.4rem;color:#8b96a8;font-size:.85rem;}
+  .scale-wrap{margin-top:2.5rem;}
+  #heroBeam{transform-origin:210px 90px; transition:transform 2.4s ease-in-out;}
+  .hero .scale-wrap svg{width:min(360px,80vw);height:auto;}
+
+  /* ---------- PAPER SECTIONS ---------- */
+  .paper{background:var(--paper);color:var(--ink);border-radius:22px;padding:3rem 2.4rem;}
+  @media(max-width:600px){ .paper{padding:2rem 1.3rem;border-radius:16px;} }
+  .paper h2{color:var(--ink); font-size:clamp(1.5rem,3.5vw,2rem);}
+  .paper p{color:var(--ink-soft);}
+  .band{background:var(--navy);}
+
+  /* equation anatomy diagram */
+  .anatomy{display:flex;justify-content:center;align-items:flex-end;gap:.15em;font-family:'JetBrains Mono',monospace;font-size:clamp(1.6rem,5vw,2.4rem);font-weight:700;margin:2.4rem 0 3.6rem 0;color:var(--ink);}
+  .anatomy .grp{position:relative;padding:.2em .1em;}
+  .anatomy .grp.member1{color:var(--teal);}
+  .anatomy .grp.member2{color:var(--red-x);}
+  .anatomy .grp .lbl{position:absolute;top:-2.1em;left:50%;transform:translateX(-50%);font-family:'Inter',sans-serif;font-weight:600;font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;}
+  .anatomy .grp .lbl::after{content:"";position:absolute;left:50%;top:1.5em;width:1px;height:.6em;background:currentColor;}
+  .anatomy .grp.member1 .lbl{color:var(--teal);}
+  .anatomy .grp.member2 .lbl{color:var(--red-x);}
+
+  /* type cards */
+  .grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1rem;margin-top:1.8rem;}
+  .tcard{background:var(--paper-dim);border:1px solid var(--line);border-radius:14px;padding:1.2rem 1.1rem;}
+  .tcard .eq{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:1.15rem;}
+  .tcard .desc{font-size:.85rem;color:var(--ink-soft);margin-top:.4rem;}
+
+  /* ---------- LAB (balanza demo) ---------- */
+  .lab{background:var(--navy-deep);border-radius:22px;padding:3rem 1.6rem;text-align:center;}
+  .lab h2{color:var(--paper);}
+  .lab > p{color:#a9b3c4;max-width:56ch;margin:0 auto 2rem auto;}
+  .type-select{display:flex;flex-wrap:wrap;justify-content:center;gap:.6rem;margin-bottom:2.2rem;}
+  .type-select button{font-family:'JetBrains Mono',monospace;background:transparent;border:1px solid #35435c;color:#c7cfdb;padding:.55rem 1rem;min-height:44px;border-radius:999px;font-size:.85rem;cursor:pointer;transition:.2s;}
+  .type-select button.active{background:var(--gold);border-color:var(--gold);color:#1a1408;font-weight:700;}
+  .type-select button:hover{border-color:var(--gold-soft);}
+
+  .stage{background:var(--paper);border-radius:18px;padding:2.2rem 1rem 1.8rem 1rem;max-width:560px;margin:0 auto;}
+  #labBeam{transform-origin:210px 78px;}
+  @keyframes beamSettle{0%{transform:translateY(0);}35%{transform:translateY(-7px);}100%{transform:translateY(0);}}
+  .beam-settle{animation:beamSettle .5s cubic-bezier(.4,0,.2,1);}
+  .pan-text{font-family:'JetBrains Mono',monospace;font-weight:700;fill:var(--ink);}
+  .caption{margin-top:1.6rem;font-size:.95rem;color:var(--ink-soft);min-height:2.6em;}
+  .caption b{color:var(--ink);}
+  .step-controls{display:flex;justify-content:center;align-items:center;gap:1rem;margin-top:1.4rem;}
+  .step-controls button{background:var(--navy);color:var(--paper);border:none;border-radius:8px;padding:.55rem 1.1rem;min-height:44px;font-size:.85rem;cursor:pointer;font-weight:600;}
+  .step-controls{gap:1.4rem;}
+  .step-controls button:disabled{opacity:.35;cursor:default;}
+  .step-dots{display:flex;gap:.4rem;}
+  .step-dots span{width:7px;height:7px;border-radius:50%;background:var(--line);}
+  .step-dots span.on{background:var(--gold);}
+
+  /* ---------- TRANSPOSITION COMPARISON ---------- */
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;margin-top:2rem;}
+  @media(max-width:640px){.compare{grid-template-columns:1fr;}}
+  .cbox{background:var(--paper-dim);border:1px solid var(--line);border-radius:14px;padding:1.4rem 1.3rem;}
+  .cbox h3{font-size:.95rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);margin-bottom:1rem;}
+  .cbox .line{font-family:'JetBrains Mono',monospace;font-size:1.05rem;margin:.5rem 0;}
+  .jump{position:relative;color:var(--red-x);font-weight:700;}
+  .rule-box{margin-top:2.2rem;background:var(--navy);color:var(--paper);border-radius:14px;padding:1.3rem 1.5rem;font-size:.95rem;}
+  .rule-box b{color:var(--gold-soft);}
+
+  .note{border-left:4px solid var(--gold);background:var(--paper-dim);padding:1rem 1.3rem;border-radius:0 10px 10px 0;margin-top:1.6rem;font-size:.93rem;color:var(--ink-soft);}
+  .note b{color:var(--ink);}
+
+  .verify-demo{background:var(--paper-dim);border:1px solid var(--line);border-radius:14px;padding:1.6rem;margin-top:1.6rem;text-align:center;}
+  .verify-demo .line{font-family:'JetBrains Mono',monospace;font-size:1.15rem;margin:.5rem 0;}
+  .check{color:var(--teal);font-weight:700;}
+
+  .checklist{list-style:none;padding:0;margin:1.8rem 0 0 0;display:grid;gap:.7rem;}
+  .checklist li{display:flex;gap:.7rem;align-items:flex-start;background:var(--paper-dim);border:1px solid var(--line);border-radius:10px;padding:.8rem 1rem;font-size:.92rem;color:var(--ink);}
+  .checklist li .num{font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--gold);flex-shrink:0;}
+
+  .worked{margin-top:1.8rem;display:grid;gap:1rem;}
+  .wstep{display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:start;background:var(--paper-dim);border-radius:12px;padding:1rem 1.2rem;border:1px solid var(--line);}
+  .wstep .tag{font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;text-transform:uppercase;color:var(--teal);letter-spacing:.05em;background:#e4efec;padding:.3em .6em;border-radius:6px;white-space:nowrap;}
+  .wstep .eqline{font-family:'JetBrains Mono',monospace;font-size:1.15rem;color:var(--ink);}
+
+  table{width:100%;border-collapse:collapse;margin-top:1.8rem;font-size:.92rem;}
+  th,td{padding:.75rem .8rem;border-bottom:1px solid var(--line);text-align:left;}
+  th{color:var(--ink-soft);font-weight:600;text-transform:uppercase;font-size:.72rem;letter-spacing:.06em;}
+  td.mono{font-family:'JetBrains Mono',monospace;color:var(--ink);}
+
+  /* ---------- PRACTICE WIDGETS ---------- */
+  .practice-card{background:var(--paper);border-radius:18px;padding:2rem 1.6rem;max-width:620px;margin:0 auto;text-align:left;}
+  .practice-eq{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:1.5rem;color:var(--ink);text-align:center;margin-bottom:.3rem;}
+  .practice-badge{text-align:center;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-soft);margin-bottom:1.4rem;}
+  .practice-step{font-size:.92rem;color:var(--ink-soft);margin-bottom:1rem;text-align:center;}
+  .choice-row{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;}
+  .choice-col{display:flex;flex-direction:column;gap:.6rem;}
+  .choice-btn{
+    font-family:'JetBrains Mono',monospace;font-size:.88rem;
+    background:var(--paper-dim);border:1.5px solid var(--line);color:var(--ink);
+    padding:.7rem 1rem;min-height:44px;border-radius:10px;cursor:pointer;text-align:left;
+    transition:.15s; line-height:1.4;
+  }
+  .choice-btn:hover:not(:disabled){border-color:var(--gold);}
+  .choice-btn:disabled{cursor:default;}
+  .choice-btn.correct{background:#e2f2e7;border-color:var(--green);color:#215c3a;}
+  .choice-btn.incorrect{background:#f6e4e1;border-color:var(--red-x);color:#7a2f26;}
+  .practice-feedback{margin-top:1.1rem;text-align:center;font-size:.92rem;font-weight:600;min-height:1.4em;}
+  .practice-feedback.ok{color:var(--green);}
+  .practice-feedback.bad{color:var(--red-x);}
+  .answer-row{display:flex;flex-wrap:wrap;gap:.7rem;justify-content:center;align-items:center;margin-top:1.2rem;font-size:.92rem;color:var(--ink);}
+  .answer-row input{
+    width:5.5rem;font-family:'JetBrains Mono',monospace;font-size:1rem;
+    border:1.5px solid var(--line);border-radius:8px;padding:.45rem .6rem;
+    background:#fff;color:var(--ink);
+  }
+  .answer-row button{
+    background:var(--navy);color:var(--paper);border:none;border-radius:8px;
+    padding:.5rem 1rem;min-height:44px;font-size:.85rem;cursor:pointer;font-weight:600;
+  }
+  .answer-row input{min-height:44px;}
+  .practice-controls{text-align:center;margin-top:1.6rem;}
+  .practice-controls button{
+    background:var(--gold);color:#1a1408;border:none;border-radius:999px;
+    padding:.65rem 1.4rem;min-height:44px;font-size:.88rem;font-weight:700;cursor:pointer;
+  }
+  .practice-controls button:hover{background:var(--gold-soft);}
+  .reveal-line{font-family:'JetBrains Mono',monospace;font-size:.95rem;color:var(--ink-soft);text-align:center;margin-top:.5rem;}
+
+  footer{text-align:center;padding:3rem 1.5rem 4rem 1.5rem;color:#6c7789;font-size:.82rem;}
+</style>
+</head>
+<body>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="eyebrow">Matemática · 1.º año</div>
+  <h1>Ecuaciones de<br>primer grado</h1>
+  <p class="sub">x ± b = ± c — cómo despejar la incógnita con el método de la balanza y la transposición de términos, y cómo verificar el resultado.</p>
+
+  <div class="scale-wrap">
+    <svg viewBox="0 0 420 190" fill="none">
+      <line x1="210" y1="78" x2="210" y2="170" stroke="#8b96a8" stroke-width="4"/>
+      <polygon points="188,170 232,170 222,182 198,182" fill="#8b96a8"/>
+      <g id="heroBeam">
+        <line x1="30" y1="78" x2="390" y2="78" stroke="#d4a24c" stroke-width="5" stroke-linecap="round"/>
+        <line x1="70" y1="78" x2="70" y2="112" stroke="#d4a24c" stroke-width="2.5"/>
+        <line x1="350" y1="78" x2="350" y2="112" stroke="#d4a24c" stroke-width="2.5"/>
+        <rect x="15" y="112" width="110" height="34" rx="8" fill="#16233a" stroke="#d4a24c" stroke-width="2"/>
+        <rect x="295" y="112" width="110" height="34" rx="8" fill="#16233a" stroke="#d4a24c" stroke-width="2"/>
+        <text x="70" y="134" text-anchor="middle" fill="#f7f4ea" font-family="'JetBrains Mono',monospace" font-size="16" font-weight="700">x+7</text>
+        <text x="350" y="134" text-anchor="middle" fill="#f7f4ea" font-family="'JetBrains Mono',monospace" font-size="16" font-weight="700">19</text>
+      </g>
+      <circle cx="210" cy="78" r="7" fill="#d4a24c"/>
+    </svg>
+  </div>
+  <div class="tag">Desplazá hacia abajo ↓</div>
+</section>
+
+<!-- ================= 1. QUÉ ES UNA ECUACIÓN ================= -->
+<section>
+  <div class="wrap paper">
+    <div class="eyebrow" style="color:#a07a2c;">01 · Lo básico</div>
+    <h2>¿Qué es una ecuación?</h2>
+    <p>Es una igualdad con una letra desconocida, la <b>incógnita</b> (x), separada en dos partes por el signo =. Resolverla es encontrar el valor de x que hace verdadera la igualdad.</p>
+    <div class="anatomy">
+      <span class="grp member1"><span class="lbl">1.er miembro</span>x + 7</span>
+      <span>=</span>
+      <span class="grp member2"><span class="lbl">2.º miembro</span>19</span>
+    </div>
+    <p><b>Incógnita:</b> la x. &nbsp; <b>Término independiente:</b> el número que la acompaña o el número solo. &nbsp; <b>Solución (o raíz):</b> el valor de x que verifica la igualdad — en este caso, 12.</p>
+  </div>
+</section>
+
+<!-- ================= 2. LOS 4 TIPOS ================= -->
+<section style="padding-top:0;">
+  <div class="wrap paper">
+    <div class="eyebrow" style="color:#a07a2c;">02 · Cuatro variantes, misma lógica</div>
+    <h2>Las ecuaciones que vas a resolver</h2>
+    <p>Todo el práctico se arma con cuatro combinaciones de signos. El objetivo siempre es el mismo: dejar la x sola en un miembro — eso se llama <b>despejar</b>.</p>
+    <div class="grid4">
+      <div class="tcard"><div class="eq">x + b = c</div><div class="desc">x positiva, b suma</div></div>
+      <div class="tcard"><div class="eq">x − b = c</div><div class="desc">x positiva, b resta</div></div>
+      <div class="tcard"><div class="eq">−x + b = c</div><div class="desc">x negativa, b suma</div></div>
+      <div class="tcard"><div class="eq">−x − b = c</div><div class="desc">x negativa, b resta</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 3. LABORATORIO BALANZA (demo guiada) ================= -->
+<section class="band">
+  <div class="wrap lab">
+    <div class="eyebrow" style="color:var(--gold-soft);">03 · Método de la balanza</div>
+    <h2>Mirá los 4 casos, paso a paso</h2>
+    <p>Elegí un tipo de ecuación y tocá <b>Siguiente paso</b>. La balanza se equilibra siempre que hagas la misma operación en los dos platillos.</p>
+
+    <div class="type-select">
+      <button data-t="0" class="active">x + 7 = 19</button>
+      <button data-t="1">x − 4 = 6</button>
+      <button data-t="2">−x + 2 = 4</button>
+      <button data-t="3">−x − 7 = 4</button>
+    </div>
+
+    <div class="stage">
+      <svg viewBox="0 0 420 175" fill="none">
+        <line x1="210" y1="78" x2="210" y2="165" stroke="#c9bfa4" stroke-width="4"/>
+        <polygon points="188,165 232,165 222,177 198,177" fill="#c9bfa4"/>
+        <g id="labBeam">
+          <line x1="30" y1="78" x2="390" y2="78" stroke="#1b2430" stroke-width="5" stroke-linecap="round"/>
+          <line x1="70" y1="78" x2="70" y2="112" stroke="#1b2430" stroke-width="2.5"/>
+          <line x1="350" y1="78" x2="350" y2="112" stroke="#1b2430" stroke-width="2.5"/>
+          <rect id="trayL" x="8" y="112" width="124" height="38" rx="9" fill="#fbfaf5" stroke="#1b2430" stroke-width="2"/>
+          <rect id="trayR" x="288" y="112" width="124" height="38" rx="9" fill="#fbfaf5" stroke="#1b2430" stroke-width="2"/>
+          <text id="panL" class="pan-text" x="70" y="136" text-anchor="middle" font-size="16">x + 7</text>
+          <text id="panR" class="pan-text" x="350" y="136" text-anchor="middle" font-size="16">19</text>
+        </g>
+        <circle cx="210" cy="78" r="7" fill="#1b2430"/>
+      </svg>
+
+      <div class="caption" id="labCaption"><b>Paso 1 de 3.</b> Ecuación original: la balanza está en equilibrio.</div>
+
+      <div class="step-controls">
+        <button id="prevBtn" disabled>← Anterior</button>
+        <div class="step-dots" id="dots"></div>
+        <button id="nextBtn">Siguiente paso →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 3b. PRACTICÁ VOS: LA BALANZA ================= -->
+<section style="padding-top:0;">
+  <div class="wrap lab" style="background:var(--navy-deep);">
+    <div class="eyebrow" style="color:var(--gold-soft);">Practicá</div>
+    <h2>Ahora resolvé vos</h2>
+    <p>Tocá <b>Nuevo ejercicio</b> para generar una ecuación al azar. Elegí la operación correcta en cada paso y escribí el valor final de x.</p>
+
+    <div class="practice-card">
+      <div class="practice-badge" id="pbBadge">Tipo: x + b = c</div>
+
+      <svg viewBox="0 0 420 175" fill="none" style="display:block;max-width:420px;margin:0 auto 1.2rem auto;width:100%;">
+        <line x1="210" y1="78" x2="210" y2="165" stroke="#c9bfa4" stroke-width="4"/>
+        <polygon points="188,165 232,165 222,177 198,177" fill="#c9bfa4"/>
+        <g id="pbBeam">
+          <line x1="30" y1="78" x2="390" y2="78" stroke="#1b2430" stroke-width="5" stroke-linecap="round"/>
+          <line x1="70" y1="78" x2="70" y2="112" stroke="#1b2430" stroke-width="2.5"/>
+          <line x1="350" y1="78" x2="350" y2="112" stroke="#1b2430" stroke-width="2.5"/>
+          <rect x="8" y="112" width="124" height="38" rx="9" fill="#fbfaf5" stroke="#1b2430" stroke-width="2"/>
+          <rect x="288" y="112" width="124" height="38" rx="9" fill="#fbfaf5" stroke="#1b2430" stroke-width="2"/>
+          <text id="pbPanL" class="pan-text" x="70" y="136" text-anchor="middle" font-size="16">x + 7</text>
+          <text id="pbPanR" class="pan-text" x="350" y="136" text-anchor="middle" font-size="16">19</text>
+        </g>
+        <circle cx="210" cy="78" r="7" fill="#1b2430"/>
+      </svg>
+
+      <div class="practice-eq" id="pbEq" style="display:none;">x + 7 = 19</div>
+      <div class="practice-step" id="pbStepText">¿Qué operación aplicás en los dos platillos para despejar la x?</div>
+      <div class="choice-row" id="pbChoices"></div>
+      <div class="practice-feedback" id="pbFeedback"></div>
+      <div class="answer-row" id="pbAnswerRow" style="display:none;">
+        <span>x =</span>
+        <input type="text" inputmode="numeric" pattern="-?[0-9]*" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="pbInput" placeholder="?">
+        <button id="pbCheckBtn">Comprobar</button>
+      </div>
+      <div class="reveal-line" id="pbReveal"></div>
+      <div class="practice-controls"><button id="pbNewBtn">🎲 Nuevo ejercicio</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 4. TRANSPOSICIÓN ================= -->
+<section>
+  <div class="wrap paper">
+    <div class="eyebrow" style="color:#a07a2c;">04 · Método de transposición</div>
+    <h2>La forma rápida de escribir lo mismo</h2>
+    <p>Cuando un término cruza el signo =, cambia de signo. No es magia: es el mismo resultado de la balanza, escrito en un solo paso.</p>
+
+    <div class="compare">
+      <div class="cbox">
+        <h3>Balanza (paso a paso)</h3>
+        <div class="line">x + 7 = 19</div>
+        <div class="line">x + 7 − 7 = 19 − 7</div>
+        <div class="line">x = 12</div>
+      </div>
+      <div class="cbox">
+        <h3>Transposición (directo)</h3>
+        <div class="line">x + 7 = 19</div>
+        <div class="line">x = 19 <span class="jump">−</span> 7</div>
+        <div class="line">x = 12</div>
+      </div>
+    </div>
+
+    <div class="rule-box"><b>Regla:</b> si un término suma en un miembro, pasa restando al otro. Si resta, pasa sumando. Se aplica igual en los cuatro tipos de ecuación del práctico.</div>
+
+    <div class="note">
+      <b>Caso especial: −x.</b> Cuando termina el despeje y te queda <span class="mono">−x = número</span>, todavía falta un paso: multiplicá (o "dale vuelta el signo a") ambos miembros para obtener x positiva.<br><br>
+      <span class="mono">−x + 2 = 4 → −x = 2 → x = −2</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 4b. PRACTICÁ VOS: TRANSPOSICIÓN ================= -->
+<section style="padding-top:0;">
+  <div class="wrap lab" style="background:var(--navy-deep);">
+    <div class="eyebrow" style="color:var(--gold-soft);">Practicá</div>
+    <h2>Elegí la transposición correcta</h2>
+    <p>Se genera una ecuación nueva cada vez. Elegí la opción con el paso de transposición correcto y después verificá el resultado.</p>
+
+    <div class="practice-card">
+      <div class="practice-badge" id="ptBadge">Tipo: x + b = c</div>
+      <div class="practice-eq" id="ptEq">x + 7 = 19</div>
+      <div class="practice-step">¿Cuál es la transposición correcta?</div>
+      <div class="choice-col" id="ptChoices"></div>
+      <div class="practice-feedback" id="ptFeedback"></div>
+      <div class="answer-row" id="ptVerifyRow" style="display:none;">
+        <span id="ptVerifyPrompt"></span>
+        <input type="text" inputmode="numeric" pattern="-?[0-9]*" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" id="ptVerifyInput" placeholder="?">
+        <button id="ptVerifyBtn">Comprobar</button>
+      </div>
+      <div class="reveal-line" id="ptReveal"></div>
+      <div class="practice-controls"><button id="ptNewBtn">🎲 Nuevo ejercicio</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 5. VERIFICACIÓN ================= -->
+<section style="padding-top:0;">
+  <div class="wrap paper">
+    <div class="eyebrow" style="color:#a07a2c;">05 · Comprobación</div>
+    <h2>Verificar: el paso que no podés saltear</h2>
+    <p>Se reemplaza x por el valor hallado <b>en la ecuación original</b> y se comprueba que los dos miembros den igual. Si hay −x, reemplazá con paréntesis para no perder el signo.</p>
+    <div class="verify-demo">
+      <div class="line">−x + 2 = 4</div>
+      <div class="line">−(−2) + 2 = 4</div>
+      <div class="line">2 + 2 = 4</div>
+      <div class="line"><span class="check">4 = 4 ✓ Verifica</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 6. ESTRATEGIAS ================= -->
+<section class="band">
+  <div class="wrap paper">
+    <div class="eyebrow" style="color:#a07a2c;">06 · Antes de resolver</div>
+    <h2>Estrategias para no equivocarte</h2>
+    <ul class="checklist">
+      <li><span class="num">1</span> Marcá el número que acompaña a la x antes de despejar.</li>
+      <li><span class="num">2</span> Lo que hagas en un miembro, hacelo también en el otro — o cambiá el signo al transponer.</li>
+      <li><span class="num">3</span> Si queda −x, no te olvides del último paso: invertir el signo.</li>
+      <li><span class="num">4</span> Repasá la suma y resta de números con signo antes de empezar.</li>
+      <li><span class="num">5</span> Verificá siempre reemplazando en la ecuación original, con paréntesis si hay −x.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= 7. EJEMPLO MODELO ================= -->
+<section style="padding-top:0;">
+  <div class="wrap paper">
+    <div class="eyebrow" style="color:#a07a2c;">07 · Ejemplo modelo</div>
+    <h2>El formato que podés copiar para las 20 ecuaciones</h2>
+    <div class="worked">
+      <div class="wstep"><span class="tag">Original</span><span class="eqline">x − 11 = 7</span></div>
+      <div class="wstep"><span class="tag">Transposición</span><span class="eqline">x = 7 + 11</span></div>
+      <div class="wstep"><span class="tag">Resultado</span><span class="eqline">x = 18</span></div>
+      <div class="wstep"><span class="tag">Verificación</span><span class="eqline">18 − 11 = 7 &nbsp;→&nbsp; 7 = 7 ✓</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 8. TABLA RESUMEN ================= -->
+<section style="padding-top:0;">
+  <div class="wrap paper">
+    <div class="eyebrow" style="color:#a07a2c;">08 · Resumen</div>
+    <h2>Tabla general de despeje</h2>
+    <table>
+      <thead><tr><th>Ecuación tipo</th><th>Transposición</th><th>Despeje final</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">x + b = c</td><td class="mono">x = c − b</td><td class="mono">x = c − b</td></tr>
+        <tr><td class="mono">x − b = c</td><td class="mono">x = c + b</td><td class="mono">x = c + b</td></tr>
+        <tr><td class="mono">−x + b = c</td><td class="mono">−x = c − b</td><td class="mono">x = −(c − b)</td></tr>
+        <tr><td class="mono">−x − b = c</td><td class="mono">−x = c + b</td><td class="mono">x = −(c + b)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer>Marco teórico · Ecuaciones de primer grado · x ± b = ± c</footer>
+
+<script>
+/* ================= helpers ================= */
+function fmtNum(n){ return n < 0 ? '−' + Math.abs(n) : String(n); }
+function randInt(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+function shuffle(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
+// Sanea inputs de texto numérico: deja pasar solo dígitos y un signo "−/-" inicial.
+// No cambia el valor matemático esperado, solo evita caracteres inválidos (letras, espacios, etc).
+function sanitizeSignedIntInput(el){
+  el.addEventListener('input', ()=>{
+    const raw = el.value;
+    const neg = raw.trim().charAt(0) === '-' || raw.trim().charAt(0) === '−';
+    const digits = raw.replace(/[^0-9]/g,'');
+    el.value = (neg ? '-' : '') + digits;
+  });
+}
+
+const typeLabels = ['x + b = c','x − b = c','−x + b = c','−x − b = c'];
+
+function buildOriginal(type,b,c){
+  if(type===0) return `x + ${b} = ${fmtNum(c)}`;
+  if(type===1) return `x − ${b} = ${fmtNum(c)}`;
+  if(type===2) return `−x + ${b} = ${fmtNum(c)}`;
+  return `−x − ${b} = ${fmtNum(c)}`;
+}
+// generate a consistent random problem: pick x and b, derive c
+function genProblem(type){
+  const x = randInt(-15,15);
+  const b = randInt(2,15);
+  let c;
+  if(type===0) c = x + b;
+  else if(type===1) c = x - b;
+  else if(type===2) c = -x + b;
+  else c = -x - b;
+  return {type,b,c,x};
+}
+
+/* ================= HERO ambient tilt ================= */
+// Se pausa cuando el hero no está visible (fuera de pantalla) para no gastar batería/CPU de más en el celular.
+const heroBeam = document.getElementById('heroBeam');
+const heroSection = document.querySelector('.hero');
+let heroTilt = 0;
+let heroTiltTimer = null;
+function startHeroTilt(){
+  if(heroTiltTimer) return;
+  heroTiltTimer = setInterval(()=>{ heroTilt = heroTilt===0 ? -6 : 0; heroBeam.style.transform = `rotate(${heroTilt}deg)`; }, 2600);
+}
+function stopHeroTilt(){
+  clearInterval(heroTiltTimer);
+  heroTiltTimer = null;
+}
+if('IntersectionObserver' in window){
+  new IntersectionObserver((entries)=>{
+    entries.forEach(entry=> entry.isIntersecting ? startHeroTilt() : stopHeroTilt());
+  }, {threshold:0.1}).observe(heroSection);
+} else {
+  startHeroTilt();
+}
+
+/* ================= 3. Balance DEMO (guided, fixed set) ================= */
+const demoTypes = [
+  { steps:[
+      {l:'x + 7', r:'19', cap:'<b>Paso 1 de 3.</b> Ecuación original: la balanza está en equilibrio.'},
+      {l:'x + 7 − 7', r:'19 − 7', cap:'<b>Paso 2 de 3.</b> Restamos 7 en los dos platillos (operación contraria a +7). La balanza sigue en equilibrio porque hicimos lo mismo a ambos lados.'},
+      {l:'x', r:'12', cap:'<b>Paso 3 de 3.</b> El +7 se cancela. Resultado: <b>x = 12</b>.'} ]},
+  { steps:[
+      {l:'x − 4', r:'6', cap:'<b>Paso 1 de 3.</b> Ecuación original: la balanza está en equilibrio.'},
+      {l:'x − 4 + 4', r:'6 + 4', cap:'<b>Paso 2 de 3.</b> Sumamos 4 en los dos platillos (operación contraria a −4). Sigue equilibrada: hicimos lo mismo en ambos lados.'},
+      {l:'x', r:'10', cap:'<b>Paso 3 de 3.</b> El −4 se cancela. Resultado: <b>x = 10</b>.'} ]},
+  { steps:[
+      {l:'−x + 2', r:'4', cap:'<b>Paso 1 de 4.</b> Ecuación original: la balanza está en equilibrio.'},
+      {l:'−x + 2 − 2', r:'4 − 2', cap:'<b>Paso 2 de 4.</b> Restamos 2 en los dos platillos. Sigue en equilibrio.'},
+      {l:'−x', r:'2', cap:'<b>Paso 3 de 4.</b> Queda −x = 2. Todavía la x no es positiva, pero la balanza sigue equilibrada.'},
+      {l:'x', r:'−2', cap:'<b>Paso 4 de 4.</b> Multiplicamos ambos miembros por −1 (a los dos lados por igual): <b>x = −2</b>.'} ]},
+  { steps:[
+      {l:'−x − 7', r:'4', cap:'<b>Paso 1 de 4.</b> Ecuación original: la balanza está en equilibrio.'},
+      {l:'−x − 7 + 7', r:'4 + 7', cap:'<b>Paso 2 de 4.</b> Sumamos 7 en los dos platillos. Sigue en equilibrio.'},
+      {l:'−x', r:'11', cap:'<b>Paso 3 de 4.</b> Queda −x = 11. Todavía la x no es positiva, pero la balanza sigue equilibrada.'},
+      {l:'x', r:'−11', cap:'<b>Paso 4 de 4.</b> Multiplicamos ambos miembros por −1 (a los dos lados por igual): <b>x = −11</b>.'} ]}
+];
+
+let curType = 0, curStep = 0;
+const panL = document.getElementById('panL');
+const panR = document.getElementById('panR');
+const labBeam = document.getElementById('labBeam');
+const labCaption = document.getElementById('labCaption');
+const dotsWrap = document.getElementById('dots');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const typeBtns = document.querySelectorAll('.type-select button');
+
+function fitPanText(el, text){
+  el.textContent = text;
+  // Escalado más gradual para que expresiones largas con signos negativos (ej. "−x − 15") entren bien en el platillo.
+  let size = 16;
+  if(text.length > 11) size = 12;
+  else if(text.length > 8) size = 14;
+  el.setAttribute('font-size', size);
+}
+
+function renderDots(){
+  dotsWrap.innerHTML = '';
+  demoTypes[curType].steps.forEach((_,i)=>{
+    const d = document.createElement('span');
+    if(i===curStep) d.classList.add('on');
+    dotsWrap.appendChild(d);
+  });
+}
+function renderDemo(){
+  const step = demoTypes[curType].steps[curStep];
+  fitPanText(panL, step.l);
+  fitPanText(panR, step.r);
+  labBeam.classList.remove('beam-settle'); void labBeam.offsetWidth; labBeam.classList.add('beam-settle');
+  labCaption.innerHTML = step.cap;
+  prevBtn.disabled = curStep === 0;
+  nextBtn.disabled = curStep === demoTypes[curType].steps.length - 1;
+  nextBtn.textContent = nextBtn.disabled ? 'Completo ✓' : 'Siguiente paso →';
+  renderDots();
+}
+typeBtns.forEach((btn,i)=>{
+  btn.addEventListener('click', ()=>{
+    curType = i; curStep = 0;
+    typeBtns.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    renderDemo();
+  });
+});
+prevBtn.addEventListener('click', ()=>{ if(curStep>0){ curStep--; renderDemo(); }});
+nextBtn.addEventListener('click', ()=>{ if(curStep < demoTypes[curType].steps.length-1){ curStep++; renderDemo(); }});
+renderDemo();
+
+/* ================= 3b. PRACTICE: balanza ================= */
+const pbBadge = document.getElementById('pbBadge');
+const pbEq = document.getElementById('pbEq');
+const pbStepText = document.getElementById('pbStepText');
+const pbChoices = document.getElementById('pbChoices');
+const pbFeedback = document.getElementById('pbFeedback');
+const pbAnswerRow = document.getElementById('pbAnswerRow');
+const pbInput = document.getElementById('pbInput');
+const pbCheckBtn = document.getElementById('pbCheckBtn');
+const pbReveal = document.getElementById('pbReveal');
+const pbNewBtn = document.getElementById('pbNewBtn');
+sanitizeSignedIntInput(pbInput);
+
+let pbProblem = null, pbPhase = 'op1'; // op1 -> op2 (if needed) -> answer -> done
+const pbBeam = document.getElementById('pbBeam');
+const pbPanL = document.getElementById('pbPanL');
+const pbPanR = document.getElementById('pbPanR');
+
+function pbSyncVisual(){
+  const [l,r] = pbEq.textContent.split(' = ');
+  fitPanText(pbPanL, l);
+  fitPanText(pbPanR, r);
+  pbBeam.classList.remove('beam-settle'); void pbBeam.offsetWidth; pbBeam.classList.add('beam-settle');
+}
+
+function pbNew(){
+  const type = randInt(0,3);
+  pbProblem = genProblem(type);
+  pbPhase = 'op1';
+  pbBadge.textContent = 'Tipo: ' + typeLabels[type];
+  pbEq.textContent = buildOriginal(type, pbProblem.b, pbProblem.c);
+  pbSyncVisual();
+  pbFeedback.textContent = ''; pbFeedback.className='practice-feedback';
+  pbReveal.textContent = '';
+  pbAnswerRow.style.display = 'none';
+  pbInput.value = '';
+  pbInput.disabled = false;
+  pbCheckBtn.disabled = false;
+  pbRenderStep();
+}
+
+function pbRenderStep(){
+  const {type,b,c} = pbProblem;
+  pbChoices.innerHTML = '';
+  if(pbPhase === 'op1'){
+    pbStepText.textContent = '¿Qué operación aplicás en los dos platillos para despejar la x?';
+    const correctIsRestar = (type===0 || type===2);
+    const opts = shuffle([
+      {text:`Sumar ${b} en los dos platillos`, correct: !correctIsRestar},
+      {text:`Restar ${b} en los dos platillos`, correct: correctIsRestar},
+      {text:`Multiplicar por ${b} los dos platillos`, correct:false}
+    ]);
+    opts.forEach(o=>pbChoices.appendChild(pbMakeChoice(o.text,o.correct,()=>pbAdvanceOp1())));
+  } else if(pbPhase === 'op2'){
+    pbStepText.textContent = 'Ahora tenés −x = número. ¿Qué hacés para obtener x positiva?';
+    const opts = shuffle([
+      {text:'Multiplicar ambos miembros por −1', correct:true},
+      {text:'Sumar 1 a ambos miembros', correct:false},
+      {text:`Dividir ambos miembros por ${b}`, correct:false}
+    ]);
+    opts.forEach(o=>pbChoices.appendChild(pbMakeChoice(o.text,o.correct,()=>pbAdvanceOp2())));
+  }
+}
+
+function pbMakeChoice(text,correct,onCorrect){
+  const btn = document.createElement('button');
+  btn.className = 'choice-btn'; btn.textContent = text;
+  btn.addEventListener('click', ()=>{
+    if(correct){
+      btn.classList.add('correct');
+      [...pbChoices.children].forEach(b=>b.disabled=true);
+      pbFeedback.textContent = '¡Correcto!'; pbFeedback.className='practice-feedback ok';
+      setTimeout(onCorrect, 500);
+    } else {
+      btn.classList.add('incorrect');
+      btn.disabled = true;
+      pbFeedback.textContent = 'Esa no es la operación contraria. Probá otra.';
+      pbFeedback.className='practice-feedback bad';
+    }
+  });
+  return btn;
+}
+
+function pbAdvanceOp1(){
+  const {type,b,c} = pbProblem;
+  pbFeedback.textContent=''; pbFeedback.className='practice-feedback';
+  if(type===0) pbEq.textContent = `x = ${fmtNum(c)} − ${b}`;
+  else if(type===1) pbEq.textContent = `x = ${fmtNum(c)} + ${b}`;
+  else if(type===2){ pbEq.textContent = `−x = ${fmtNum(c)} − ${b}`; pbSyncVisual(); pbPhase='op2'; pbRenderStep(); return; }
+  else { pbEq.textContent = `−x = ${fmtNum(c)} + ${b}`; pbSyncVisual(); pbPhase='op2'; pbRenderStep(); return; }
+  pbSyncVisual();
+  pbGoToAnswer();
+}
+function pbAdvanceOp2(){
+  const {type,b,c} = pbProblem;
+  pbFeedback.textContent=''; pbFeedback.className='practice-feedback';
+  if(type===2) pbEq.textContent = `x = −(${fmtNum(c)} − ${b})`;
+  else pbEq.textContent = `x = −(${fmtNum(c)} + ${b})`;
+  pbSyncVisual();
+  pbGoToAnswer();
+}
+function pbGoToAnswer(){
+  pbStepText.textContent = 'Escribí el valor final de x:';
+  pbChoices.innerHTML = '';
+  pbAnswerRow.style.display = 'flex';
+  pbInput.focus();
+}
+pbCheckBtn.addEventListener('click', ()=>{
+  const val = Number(pbInput.value);
+  if(pbInput.value===''||isNaN(val)) return;
+  if(val === pbProblem.x){
+    pbFeedback.textContent = '¡Muy bien! x = ' + pbProblem.x + ' es correcto.';
+    pbFeedback.className='practice-feedback ok';
+  } else {
+    pbFeedback.textContent = 'No es correcto. El valor de x es ' + pbProblem.x + '.';
+    pbFeedback.className='practice-feedback bad';
+  }
+  pbEq.textContent = `x = ${fmtNum(pbProblem.x)}`;
+  pbSyncVisual();
+  const orig = buildOriginal(pbProblem.type, pbProblem.b, pbProblem.c);
+  pbReveal.textContent = `Verificación: reemplazando x = ${pbProblem.x} en "${orig}" se cumple la igualdad (${fmtNum(pbProblem.c)} = ${fmtNum(pbProblem.c)}) ✓`;
+  pbCheckBtn.disabled = true; pbInput.disabled = true;
+});
+pbNewBtn.addEventListener('click', pbNew);
+pbNew();
+
+/* ================= 4b. PRACTICE: transposición ================= */
+const ptBadge = document.getElementById('ptBadge');
+const ptEq = document.getElementById('ptEq');
+const ptChoices = document.getElementById('ptChoices');
+const ptFeedback = document.getElementById('ptFeedback');
+const ptVerifyRow = document.getElementById('ptVerifyRow');
+const ptVerifyPrompt = document.getElementById('ptVerifyPrompt');
+const ptVerifyInput = document.getElementById('ptVerifyInput');
+const ptVerifyBtn = document.getElementById('ptVerifyBtn');
+const ptReveal = document.getElementById('ptReveal');
+const ptNewBtn = document.getElementById('ptNewBtn');
+sanitizeSignedIntInput(ptVerifyInput);
+
+let ptProblem = null;
+
+function ptBuildOptions(type,b,c){
+  let correctText, correctVal, distA, distAVal, distB, distBVal;
+  if(type===0){
+    correctVal = c-b; correctText = `x = ${fmtNum(c)} − ${b}  →  x = ${fmtNum(correctVal)}`;
+    distAVal = c+b; distA = `x = ${fmtNum(c)} + ${b}  →  x = ${fmtNum(distAVal)}`;
+    distBVal = b-c; distB = `x = ${b} − ${fmtNum(c)}  →  x = ${fmtNum(distBVal)}`;
+  } else if(type===1){
+    correctVal = c+b; correctText = `x = ${fmtNum(c)} + ${b}  →  x = ${fmtNum(correctVal)}`;
+    distAVal = c-b; distA = `x = ${fmtNum(c)} − ${b}  →  x = ${fmtNum(distAVal)}`;
+    distBVal = -(c+b); distB = `x = −(${fmtNum(c)} + ${b})  →  x = ${fmtNum(distBVal)}`;
+  } else if(type===2){
+    const inner = c-b; correctVal = -inner;
+    correctText = `−x = ${fmtNum(c)} − ${b}  →  −x = ${fmtNum(inner)}  →  x = ${fmtNum(correctVal)}`;
+    distAVal = inner; distA = `x = ${fmtNum(c)} − ${b}  →  x = ${fmtNum(distAVal)}`;
+    const innerWrong = c+b; distBVal = -innerWrong;
+    distB = `−x = ${fmtNum(c)} + ${b}  →  −x = ${fmtNum(innerWrong)}  →  x = ${fmtNum(distBVal)}`;
+  } else {
+    const inner = c+b; correctVal = -inner;
+    correctText = `−x = ${fmtNum(c)} + ${b}  →  −x = ${fmtNum(inner)}  →  x = ${fmtNum(correctVal)}`;
+    distAVal = inner; distA = `x = ${fmtNum(c)} + ${b}  →  x = ${fmtNum(distAVal)}`;
+    const innerWrong = c-b; distBVal = -innerWrong;
+    distB = `−x = ${fmtNum(c)} − ${b}  →  −x = ${fmtNum(innerWrong)}  →  x = ${fmtNum(distBVal)}`;
+  }
+  return shuffle([
+    {text:correctText, correct:true, val:correctVal},
+    {text:distA, correct:false, val:distAVal},
+    {text:distB, correct:false, val:distBVal}
+  ]);
+}
+
+function ptNew(){
+  const type = randInt(0,3);
+  ptProblem = genProblem(type);
+  ptBadge.textContent = 'Tipo: ' + typeLabels[type];
+  ptEq.textContent = buildOriginal(type, ptProblem.b, ptProblem.c);
+  ptFeedback.textContent=''; ptFeedback.className='practice-feedback';
+  ptReveal.textContent='';
+  ptVerifyRow.style.display='none';
+  ptVerifyInput.value=''; ptVerifyInput.disabled=false; ptVerifyBtn.disabled=false;
+  ptChoices.innerHTML = '';
+  const opts = ptBuildOptions(type, ptProblem.b, ptProblem.c);
+  opts.forEach(o=>{
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn'; btn.textContent = o.text;
+    btn.addEventListener('click', ()=>{
+      [...ptChoices.children].forEach(b=>b.disabled=true);
+      if(o.correct){
+        btn.classList.add('correct');
+        ptFeedback.textContent = '¡Correcto! x = ' + o.val;
+        ptFeedback.className='practice-feedback ok';
+      } else {
+        btn.classList.add('incorrect');
+        [...ptChoices.children].forEach(b=>{ if(b.textContent===opts.find(x=>x.correct).text) b.classList.add('correct'); });
+        ptFeedback.textContent = 'No era esa. La correcta queda marcada en verde.';
+        ptFeedback.className='practice-feedback bad';
+      }
+      ptVerifyPrompt.textContent = `Reemplazá x = ${ptProblem.x} en la ecuación original y calculá el resultado del primer miembro:`;
+      ptVerifyRow.style.display='flex';
+    });
+    ptChoices.appendChild(btn);
+  });
+}
+
+ptVerifyBtn.addEventListener('click', ()=>{
+  const val = Number(ptVerifyInput.value);
+  if(ptVerifyInput.value===''||isNaN(val)) return;
+  if(val === ptProblem.c){
+    ptReveal.textContent = `Correcto: da ${fmtNum(ptProblem.c)}, igual al segundo miembro. La ecuación verifica ✓`;
+  } else {
+    ptReveal.textContent = `No coincide. Al reemplazar x = ${ptProblem.x} el primer miembro da ${fmtNum(ptProblem.c)}.`;
+  }
+  ptVerifyInput.disabled = true; ptVerifyBtn.disabled = true;
+});
+ptNewBtn.addEventListener('click', ptNew);
+ptNew();
+</script>
+
+</body>
+</html>
