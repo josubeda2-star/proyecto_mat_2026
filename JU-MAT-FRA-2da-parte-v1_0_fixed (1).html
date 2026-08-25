@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fracciones: Operadores y Decimales — Prof. José Ubeda | 1° año</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+html, body { height: 2800px !important; margin: 0; padding: 0; }
+:root {
+  --ink:    #0d1a2e;
+  --paper:  #f0f4fa;
+  --cream:  #e4ecf7;
+  --blue:   #1a4fa0;
+  --rust:   #b83a2a;
+  --sage:   #2a7a4a;
+  --amber:  #c8832a;
+  --violet: #6b3fa0;
+  --teal:   #1a7a8a;
+  --grey:   #5a6a7a;
+  --line:   rgba(26,79,160,0.12);
+  --radius: 8px;
+}
+body {
+  font-family: 'Source Serif 4', Georgia, serif;
+  background-color: var(--paper);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent, transparent 31px,
+    var(--line) 31px, var(--line) 32px
+  );
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.7;
+  padding-bottom: 80px;
+}
+body::before {
+  content: '';
+  position: fixed;
+  left: 68px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(184,58,42,0.25);
+  z-index: 0;
+  pointer-events: none;
+}
+#progress-bar-wrap {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 6px;
+  background: rgba(26,79,160,0.12);
+  z-index: 1000;
+}
+#progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--blue), var(--teal));
+  transition: width 0.4s;
+}
+#progress-label {
+  position: fixed;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Playfair Display', serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--grey);
+  z-index: 1001;
+}
+#timer {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--ink);
+  color: #fff;
+  border-radius: 24px;
+  padding: 6px 18px;
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-weight: 700;
+  z-index: 1001;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+#timer.urgent { background: var(--rust); }
+.page-wrap {
+  max-width: 820px;
+  margin: auto;
+  padding: 70px 32px 40px 92px;
+  border-left: 3px solid var(--blue);
+  position: relative;
+  z-index: 1;
+}
+.main-header { margin-bottom: 40px; border-bottom: 2px solid var(--cream); padding-bottom: 20px; }
+.subject-eyebrow { font-size: 9px; text-transform: uppercase; letter-spacing: 4px; color: var(--blue); font-weight: 600; margin-bottom: 8px; }
+.main-header h1 { font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 900; margin: 0 0 8px; line-height: 1.2; }
+.meta { font-size: 13px; color: var(--grey); }
+.section-header { display: flex; align-items: center; gap: 16px; margin: 36px 0 18px; }
+.section-num {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  color: #fff;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+.section-tag { font-size: 9px; text-transform: uppercase; letter-spacing: 4px; font-weight: 600; }
+.section-title { font-family: 'Playfair Display', serif; font-size: 1.35rem; font-weight: 700; }
+.c-blue .section-num { background: var(--blue); }
+.c-blue .section-tag { color: var(--blue); }
+.c-amber .section-num { background: var(--amber); }
+.c-amber .section-tag { color: var(--amber); }
+.c-teal .section-num { background: var(--teal); }
+.c-teal .section-tag { color: var(--teal); }
+.c-violet .section-num { background: var(--violet); }
+.c-violet .section-tag { color: var(--violet); }
+.c-rust .section-num { background: var(--rust); }
+.c-rust .section-tag { color: var(--rust); }
+.c-sage .section-num { background: var(--sage); }
+.c-sage .section-tag { color: var(--sage); }
+.card {
+  background: #fff;
+  border-radius: var(--radius);
+  border-left: 4px solid var(--blue);
+  padding: 20px 24px;
+  margin-bottom: 14px;
+  box-shadow: 0 1px 4px rgba(26,79,160,0.07);
+}
+.card h3 { font-family: 'Playfair Display', serif; font-size: 1.05rem; margin: 0 0 8px; }
+.card.c-rust { border-left-color: var(--rust); }
+.card.c-sage { border-left-color: var(--sage); }
+.card.c-amber { border-left-color: var(--amber); }
+.card.c-violet { border-left-color: var(--violet); }
+.card.c-teal { border-left-color: var(--teal); }
+.theory-rule {
+  background: var(--cream);
+  border-left: 3px solid var(--teal);
+  padding: 14px 20px;
+  border-radius: 4px;
+  font-size: 0.93rem;
+  margin: 10px 0;
+}
+.theory-rule strong { color: var(--teal); }
+.math { font-family: 'Playfair Display', serif; font-size: 1.05rem; background: #f8faff; border-radius: 4px; padding: 10px 16px; margin: 8px 0; }
+.btn {
+  display: inline-block;
+  padding: 9px 22px;
+  border-radius: 20px;
+  font-family: 'Source Serif 4', serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+  text-decoration: none;
+}
+.btn:hover { opacity: 0.85; transform: translateY(-1px); }
+.btn-violet { background: var(--violet); color: #fff; }
+.btn-ink { background: var(--ink); color: #fff; }
+.btn-sage { background: var(--sage); color: #fff; }
+.btn-rust { background: var(--rust); color: #fff; }
+.btn-blue { background: var(--blue); color: #fff; }
+.btn-amber { background: var(--amber); color: #fff; }
+.btn-teal { background: var(--teal); color: #fff; }
+.btn-outline { background: transparent; border: 2px solid var(--blue); color: var(--blue); }
+.canvas-wrap { background: #fff; border-radius: var(--radius); padding: 20px 24px; box-shadow: 0 1px 4px rgba(26,79,160,0.07); margin-bottom: 14px; }
+.canvas-wrap h3 { font-family: 'Playfair Display', serif; font-size: 1.05rem; margin: 0 0 14px; color: var(--blue); }
+.slider-row { display: flex; align-items: center; gap: 14px; margin-bottom: 10px; flex-wrap: wrap; }
+.slider-row label { font-size: 0.88rem; min-width: 80px; }
+.slider-row input[type=range] { flex: 1; min-width: 120px; }
+.slider-val { font-family: 'Playfair Display', serif; font-weight: 700; min-width: 36px; text-align: center; }
+canvas#rectaCanvas { width: 100%; max-width: 700px; height: 80px; display: block; margin: 10px auto; border-radius: 4px; background: #f8faff; }
+.gen-wrap { background: var(--ink); border-radius: var(--radius); padding: 20px 24px; margin-bottom: 20px; color: #e8f0ff; }
+.gen-wrap h3 { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: #ffd700; margin: 0 0 12px; }
+#gen-display { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: #fff; margin: 10px 0; min-height: 40px; }
+#gen-ans-display { font-size: 0.95rem; color: #7dd87d; margin-top: 6px; display: none; }
+.ex-item { background: #fff; border-left: 4px solid var(--amber); padding: 14px 18px; border-radius: var(--radius); margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.ex-text { flex: 1; min-width: 160px; font-size: 0.95rem; }
+.ex-input-wrap { display: flex; align-items: center; gap: 6px; }
+.ex-input {
+  border: 2px solid #c8d4e8;
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-family: 'Source Serif 4', serif;
+  font-size: 0.95rem;
+  width: 90px;
+}
+.ex-input.correct { border-color: var(--sage); background: #eafaf0; }
+.ex-input.wrong { border-color: var(--rust); background: #fff0ee; }
+.ex-icon { font-size: 1.1rem; min-width: 20px; }
+.hint-text { font-size: 0.82rem; color: var(--rust); display: none; font-style: italic; margin-top: 4px; width: 100%; }
+.vf-item { background: #fff; border-left: 4px solid var(--teal); padding: 14px 18px; border-radius: var(--radius); margin-bottom: 10px; display: flex; align-items: flex-start; gap: 12px; flex-wrap: wrap; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+.vf-stmt { flex: 1; min-width: 200px; font-size: 0.95rem; }
+.vf-btns { display: flex; gap: 8px; }
+.vf-btn {
+  border: 2px solid currentColor;
+  border-radius: 16px;
+  padding: 4px 16px;
+  font-family: 'Source Serif 4', serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: transparent;
+}
+.vf-btn.v { color: var(--sage); }
+.vf-btn.f { color: var(--rust); }
+.vf-btn.chosen-v { background: var(--sage); color: #fff; }
+.vf-btn.chosen-f { background: var(--rust); color: #fff; }
+.vf-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+.vf-feedback { font-size: 0.82rem; border-radius: 4px; padding: 6px 12px; margin-top: 6px; display: none; width: 100%; }
+.vf-feedback.ok { background: #eafaf0; color: var(--sage); }
+.vf-feedback.ko { background: #fff0ee; color: var(--rust); }
+.mc-item { background: #fff; border-left: 4px solid var(--violet); padding: 16px 20px; border-radius: var(--radius); margin-bottom: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+.mc-q { font-size: 0.97rem; margin-bottom: 10px; font-weight: 600; }
+.mc-opts { display: flex; flex-direction: column; gap: 6px; }
+.mc-opt {
+  border: 2px solid #c8d4e8;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-family: 'Source Serif 4', serif;
+  font-size: 0.88rem;
+  cursor: pointer;
+  background: #fff;
+  text-align: left;
+  transition: border-color 0.2s, background 0.2s;
+}
+.mc-opt:hover:not(:disabled) { border-color: var(--violet); background: #f4f0ff; }
+.mc-opt.correct-opt { background: #eafaf0; color: var(--sage); border-color: var(--sage); font-weight: 600; }
+.mc-opt.wrong-opt { background: #fff0ee; color: var(--rust); border-color: var(--rust); }
+.mc-opt:disabled { cursor: not-allowed; }
+.mc-feedback { font-size: 0.82rem; border-radius: 4px; padding: 6px 12px; margin-top: 8px; display: none; }
+.mc-feedback.ok { background: #eafaf0; color: var(--sage); }
+.mc-feedback.ko { background: #fff0ee; color: var(--rust); }
+.drag-zone { display: flex; flex-wrap: wrap; gap: 8px; background: var(--cream); border-radius: var(--radius); padding: 14px; min-height: 56px; margin-bottom: 14px; }
+.drag-chip {
+  background: var(--ink); color: #fff;
+  border-radius: 20px; padding: 6px 16px;
+  cursor: grab; font-size: 0.88rem;
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  user-select: none;
+}
+.drag-chip.placed { opacity: 0.4; cursor: not-allowed; }
+.drop-targets { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 14px; }
+.drop-target {
+  border: 2px dashed #b0bcd0;
+  border-radius: var(--radius);
+  min-height: 64px;
+  padding: 10px 14px;
+  background: #fff;
+  font-size: 0.85rem;
+  color: var(--grey);
+}
+.drop-target.drag-over { border-color: var(--blue); background: #f0f4ff; }
+.drop-target.ok { border-color: var(--sage); background: #eafaf0; }
+.drop-target.ko { border-color: var(--rust); background: #fff0ee; }
+.drop-target-label { font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--grey); margin-bottom: 4px; }
+.clas-targets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+.clas-target {
+  border: 2px dashed #b0bcd0;
+  border-radius: var(--radius);
+  min-height: 80px;
+  padding: 10px 12px;
+  background: #fff;
+}
+.clas-target.drag-over { border-color: var(--blue); background: #f0f4ff; }
+.clas-target.ok { border-color: var(--sage); background: #eafaf0; }
+.clas-target.ko { border-color: var(--rust); background: #fff0ee; }
+.clas-label { font-size: 0.82rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+.drag-chip2 {
+  background: var(--blue); color: #fff;
+  border-radius: 16px; padding: 5px 13px;
+  cursor: grab; font-size: 0.85rem;
+  font-family: 'Playfair Display', serif;
+  font-weight: 600;
+  display: inline-block;
+  margin: 3px;
+  user-select: none;
+}
+.aplic-item { background: #fff; border-left: 4px solid var(--sage); padding: 14px 18px; border-radius: var(--radius); margin-bottom: 10px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+.desafio-item { background: var(--ink); color: #e8f0ff; border-left: 4px solid var(--amber); padding: 18px 22px; border-radius: var(--radius); margin-bottom: 14px; }
+.desafio-item h4 { font-family: 'Playfair Display', serif; color: #ffd700; margin: 0 0 10px; font-size: 1rem; }
+.desafio-ctx { font-size: 0.93rem; margin-bottom: 10px; line-height: 1.6; }
+.desafio-input-wrap { display: flex; align-items: center; gap: 8px; }
+.desafio-input {
+  border: 2px solid #4a6080;
+  border-radius: 6px;
+  padding: 5px 10px;
+  background: #1a2d48;
+  color: #fff;
+  font-family: 'Source Serif 4', serif;
+  font-size: 0.95rem;
+  width: 100px;
+}
+.desafio-input.correct { border-color: var(--sage); background: #1a3d2a; }
+.desafio-input.wrong { border-color: var(--rust); background: #3d1a1a; }
+.desafio-icon { font-size: 1.1rem; min-width: 20px; color: #fff; }
+.desafio-hint { font-size: 0.82rem; color: #ffb899; display: none; font-style: italic; margin-top: 6px; }
+#score-panel { background: var(--cream); border-left: 4px solid var(--blue); border-radius: var(--radius); padding: 28px 32px; text-align: center; margin: 36px 0 20px; }
+#score-big { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 900; color: var(--blue); }
+#score-bar-wrap { background: #c8d4e8; border-radius: 8px; height: 12px; margin: 12px 0 8px; overflow: hidden; }
+#score-bar { height: 100%; background: linear-gradient(90deg, var(--blue), var(--teal)); border-radius: 8px; width: 0%; transition: width 0.5s; }
+#score-label { font-size: 0.9rem; color: var(--grey); }
+#score-msg { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; margin-top: 8px; color: var(--ink); }
+#submit-panel { background: var(--cream); border-left: 4px solid var(--ink); border-radius: var(--radius); padding: 24px 28px; margin-bottom: 30px; }
+#submit-panel h3 { font-family: 'Playfair Display', serif; margin: 0 0 16px; }
+.submit-row { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 14px; }
+.submit-input {
+  border: 2px solid #c8d4e8;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-family: 'Source Serif 4', serif;
+  font-size: 0.95rem;
+  flex: 1;
+  min-width: 160px;
+}
+#btn-enviar {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 12px 32px;
+  border-radius: 24px;
+  background: var(--blue);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+#btn-enviar:disabled { cursor: not-allowed; opacity: 0.85; }
+#submit-msg { font-size: 0.9rem; margin-top: 10px; display: none; }
+.submit-ok { color: var(--sage); }
+.submit-ko { color: var(--rust); }
+footer { margin-top: 40px; border-top: 1px solid var(--cream); padding-top: 16px; font-size: 0.78rem; color: #8a9ab0; text-align: center; }
+.btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+@media (max-width:640px){
+  .page-wrap { padding: 70px 16px 40px 20px; }
+  body::before { left: 8px; }
+  .main-header h1 { font-size: 1.6rem; }
+  .drop-targets, .clas-targets { grid-template-columns: 1fr; }
+  #score-big { font-size: 2.2rem; }
+  .submit-row { flex-direction: column; }
+}
+@media print {
+  body { background: #fff; }
+  #timer, #progress-bar-wrap, #progress-label, body::before { display: none; }
+}
+
+/* ===== FRACCIÓN TIPOGRÁFICA APILADA ===== */
+.frac {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  vertical-align: middle;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  line-height: 1.1;
+  margin: 0 3px;
+}
+.frac .fnum {
+  border-bottom: 1.5px solid currentColor;
+  padding: 0 4px 1px;
+  font-size: 0.88em;
+  min-width: 1.1em;
+  text-align: center;
+}
+.frac .fden {
+  padding: 1px 4px 0;
+  font-size: 0.88em;
+  min-width: 1.1em;
+  text-align: center;
+}
+.math .frac { font-size: 1.18em; }
+#gen-display .frac { color: #fff; font-size: 1.3em; }
+</style>
+</head>
+<body>
+<div id="progress-bar-wrap"><div id="progress-bar-fill"></div></div>
+<div id="progress-label">Progreso: <span id="progress-pct">0%</span></div>
+<div id="timer">45:00</div>
+<div class="page-wrap">
+
+  <!-- HEADER -->
+  <header class="main-header">
+    <div class="subject-eyebrow">Matemática · 1° año · Prof. José Ubeda</div>
+    <h1>Fracciones: Operadores y Expresiones Decimales</h1>
+    <div class="meta">Ficha interactiva autocorregible · © 2025 José Ubeda — Todos los derechos reservados</div>
+  </header>
+
+  <!-- PARTE I: TEORÍA -->
+  <div class="section-header c-blue">
+    <div class="section-num">I</div>
+    <div>
+      <div class="section-tag">Parte I</div>
+      <div class="section-title">Teoría: Conceptos fundamentales</div>
+    </div>
+  </div>
+
+  <div class="card c-teal">
+    <h3>¿Qué es una fracción como operador?</h3>
+    <p>Una fracción <strong>a/b</strong> actúa como <em>operador</em> cuando la aplicamos sobre una cantidad: nos indica que debemos tomar <strong>a partes</strong> de las <strong>b partes iguales</strong> en que dividimos esa cantidad.</p>
+    <div class="theory-rule"><strong>Regla:</strong> Para calcular <em>a/b de N</em>, dividimos N entre b y multiplicamos por a.<br>Es decir: <strong>(a/b) × N = (a × N) ÷ b</strong></div>
+  </div>
+
+  <div class="card c-amber">
+    <h3>Expresión decimal exacta</h3>
+    <div class="theory-rule"><strong>Decimal exacto:</strong> La división termina. La parte decimal tiene un número <em>finito</em> de cifras.</div>
+    <div class="math">1/4 = 0,25 &nbsp;|&nbsp; 3/8 = 0,375 &nbsp;|&nbsp; 2/5 = 0,4</div>
+    <p style="font-size:0.88rem;">Esto ocurre cuando el denominador (simplificado) solo tiene factores 2 y/o 5.</p>
+  </div>
+
+  <div class="card c-rust">
+    <h3>Decimal periódico puro</h3>
+    <div class="theory-rule"><strong>Periódico puro:</strong> Desde el primer decimal, un grupo de cifras se repite indefinidamente. Se indica con una barra sobre el período.</div>
+    <div class="math">1/3 = 0,333… = 0,<span style="text-decoration:overline">3</span> &nbsp;|&nbsp; 2/9 = 0,<span style="text-decoration:overline">2</span> &nbsp;|&nbsp; 1/7 = 0,<span style="text-decoration:overline">142857</span></div>
+  </div>
+
+  <div class="card c-sage">
+    <h3>Decimal periódico mixto</h3>
+    <div class="theory-rule"><strong>Periódico mixto:</strong> Tiene una parte decimal no periódica (llamada <em>ante-período</em>) y luego un período que se repite.</div>
+    <div class="math">1/6 = 0,1666… = 0,1<span style="text-decoration:overline">6</span> &nbsp;|&nbsp; 5/12 = 0,41<span style="text-decoration:overline">6</span> &nbsp;|&nbsp; 7/12 = 0,58<span style="text-decoration:overline">3</span></div>
+  </div>
+
+  <!-- Canvas interactivo -->
+  <div class="canvas-wrap">
+    <h3>🎛 Calculadora visual de fracción como operador</h3>
+    <div class="slider-row">
+      <label>Numerador (a):</label>
+      <input type="range" id="sl-a" min="1" max="9" value="1">
+      <span class="slider-val" id="val-a">1</span>
+    </div>
+    <div class="slider-row">
+      <label>Denominador (b):</label>
+      <input type="range" id="sl-b" min="2" max="10" value="4">
+      <span class="slider-val" id="val-b">4</span>
+    </div>
+    <div class="slider-row">
+      <label>Cantidad (N):</label>
+      <input type="range" id="sl-n" min="10" max="120" step="2" value="40">
+      <span class="slider-val" id="val-n">40</span>
+    </div>
+    <canvas id="rectaCanvas" width="700" height="80"></canvas>
+    <div id="canvas-result" style="text-align:center;font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--blue);margin-top:4px;"></div>
+  </div>
+
+  <!-- Generador aleatorio -->
+  <div class="gen-wrap">
+    <h3>⚡ Generador de operaciones</h3>
+    <div id="gen-display">Presioná el botón para generar un ejercicio</div>
+    <div class="btn-row">
+      <button class="btn btn-amber" id="btn-gen">Nueva operación</button>
+      <button class="btn btn-sage" id="btn-gen-ans">Ver respuesta</button>
+    </div>
+    <div id="gen-ans-display"></div>
+  </div>
+
+  <!-- PARTE II -->
+  <div class="section-header c-amber">
+    <div class="section-num">II</div>
+    <div>
+      <div class="section-tag">Parte II</div>
+      <div class="section-title">Ejercitación</div>
+    </div>
+  </div>
+
+  <!-- Sección 1 -->
+  <div class="section-header c-amber">
+    <div class="section-num">1</div>
+    <div>
+      <div class="section-tag">Sección 1 · 10 pts</div>
+      <div class="section-title">Calculá la fracción de la cantidad</div>
+    </div>
+  </div>
+  <div id="sec1-container"></div>
+  <div class="btn-row">
+    <button class="btn btn-amber" onclick="resetSec1()">↺ Nueva variante</button>
+  </div>
+
+  <!-- Sección 2 -->
+  <div class="section-header c-teal">
+    <div class="section-num">2</div>
+    <div>
+      <div class="section-tag">Sección 2 · 8 pts</div>
+      <div class="section-title">Verdadero o Falso</div>
+    </div>
+  </div>
+  <div id="sec2-container"></div>
+
+  <!-- Sección 3 -->
+  <div class="section-header c-violet">
+    <div class="section-num">3</div>
+    <div>
+      <div class="section-tag">Sección 3 · 6 pts</div>
+      <div class="section-title">Opción múltiple</div>
+    </div>
+  </div>
+  <div id="sec3-container"></div>
+
+  <!-- Sección 4 -->
+  <div class="section-header c-rust">
+    <div class="section-num">4</div>
+    <div>
+      <div class="section-tag">Sección 4 · 1 pt</div>
+      <div class="section-title">Relacioná: Fracción ↔ Decimal</div>
+    </div>
+  </div>
+  <p style="font-size:0.88rem;color:var(--grey);">Arrastrá cada fracción al recuadro con su expresión decimal equivalente.</p>
+  <div class="drag-zone" id="drag1-chips"></div>
+  <div class="drop-targets" id="drag1-targets"></div>
+  <div class="btn-row">
+    <button class="btn btn-rust" onclick="checkDrag1()">Verificar</button>
+    <button class="btn btn-outline" onclick="resetDrag1()">↺ Reiniciar</button>
+  </div>
+  <div id="drag1-fb" style="margin-top:10px;font-size:0.9rem;display:none;"></div>
+
+  <!-- Sección 5 -->
+  <div class="section-header c-sage">
+    <div class="section-num">5</div>
+    <div>
+      <div class="section-tag">Sección 5 · 1 pt</div>
+      <div class="section-title">Clasificá las expresiones decimales</div>
+    </div>
+  </div>
+  <p style="font-size:0.88rem;color:var(--grey);">Arrastrá cada decimal a su categoría: <strong>Exacto</strong>, <strong>Periódico puro</strong> o <strong>Periódico mixto</strong>.</p>
+  <div class="drag-zone" id="drag2-chips"></div>
+  <div class="clas-targets" id="drag2-targets"></div>
+  <div class="btn-row">
+    <button class="btn btn-sage" onclick="checkDrag2()">Verificar</button>
+    <button class="btn btn-outline" onclick="resetDrag2()">↺ Reiniciar</button>
+  </div>
+  <div id="drag2-fb" style="margin-top:10px;font-size:0.9rem;display:none;"></div>
+
+  <!-- Sección 6 -->
+  <div class="section-header c-sage">
+    <div class="section-num">6</div>
+    <div>
+      <div class="section-tag">Sección 6 · 10 pts</div>
+      <div class="section-title">Convertí y aplicá</div>
+    </div>
+  </div>
+  <div id="sec6-container"></div>
+  <div class="btn-row">
+    <button class="btn btn-sage" onclick="resetSec6()">↺ Nueva variante</button>
+  </div>
+
+  <!-- PARTE III -->
+  <div class="section-header c-rust">
+    <div class="section-num">III</div>
+    <div>
+      <div class="section-tag">Parte III</div>
+      <div class="section-title">Desafíos contextualizados</div>
+    </div>
+  </div>
+  <div id="desafios-container"></div>
+
+  <!-- Panel de puntaje -->
+  <div id="score-panel">
+    <div id="score-big">0 / 42</div>
+    <div id="score-bar-wrap"><div id="score-bar"></div></div>
+    <div id="score-label">0 de 42 ítems correctos (0%)</div>
+    <div id="score-msg">¡Completá los ejercicios!</div>
+  </div>
+
+  <!-- Panel de envío -->
+  <div id="submit-panel">
+    <h3>📤 Entregar ficha</h3>
+    <div class="submit-row">
+      <input class="submit-input" type="text" id="alumno-nombre" placeholder="Nombre y apellido">
+      <input class="submit-input" type="text" id="alumno-curso" placeholder="Curso (ej: 1° A)">
+    </div>
+    <button id="btn-enviar" onclick="enviarYDescargar()">Entregar y descargar guía de estudio</button>
+    <div id="submit-msg"></div>
+  </div>
+
+  <footer>
+    Matemática — Fracciones: Operadores y Expresiones Decimales<br>
+    Prof. José Ubeda · 1° año · Ficha interactiva autocorregible<br>
+    <span style="font-size:0.72rem;opacity:0.6;">© 2025 José Ubeda — Uso educativo exclusivo. Prohibida reproducción sin autorización. Script ID: JU-MAT-FRA-2025-v1.0</span>
+  </footer>
+</div>
+
+<script>
+// ===================== IIFE DE SEGURIDAD =====================
+(function(){
+  document.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+  document.addEventListener('keydown', function(e){
+    if(e.key==='F12') e.preventDefault();
+    if(e.ctrlKey && e.shiftKey && (e.key==='I'||e.key==='J'||e.key==='C')) e.preventDefault();
+    if(e.ctrlKey && e.key==='u') e.preventDefault();
+    if(e.ctrlKey && e.key==='s') e.preventDefault();
+  });
+  var _d=function(){
+    var _t=new Date(); debugger;
+    if(new Date()-_t>100){ document.body.innerHTML='<p style="font-family:serif;text-align:center;margin-top:20vh;font-size:1.3rem;color:#b83a2a">Acceso no permitido.<br><small>Cerrá las herramientas de desarrollador.</small></p>'; }
+  };
+  setInterval(_d,3000);
+})();
+
+// ===================== HASH FNV-1a =====================
+function qhash(s){
+  s=String(s).trim().toLowerCase();
+  var h=2166136261;
+  for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=(h*16777619)>>>0;}
+  return h.toString(16);
+}
+
+// ===================== TIMER Y ESTADO =====================
+var _startTime = Date.now();
+var _timerSecs = 2700;
+var _timerInt = setInterval(function(){
+  _timerSecs--;
+  if(_timerSecs<=0){ clearInterval(_timerInt); _timerSecs=0; }
+  var m=Math.floor(_timerSecs/60), s=_timerSecs%60;
+  document.getElementById('timer').textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+  document.getElementById('timer').className=_timerSecs<=300?'urgent':'';
+},1000);
+var ans={};
+var totalItems=42;
+
+// ===================== UTILIDADES =====================
+function rnd(min,max){ return Math.floor(Math.random()*(max-min+1))+min; }
+function rndNZ(min,max){ var v=0; while(v===0) v=rnd(min,max); return v; }
+function shuffle(arr){ var a=arr.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; } return a; }
+
+// ===================== PUNTAJE =====================
+function updPunt(){
+  var pts=Object.keys(ans).filter(function(k){return ans[k]===true;}).length;
+  document.getElementById('score-big').textContent=pts+' / '+totalItems;
+  var pct=Math.round(pts/totalItems*100);
+  document.getElementById('score-bar').style.width=pct+'%';
+  document.getElementById('score-label').textContent=pts+' de '+totalItems+' ítems correctos ('+pct+'%)';
+  var msgs=['¡Completá los ejercicios!','¡Seguí así!','¡Muy buen trabajo!','¡Excelente!','¡Perfecto! 100/100'];
+  document.getElementById('score-msg').textContent=msgs[pct<20?0:pct<50?1:pct<80?2:pct<100?3:4];
+  document.getElementById('progress-bar-fill').style.width=pct+'%';
+  document.getElementById('progress-pct').textContent=pct+'%';
+}
+
+// ===================== CHK — inputs numéricos =====================
+function chk(inputId, expectedHash, fbId, ansKey){
+  var el=document.getElementById(inputId);
+  var icon=document.getElementById(inputId+'_icon');
+  var fb=document.getElementById(fbId);
+  var val=el.value.trim();
+  if(val===''){
+    el.className=el.className.replace(/\s*(correct|wrong)\b/g,'');
+    if(icon) icon.textContent=''; return;
+  }
+  var got=qhash(val);
+  if(got===expectedHash){
+    el.className=el.className.replace(/\s*(correct|wrong)\b/g,'')+' correct';
+    if(icon) icon.textContent='✓';
+    if(fb) fb.style.display='none';
+    if(!ans[ansKey]){ ans[ansKey]=true; updPunt(); }
+  } else {
+    el.className=el.className.replace(/\s*(correct|wrong)\b/g,'')+' wrong';
+    if(icon) icon.textContent='✗';
+    if(fb && val.length>=1) fb.style.display='block';
+    if(ans[ansKey]===true){ ans[ansKey]=false; updPunt(); }
+    else if(!ans[ansKey]) ans[ansKey]=false;
+  }
+}
+
+// ===================== VF =====================
+var vfData = [
+  {stmt:'<span class="frac"><span class="fnum">1</span><span class="fden">2</span></span> de 20 es igual a 10', ans:'v', expl:'Correcto: 20 ÷ 2 = 10, luego 1 × 10 = 10.'},
+  {stmt:'<span class="frac"><span class="fnum">3</span><span class="fden">4</span></span> de 12 es igual a 8', ans:'v', expl:'Correcto: 12 ÷ 4 = 3, luego 3 × 3 = 9. ¡Revisá! Espera... 12÷4=3, 3×3=9 ≠ 8. Este ítem es F.'},
+  {stmt:'El decimal 0,333… es un decimal exacto', ans:'f', expl:'Falso: 0,333… = 1/3 es periódico puro, no exacto.'},
+  {stmt:'0,25 es la expresión decimal de <span class="frac"><span class="fnum">1</span><span class="fden">4</span></span>', ans:'v', expl:'Correcto: 1 ÷ 4 = 0,25, decimal exacto.'},
+  {stmt:'Un decimal periódico puro tiene cifras que se repiten desde el primer decimal', ans:'v', expl:'Correcto: el período comienza inmediatamente después de la coma.'},
+  {stmt:'<span class="frac"><span class="fnum">1</span><span class="fden">3</span></span> tiene expresión decimal exacta', ans:'f', expl:'Falso: 1/3 = 0,333… es periódico puro.'},
+  {stmt:'0,123123123… es un decimal periódico mixto', ans:'f', expl:'Falso: 0,123123… = 0,<span style="text-decoration:overline">123</span> es periódico puro (el período empieza desde el primer decimal).'},
+  {stmt:'<span class="frac"><span class="fnum">2</span><span class="fden">5</span></span> = 0,4 es un decimal exacto', ans:'v', expl:'Correcto: 2 ÷ 5 = 0,4, la división termina.'}
+];
+
+// corregir ítem 1 (el enunciado dice 8 pero es 9, así que la respuesta real es f)
+vfData[1].ans='f';
+vfData[1].expl='Falso: 3/4 de 12 = (12÷4)×3 = 3×3 = 9, no 8.';
+
+function buildVF(){
+  var c=document.getElementById('sec2-container'); c.innerHTML='';
+  vfData.forEach(function(d,i){
+    var div=document.createElement('div'); div.className='vf-item';
+    div.innerHTML='<div class="vf-stmt">'+(i+1)+'. '+d.stmt+'</div>'+
+      '<div class="vf-btns">'+
+      '<button class="vf-btn v" id="vf'+i+'_v">V</button>'+
+      '<button class="vf-btn f" id="vf'+i+'_f">F</button>'+
+      '</div>'+
+      '<div class="vf-feedback" id="vf'+i+'_fb"></div>';
+    c.appendChild(div);
+    document.getElementById('vf'+i+'_v').addEventListener('click', (function(idx){ return function(){ sit('vf'+idx, 'v', qhash(vfData[idx].ans), String(idx)); }; })(i));
+    document.getElementById('vf'+i+'_f').addEventListener('click', (function(idx){ return function(){ sit('vf'+idx, 'f', qhash(vfData[idx].ans), String(idx)); }; })(i));
+  });
+}
+
+function sit(id, choice, expectedHash, ansKey){
+  var vBtn=document.getElementById(id+'_v');
+  var fBtn=document.getElementById(id+'_f');
+  var fb=document.getElementById(id+'_fb');
+  vBtn.disabled=true; fBtn.disabled=true;
+  var got=qhash(choice);
+  if(got===expectedHash){
+    if(choice==='v') vBtn.classList.add('chosen-v'); else fBtn.classList.add('chosen-f');
+    fb.className='vf-feedback ok'; fb.style.display='block';
+    fb.textContent='✓ Correcto. '+vfData[parseInt(ansKey)].expl;
+    if(!ans['vf_'+ansKey]){ ans['vf_'+ansKey]=true; updPunt(); }
+  } else {
+    if(choice==='v') vBtn.classList.add('chosen-v'); else fBtn.classList.add('chosen-f');
+    fb.className='vf-feedback ko'; fb.style.display='block';
+    fb.textContent='✗ Respuesta incorrecta. Releé la afirmación y revisá las reglas.';
+    if(!ans['vf_'+ansKey]) ans['vf_'+ansKey]=false;
+  }
+}
+
+// ===================== MC =====================
+var mcData = [
+  {q:'¿Cuánto es <span class="frac"><span class="fnum">2</span><span class="fden">5</span></span> de 30?', opts:['12','15','6','10'], correct:0, expl:'30 ÷ 5 = 6; 6 × 2 = 12.'},
+  {q:'¿Cuánto es <span class="frac"><span class="fnum">3</span><span class="fden">4</span></span> de 40?', opts:['10','30','20','35'], correct:1, expl:'40 ÷ 4 = 10; 10 × 3 = 30.'},
+  {q:'¿Cuál de estas fracciones tiene expresión decimal periódica pura?', opts:['1/4','3/8','1/3','5/8'], correct:2, expl:'1/3 = 0,333… El período comienza desde el primer decimal.'},
+  {q:'¿Qué tipo de decimal es 0,1666…?', opts:['Exacto','Periódico puro','Exacto con dos cifras','Periódico mixto'], correct:3, expl:'0,1666… tiene ante-período (0,1) y luego el período 6 se repite: es periódico mixto.'},
+  {q:'¿Cuál es la expresión decimal de <span class="frac"><span class="fnum">5</span><span class="fden">8</span></span>?', opts:['0,625','0,58','0,6','0,65'], correct:0, expl:'5 ÷ 8 = 0,625 (decimal exacto).'},
+  {q:'¿Cuánto es <span class="frac"><span class="fnum">2</span><span class="fden">3</span></span> de 15?', opts:['5','10','9','12'], correct:1, expl:'15 ÷ 3 = 5; 5 × 2 = 10.'}
+];
+
+function buildMC(){
+  var c=document.getElementById('sec3-container'); c.innerHTML='';
+  mcData.forEach(function(d,i){
+    var shuffled=shuffle(d.opts.map(function(o,j){return {txt:o,orig:j};}));
+    var div=document.createElement('div'); div.className='mc-item';
+    var optsHtml=shuffled.map(function(o){
+      return '<button class="mc-opt" data-orig="'+o.orig+'">'+o.txt+'</button>';
+    }).join('');
+    div.innerHTML='<div class="mc-q">'+(i+1)+'. '+d.q+'</div>'+
+      '<div class="mc-opts">'+optsHtml+'</div>'+
+      '<div class="mc-feedback" id="mc'+i+'_fb"></div>';
+    c.appendChild(div);
+    div.querySelectorAll('.mc-opt').forEach(function(btn){
+      btn.addEventListener('click', (function(idx, b){ return function(){ chkMC(idx, b); }; })(i, btn));
+    });
+  });
+}
+
+function chkMC(idx, btn){
+  var item=document.getElementById('sec3-container').querySelectorAll('.mc-item')[idx];
+  var allOpts=item.querySelectorAll('.mc-opt');
+  allOpts.forEach(function(b){ b.disabled=true; });
+  var fb=document.getElementById('mc'+idx+'_fb');
+  var orig=parseInt(btn.getAttribute('data-orig'));
+  if(orig===mcData[idx].correct){
+    btn.classList.add('correct-opt');
+    fb.className='mc-feedback ok'; fb.style.display='block';
+    fb.textContent='✓ Correcto. '+mcData[idx].expl;
+    if(!ans['mc_'+idx]){ ans['mc_'+idx]=true; updPunt(); }
+  } else {
+    btn.classList.add('wrong-opt');
+    fb.className='mc-feedback ko'; fb.style.display='block';
+    fb.textContent='✗ Revisá el enunciado y volvé a pensar el procedimiento.';
+    if(!ans['mc_'+idx]) ans['mc_'+idx]=false;
+  }
+}
+
+// ===================== SECCIÓN 1 — Calculá =====================
+var sec1Data = [];
+function buildSec1(){
+  // Limpiar respuestas previas de sec1
+  for(var k=0;k<10;k++) delete ans[String(k)];
+  sec1Data = [];
+  // Pares (num, den, cantidad) con resultado entero
+  var pool=[
+    [1,2,null],[1,4,null],[3,4,null],[2,3,null],[1,5,null],
+    [2,5,null],[3,5,null],[1,3,null],[3,8,null],[5,8,null],
+    [1,6,null],[5,6,null],[7,8,null],[1,2,null],[2,3,null]
+  ];
+  var used=shuffle(pool).slice(0,10);
+  used.forEach(function(p,i){
+    var a=p[0], b=p[1];
+    // cantidad múltiplo de b, entre 12 y 120
+    var mult=rnd(3,15)*b;
+    var res=a*mult/b;
+    sec1Data.push({a:a,b:b,n:mult,res:res});
+  });
+  var c=document.getElementById('sec1-container'); c.innerHTML='';
+  sec1Data.forEach(function(d,i){
+    var div=document.createElement('div'); div.className='ex-item';
+    div.innerHTML=
+      '<div class="ex-text">'+(i+1)+'. &nbsp;<span class="frac"><span class="fnum">'+(d.a)+'</span><span class="fden">'+(d.b)+'</span></span> de '+d.n+' =</div>'+
+      '<div class="ex-input-wrap">'+
+      '<input class="ex-input" type="number" id="s1_'+i+'" placeholder="?">'+
+      '<span class="ex-icon" id="s1_'+i+'_icon"></span>'+
+      '</div>'+
+      '<div class="hint-text" id="s1_'+i+'_fb">Dividí '+d.n+' entre '+d.b+', luego multiplicá por '+d.a+'.</div>';
+    c.appendChild(div);
+    (function(idx,hash){
+      document.getElementById('s1_'+idx).addEventListener('input', function(){ chk('s1_'+idx, hash, 's1_'+idx+'_fb', String(idx)); });
+    })(i, qhash(String(d.res)));
+  });
+  updPunt();
+}
+function buildSec1Init(){ buildSec1(); }
+
+// ===================== SECCIÓN 6 — Convertí y aplicá =====================
+var sec6Data = [];
+// Plantillas que mezclan fracción como operador + tipo de decimal resultante
+var sec6Pool = [
+  function(){ var b=[2,4,5,8,10,25]; var bi=b[rnd(0,5)]; var a=rnd(1,bi-1); var n=rnd(2,10)*bi; return {q:'Calculá <span class="frac"><span class="fnum">'+(a)+'</span><span class="fden">'+(bi)+'</span></span> de '+n+'', res:a*n/bi, hint:'Dividí '+n+' entre '+bi+' y multiplicá por '+a+'.'}; },
+  function(){ var b=[3,6,9]; var bi=b[rnd(0,2)]; var a=rnd(1,bi-1); var n=rnd(2,10)*bi; return {q:'Calculá <span class="frac"><span class="fnum">'+(a)+'</span><span class="fden">'+(bi)+'</span></span> de '+n+'', res:a*n/bi, hint:'Dividí '+n+' entre '+bi+' y multiplicá por '+a+'.'}; },
+  function(){ var b=[4,8]; var bi=b[rnd(0,1)]; var a=rnd(1,bi-1); var n=rnd(2,12)*bi; return {q:'¿Cuánto es <span class="frac"><span class="fnum">'+(a)+'</span><span class="fden">'+(bi)+'</span></span> de '+n+'?', res:a*n/bi, hint:'Dividí '+n+' entre '+bi+' y multiplicá por '+a+'.'}; },
+  function(){ var b=[5,10]; var bi=b[rnd(0,1)]; var a=rnd(1,bi-1); var n=rnd(3,15)*bi; return {q:'Encontrá <span class="frac"><span class="fnum">'+(a)+'</span><span class="fden">'+(bi)+'</span></span> de '+n+'', res:a*n/bi, hint:'Dividí '+n+' entre '+bi+' y multiplicá por '+a+'.'}; },
+  function(){ var b=[2,4]; var bi=b[rnd(0,1)]; var a=rnd(1,bi-1); var n=rnd(5,20)*bi; return {q:'Calculá <span class="frac"><span class="fnum">'+(a)+'</span><span class="fden">'+(bi)+'</span></span> de '+n+'', res:a*n/bi, hint:'Dividí '+n+' entre '+bi+' y multiplicá por '+a+'.'}; },
+  function(){ var b=[3,6]; var bi=b[rnd(0,1)]; var a=rnd(1,bi-1); var n=rnd(4,12)*bi; return {q:'¿Cuánto es <span class="frac"><span class="fnum">'+(a)+'</span><span class="fden">'+(bi)+'</span></span> de '+n+'?', res:a*n/bi, hint:'Dividí '+n+' entre '+bi+' y multiplicá por '+a+'.'}; },
+  function(){ var b=[8,4]; var bi=b[rnd(0,1)]; var a=rnd(1,bi-1); var n=rnd(3,10)*bi; return {q:'Calculá <span class="frac"><span class="fnum">'+(a)+'</span><span class="fden">'+(bi)+'</span></span> de '+n+'', res:a*n/bi, hint:'Dividí '+n+' entre '+bi+' y multiplicá por '+a+'.'}; },
+  function(){ var b=[5,10]; var bi=b[rnd(0,1)]; var a=rnd(1,bi-1); var n=rnd(4,16)*bi; return {q:'Encontrá <span class="frac"><span class="fnum">'+(a)+'</span><span class="fden">'+(bi)+'</span></span> de '+n+'', res:a*n/bi, hint:'Dividí '+n+' entre '+bi+' y multiplicá por '+a+'.'}; },
+  function(){ var b=[2,3,4,5]; var bi=b[rnd(0,3)]; var a=rnd(1,bi-1); var n=rnd(5,18)*bi; return {q:'¿Cuánto es <span class="frac"><span class="fnum">'+(a)+'</span><span class="fden">'+(bi)+'</span></span> de '+n+'?', res:a*n/bi, hint:'Dividí '+n+' entre '+bi+' y multiplicá por '+a+'.'}; },
+  function(){ var b=[6,9,12]; var bi=b[rnd(0,2)]; var a=rnd(1,bi-1); var n=rnd(3,10)*bi; return {q:'Calculá <span class="frac"><span class="fnum">'+(a)+'</span><span class="fden">'+(bi)+'</span></span> de '+n+'', res:a*n/bi, hint:'Dividí '+n+' entre '+bi+' y multiplicá por '+a+'.'}; }
+];
+
+function buildSec6(){
+  for(var k=0;k<10;k++) delete ans['s6_'+k];
+  sec6Data=[];
+  var shuffled=shuffle(sec6Pool.slice());
+  shuffled.forEach(function(fn){ sec6Data.push(fn()); });
+  var c=document.getElementById('sec6-container'); c.innerHTML='';
+  sec6Data.forEach(function(d,i){
+    var div=document.createElement('div'); div.className='aplic-item';
+    div.innerHTML=
+      '<div class="ex-text">'+(i+1)+'. '+d.q+' =</div>'+
+      '<div class="ex-input-wrap">'+
+      '<input class="ex-input" type="number" id="s6_'+i+'" placeholder="?">'+
+      '<span class="ex-icon" id="s6_'+i+'_icon"></span>'+
+      '</div>'+
+      '<div class="hint-text" id="s6_'+i+'_fb">'+d.hint+'</div>';
+    c.appendChild(div);
+    (function(idx,hash){
+      document.getElementById('s6_'+idx).addEventListener('input', function(){ chk('s6_'+idx, hash, 's6_'+idx+'_fb', 's6_'+idx); });
+    })(i, qhash(String(d.res)));
+  });
+  updPunt();
+}
+
+// ===================== DRAG 1: Fracción ↔ Decimal =====================
+var drag1Data = [
+  {expr:'1/2', res:'0,5'},
+  {expr:'1/4', res:'0,25'},
+  {expr:'3/4', res:'0,75'},
+  {expr:'1/5', res:'0,2'},
+  {expr:'2/5', res:'0,4'},
+  {expr:'3/5', res:'0,6'}
+];
+var drag1Placed = {};
+var _d1Dragging = null;
+
+function buildDrag1(){
+  drag1Placed={};
+  delete ans['drag1'];
+  var chips=document.getElementById('drag1-chips');
+  var targets=document.getElementById('drag1-targets');
+  var fb=document.getElementById('drag1-fb');
+  chips.innerHTML=''; targets.innerHTML=''; fb.style.display='none';
+  var shuffChips=shuffle(drag1Data.map(function(d,i){return {expr:d.expr,idx:i};}));
+  shuffChips.forEach(function(s){
+    var ch=document.createElement('div');
+    ch.className='drag-chip'; ch.textContent=s.expr;
+    ch.setAttribute('draggable','true');
+    ch.setAttribute('data-idx',s.idx);
+    ch.id='d1chip_'+s.idx;
+    chips.appendChild(ch);
+    ch.addEventListener('dragstart', function(e){ d1DragStart(e, s.idx); });
+  });
+  // Shuffle targets too
+  var shuffTargets=shuffle(drag1Data.map(function(d,i){return {res:d.res,idx:i};}));
+  shuffTargets.forEach(function(t){
+    var tgt=document.createElement('div');
+    tgt.className='drop-target';
+    tgt.setAttribute('data-tidx',t.idx);
+    tgt.id='d1tgt_'+t.idx;
+    tgt.innerHTML='<div class="drop-target-label">'+t.res+'</div><div class="d1-placed" id="d1placed_'+t.idx+'"></div>';
+    targets.appendChild(tgt);
+    tgt.addEventListener('dragover', function(e){ d1DragOver(e, t.idx); });
+    tgt.addEventListener('dragleave', function(e){ d1DragLeave(e, t.idx); });
+    tgt.addEventListener('drop', function(e){ d1Drop(e, t.idx); });
+  });
+}
+
+function d1DragStart(e, idx){ _d1Dragging=idx; e.dataTransfer.setData('text/plain', String(idx)); }
+function d1DragOver(e, tidx){ e.preventDefault(); document.getElementById('d1tgt_'+tidx).classList.add('drag-over'); }
+function d1DragLeave(e, tidx){ document.getElementById('d1tgt_'+tidx).classList.remove('drag-over'); }
+function d1Drop(e, tidx){
+  e.preventDefault();
+  var cidx=parseInt(e.dataTransfer.getData('text/plain'));
+  var tgt=document.getElementById('d1tgt_'+tidx);
+  tgt.classList.remove('drag-over');
+  // Si hay otro chip en este target, devolvelo
+  var prev=Object.keys(drag1Placed).find(function(k){return drag1Placed[k]===tidx;});
+  if(prev!==undefined){
+    var prevChip=document.getElementById('d1chip_'+prev);
+    if(prevChip){ prevChip.classList.remove('placed'); }
+    delete drag1Placed[prev];
+  }
+  // Quitar el chip de su target anterior
+  var prevTgt=drag1Placed[cidx];
+  if(prevTgt!==undefined){
+    var prevPl=document.getElementById('d1placed_'+prevTgt);
+    if(prevPl) prevPl.innerHTML='';
+  }
+  drag1Placed[cidx]=tidx;
+  var chip=document.getElementById('d1chip_'+cidx);
+  if(chip) chip.classList.add('placed');
+  var placed=document.getElementById('d1placed_'+tidx);
+  if(placed) placed.innerHTML='<span style="font-family:\'Playfair Display\',serif;font-weight:700;color:var(--ink);">'+drag1Data[cidx].expr+'</span>';
+}
+
+function checkDrag1(){
+  var fb=document.getElementById('drag1-fb');
+  var total=drag1Data.length;
+  var correct=0;
+  drag1Data.forEach(function(d,i){
+    var tgt=document.getElementById('d1tgt_'+i);
+    if(tgt){
+      tgt.classList.remove('ok','ko');
+      if(drag1Placed[i]===i){ tgt.classList.add('ok'); correct++; }
+      else if(drag1Placed[i]!==undefined){ tgt.classList.add('ko'); }
+    }
+  });
+  fb.style.display='block';
+  if(correct===total){
+    fb.style.color=getComputedStyle(document.documentElement).getPropertyValue('--sage');
+    fb.textContent='✓ ¡Perfecto! Todas las fracciones están bien relacionadas con su decimal.';
+    if(!ans['drag1']){ ans['drag1']=true; updPunt(); }
+  } else {
+    fb.style.color=getComputedStyle(document.documentElement).getPropertyValue('--rust');
+    fb.textContent='✗ Hay '+( total-correct)+' relacion(es) incorrecta(s). Revisá los targets marcados en rojo.';
+    if(ans['drag1']===true){ ans['drag1']=false; updPunt(); }
+    else if(!ans['drag1']) ans['drag1']=false;
+  }
+}
+
+// ===================== DRAG 2: Clasificación de decimales =====================
+var drag2Data = [
+  {expr:'0,5',       cat:'exacto'},
+  {expr:'0,333…',    cat:'puro'},
+  {expr:'0,1666…',   cat:'mixto'},
+  {expr:'0,75',      cat:'exacto'},
+  {expr:'0,272727…', cat:'puro'},
+  {expr:'0,4166…',   cat:'mixto'}
+];
+var drag2Cats=[
+  {key:'exacto', label:'Exacto', color:'var(--teal)'},
+  {key:'puro',   label:'Periódico puro', color:'var(--blue)'},
+  {key:'mixto',  label:'Periódico mixto', color:'var(--rust)'}
+];
+var drag2Placed = {};
+var _d2Dragging = null;
+
+function buildDrag2(){
+  drag2Placed={};
+  delete ans['drag2'];
+  var chips=document.getElementById('drag2-chips');
+  var targets=document.getElementById('drag2-targets');
+  var fb=document.getElementById('drag2-fb');
+  chips.innerHTML=''; targets.innerHTML=''; fb.style.display='none';
+  var shuffChips=shuffle(drag2Data.map(function(d,i){return {expr:d.expr,idx:i};}));
+  shuffChips.forEach(function(s){
+    var ch=document.createElement('div');
+    ch.className='drag-chip2'; ch.textContent=s.expr;
+    ch.setAttribute('draggable','true'); ch.id='d2chip_'+s.idx;
+    chips.appendChild(ch);
+    ch.addEventListener('dragstart', function(e){ d2DragStart(e, s.idx); });
+  });
+  drag2Cats.forEach(function(cat,ci){
+    var tgt=document.createElement('div');
+    tgt.className='clas-target'; tgt.id='d2tgt_'+cat.key;
+    tgt.style.borderColor=cat.color;
+    tgt.innerHTML='<div class="clas-label" style="color:'+cat.color+'">'+cat.label+'</div><div id="d2placed_'+cat.key+'"></div>';
+    targets.appendChild(tgt);
+    tgt.addEventListener('dragover', function(e){ d2DragOver(e, cat.key); });
+    tgt.addEventListener('dragleave', function(e){ d2DragLeave(e, cat.key); });
+    tgt.addEventListener('drop', function(e){ d2Drop(e, cat.key); });
+  });
+}
+
+function d2DragStart(e, idx){ _d2Dragging=idx; e.dataTransfer.setData('text/plain', String(idx)); }
+function d2DragOver(e, key){ e.preventDefault(); document.getElementById('d2tgt_'+key).classList.add('drag-over'); }
+function d2DragLeave(e, key){ document.getElementById('d2tgt_'+key).classList.remove('drag-over'); }
+function d2Drop(e, key){
+  e.preventDefault();
+  var cidx=parseInt(e.dataTransfer.getData('text/plain'));
+  var tgt=document.getElementById('d2tgt_'+key);
+  tgt.classList.remove('drag-over');
+  // Remover de categoría anterior
+  var prevKey=drag2Placed[cidx];
+  if(prevKey){
+    var prevPl=document.getElementById('d2placed_'+prevKey);
+    if(prevPl){
+      var span=document.getElementById('d2span_'+cidx);
+      if(span) span.remove();
+    }
+  }
+  drag2Placed[cidx]=key;
+  var chip=document.getElementById('d2chip_'+cidx);
+  if(chip) chip.style.opacity='0.45';
+  var placed=document.getElementById('d2placed_'+key);
+  // Remover si ya existe el span
+  var existing=document.getElementById('d2span_'+cidx);
+  if(existing) existing.remove();
+  var span=document.createElement('span');
+  span.id='d2span_'+cidx;
+  span.className='drag-chip2';
+  span.textContent=drag2Data[cidx].expr;
+  span.style.display='inline-block';
+  if(placed) placed.appendChild(span);
+}
+
+function checkDrag2(){
+  var fb=document.getElementById('drag2-fb');
+  var total=drag2Data.length;
+  var correct=0;
+  drag2Data.forEach(function(d,i){
+    if(drag2Placed[i]===d.cat) correct++;
+  });
+  drag2Cats.forEach(function(cat){
+    var tgt=document.getElementById('d2tgt_'+cat.key);
+    if(tgt){ tgt.classList.remove('ok','ko'); }
+  });
+  // Colorear targets según resultado
+  drag2Data.forEach(function(d,i){
+    if(drag2Placed[i]!==undefined){
+      var tgt=document.getElementById('d2tgt_'+drag2Placed[i]);
+      if(tgt && drag2Placed[i]!==d.cat && !tgt.classList.contains('ok')){ tgt.classList.add('ko'); }
+    }
+  });
+  // Marcar correctos
+  drag2Cats.forEach(function(cat){
+    var allInCat=drag2Data.filter(function(d,i){return drag2Placed[i]===cat.key;});
+    var allCorrect=allInCat.every(function(d){ return d.cat===cat.key; });
+    var expectedCount=drag2Data.filter(function(d){return d.cat===cat.key;}).length;
+    if(allCorrect && allInCat.length===expectedCount){
+      var tgt=document.getElementById('d2tgt_'+cat.key);
+      if(tgt){ tgt.classList.remove('ko'); tgt.classList.add('ok'); }
+    }
+  });
+  fb.style.display='block';
+  if(correct===total){
+    fb.style.color='var(--sage)';
+    fb.textContent='✓ ¡Excelente! Todos los decimales están clasificados correctamente.';
+    if(!ans['drag2']){ ans['drag2']=true; updPunt(); }
+  } else {
+    fb.style.color='var(--rust)';
+    fb.textContent='✗ Hay '+(total-correct)+' decimal(es) mal clasificado(s). Revisá las categorías.';
+    if(ans['drag2']===true){ ans['drag2']=false; updPunt(); }
+    else if(!ans['drag2']) ans['drag2']=false;
+  }
+}
+
+// ===================== DESAFÍOS =====================
+var desData = [
+  {ctx:'Una botella tiene <strong>600 ml</strong>. Bebiste <strong><span class="frac"><span class="fnum">2</span><span class="fden">3</span></span></strong> del total.', q:'¿Cuántos ml bebiste?', res:400, hint:'Dividí 600 entre 3 y multiplicá por 2.', unit:'ml'},
+  {ctx:'Un libro tiene <strong>240 páginas</strong>. Leíste <strong><span class="frac"><span class="fnum">3</span><span class="fden">8</span></span></strong>.', q:'¿Cuántas páginas leíste?', res:90, hint:'Dividí 240 entre 8 y multiplicá por 3.', unit:'páginas'},
+  {ctx:'Una cancha mide <strong>100 m</strong>. Corriste <strong><span class="frac"><span class="fnum">3</span><span class="fden">4</span></span></strong> del largo.', q:'¿Cuántos metros corriste?', res:75, hint:'Dividí 100 entre 4 y multiplicá por 3.', unit:'m'},
+  {ctx:'Tenés <strong>$1200</strong> de propina. Ahorraste <strong><span class="frac"><span class="fnum">5</span><span class="fden">6</span></span></strong>.', q:'¿Cuánto ahorraste?', res:1000, hint:'Dividí 1200 entre 6 y multiplicá por 5.', unit:'$'},
+  {ctx:'Un depósito tiene <strong>360 L</strong>. Se vació <strong><span class="frac"><span class="fnum">2</span><span class="fden">9</span></span></strong>.', q:'¿Cuántos litros se vaciaron?', res:80, hint:'Dividí 360 entre 9 y multiplicá por 2.', unit:'L'},
+  {ctx:'Una torta tiene <strong>48 porciones</strong>. Comieron <strong><span class="frac"><span class="fnum">5</span><span class="fden">8</span></span></strong>.', q:'¿Cuántas porciones comieron?', res:30, hint:'Dividí 48 entre 8 y multiplicá por 5.', unit:'porciones'}
+];
+var desHashes=['b03250e4','bfe98cc','96e5dbb8','2297cac4','9301abe8','85f04e50'];
+
+function buildDesafios(){
+  var c=document.getElementById('desafios-container'); c.innerHTML='';
+  desData.forEach(function(d,i){
+    var div=document.createElement('div'); div.className='desafio-item';
+    div.innerHTML=
+      '<h4>Desafío '+(i+1)+'</h4>'+
+      '<div class="desafio-ctx">'+d.ctx+'<br><em>'+d.q+'</em></div>'+
+      '<div class="desafio-input-wrap">'+
+      '<input class="desafio-input" type="number" id="des_'+i+'" placeholder="?">'+
+      '<span style="color:#aad4ff;font-size:0.88rem;">'+d.unit+'</span>'+
+      '<span class="desafio-icon" id="des_'+i+'_icon"></span>'+
+      '</div>'+
+      '<div class="desafio-hint" id="des_'+i+'_fb">💡 '+d.hint+'</div>';
+    c.appendChild(div);
+    (function(idx, hash){
+      document.getElementById('des_'+idx).addEventListener('input', function(){ chkDes(idx, hash); });
+    })(i, desHashes[i]);
+  });
+}
+
+function chkDes(idx, expectedHash){
+  var el=document.getElementById('des_'+idx);
+  var icon=document.getElementById('des_'+idx+'_icon');
+  var fb=document.getElementById('des_'+idx+'_fb');
+  var val=el.value.trim();
+  if(val===''){
+    el.className=el.className.replace(/\s*(correct|wrong)\b/g,'');
+    if(icon) icon.textContent=''; return;
+  }
+  var got=qhash(val);
+  if(got===expectedHash){
+    el.className=el.className.replace(/\s*(correct|wrong)\b/g,'')+' correct';
+    if(icon){ icon.textContent='✓'; icon.style.color='#7dd87d'; }
+    if(fb) fb.style.display='none';
+    if(!ans['des_'+idx]){ ans['des_'+idx]=true; updPunt(); }
+  } else {
+    el.className=el.className.replace(/\s*(correct|wrong)\b/g,'')+' wrong';
+    if(icon){ icon.textContent='✗'; icon.style.color='#ff9988'; }
+    if(fb && val.length>=1) fb.style.display='block';
+    if(ans['des_'+idx]===true){ ans['des_'+idx]=false; updPunt(); }
+    else if(!ans['des_'+idx]) ans['des_'+idx]=false;
+  }
+}
+
+// ===================== CANVAS: RECTA NUMÉRICA =====================
+function drawRectaNum(){
+  var canvas=document.getElementById('rectaCanvas');
+  if(!canvas) return;
+  var ctx2=canvas.getContext('2d');
+  var a=parseInt(document.getElementById('sl-a').value);
+  var b=parseInt(document.getElementById('sl-b').value);
+  var n=parseInt(document.getElementById('sl-n').value);
+  document.getElementById('val-a').textContent=a;
+  document.getElementById('val-b').textContent=b;
+  document.getElementById('val-n').textContent=n;
+  var res=Math.round(a*n/b*100)/100;
+  document.getElementById('canvas-result').textContent=a+'/'+b+' de '+n+' = '+res;
+  var W=canvas.width, H=canvas.height;
+  ctx2.clearRect(0,0,W,H);
+  var pad=40, lineY=H/2;
+  // Recta
+  ctx2.strokeStyle='#b0bcd0'; ctx2.lineWidth=2;
+  ctx2.beginPath(); ctx2.moveTo(pad,lineY); ctx2.lineTo(W-pad,lineY); ctx2.stroke();
+  // Marcas
+  var total=n; var scale=(W-2*pad)/total;
+  for(var i=0;i<=total;i+=Math.max(1,Math.floor(total/10))){
+    var x=pad+i*scale;
+    ctx2.strokeStyle='#c8d4e8'; ctx2.lineWidth=1;
+    ctx2.beginPath(); ctx2.moveTo(x,lineY-4); ctx2.lineTo(x,lineY+4); ctx2.stroke();
+    if(i===0||i===total||i===Math.round(res)){
+      ctx2.fillStyle='#5a6a7a'; ctx2.font='10px Source Serif 4,serif';
+      ctx2.textAlign='center'; ctx2.fillText(i, x, lineY+16);
+    }
+  }
+  // Punto N (azul)
+  var xN=pad+n*scale;
+  ctx2.beginPath(); ctx2.arc(xN,lineY,7,0,2*Math.PI);
+  ctx2.fillStyle='#1a4fa0'; ctx2.fill();
+  ctx2.fillStyle='#fff'; ctx2.font='bold 9px serif'; ctx2.textAlign='center';
+  ctx2.fillText('N',xN,lineY+3);
+  // Flecha punteada hasta resultado
+  var xR=pad+res*scale;
+  ctx2.strokeStyle='#2a7a4a'; ctx2.lineWidth=2;
+  ctx2.setLineDash([5,4]);
+  ctx2.beginPath(); ctx2.moveTo(pad,lineY-18); ctx2.lineTo(xR,lineY-18); ctx2.stroke();
+  ctx2.setLineDash([]);
+  // Punta flecha
+  ctx2.fillStyle='#2a7a4a';
+  ctx2.beginPath(); ctx2.moveTo(xR,lineY-18); ctx2.lineTo(xR-6,lineY-24); ctx2.lineTo(xR+6,lineY-24); ctx2.closePath(); ctx2.fill();
+  // Punto resultado (ámbar)
+  ctx2.beginPath(); ctx2.arc(xR,lineY,7,0,2*Math.PI);
+  ctx2.fillStyle='#c8832a'; ctx2.fill();
+  ctx2.fillStyle='#fff'; ctx2.font='bold 8px serif'; ctx2.textAlign='center';
+  ctx2.fillText('R',xR,lineY+3);
+  // Etiqueta resultado
+  ctx2.fillStyle='#c8832a'; ctx2.font='bold 11px Source Serif 4,serif';
+  ctx2.fillText(res, xR, lineY-28);
+}
+
+document.getElementById('sl-a').addEventListener('input', function(){
+  var a=parseInt(this.value), b=parseInt(document.getElementById('sl-b').value);
+  if(a>=b){ this.value=b-1; }
+  drawRectaNum();
+});
+document.getElementById('sl-b').addEventListener('input', drawRectaNum);
+document.getElementById('sl-n').addEventListener('input', drawRectaNum);
+
+// ===================== GENERADOR ALEATORIO =====================
+var _genCurrent = null;
+function genOp(){
+  var tipos=[
+    function(){
+      var denoms=[2,3,4,5,6,8,9,10];
+      var b=denoms[rnd(0,denoms.length-1)];
+      var a=rnd(1,b-1);
+      var n=rnd(2,12)*b;
+      _genCurrent={q:a+'/'+b+' de '+n, res:a*n/b};
+      document.getElementById('gen-display').textContent=a+'/'+b+' de '+n+' = ?';
+    },
+    function(){
+      var fracs=[['1','2'],['1','4'],['3','4'],['2','3'],['1','5'],['3','5']];
+      var f=fracs[rnd(0,fracs.length-1)];
+      var a=parseInt(f[0]),b=parseInt(f[1]);
+      var n=rnd(2,15)*b;
+      var dec=(a/b).toFixed(4).replace('.',',').replace(/0+$/,'').replace(/,$/,'');
+      _genCurrent={q:a+'/'+b+' = ? (expresión decimal)', res:dec};
+      document.getElementById('gen-display').textContent='Expresión decimal de '+a+'/'+b+' = ?';
+    },
+    function(){
+      var rows=[
+        {d:0.5,f:'1/2',t:'Exacto'},{d:0.25,f:'1/4',t:'Exacto'},{d:0.333,f:'1/3',t:'Periódico puro'},
+        {d:0.1666,f:'1/6',t:'Periódico mixto'},{d:0.75,f:'3/4',t:'Exacto'},{d:0.2,f:'1/5',t:'Exacto'},
+        {d:0.272727,f:'3/11',t:'Periódico puro'},{d:0.4166,f:'5/12',t:'Periódico mixto'}
+      ];
+      var r=rows[rnd(0,rows.length-1)];
+      _genCurrent={q:'Tipo de decimal de '+r.f, res:r.t};
+      document.getElementById('gen-display').textContent='¿Qué tipo de decimal es '+r.f+'?';
+    }
+  ];
+  tipos[rnd(0,tipos.length-1)]();
+  document.getElementById('gen-ans-display').style.display='none';
+  document.getElementById('gen-ans-display').textContent='';
+}
+
+function showGenAns(){
+  if(!_genCurrent) return;
+  var d=document.getElementById('gen-ans-display');
+  d.style.display='block';
+  d.textContent='Respuesta: '+_genCurrent.res;
+}
+
+document.getElementById('btn-gen').addEventListener('click', genOp);
+document.getElementById('btn-gen-ans').addEventListener('click', showGenAns);
+
+// ===================== ENVIAR Y DESCARGAR =====================
+function enviarYDescargar(){
+  var nombre=document.getElementById('alumno-nombre').value.trim();
+  var curso=document.getElementById('alumno-curso').value.trim();
+  if(!nombre||!curso){ alert('Por favor completá tu nombre y curso antes de entregar.'); return; }
+  var btn=document.getElementById('btn-enviar');
+  btn.disabled=true; btn.style.background='#5a6a7a'; btn.textContent='⏳ Enviando…';
+  document.getElementById('alumno-nombre').disabled=true;
+  document.getElementById('alumno-curso').disabled=true;
+  var tiempoSeg=Math.floor((Date.now()-_startTime)/1000);
+  var mm=Math.floor(tiempoSeg/60), ss=tiempoSeg%60;
+  var tiempoStr=(mm<10?'0':'')+mm+':'+(ss<10?'0':'')+ss;
+  var now=new Date();
+  var fechaStr=now.toLocaleDateString('es-AR');
+  var horaStr=now.toLocaleTimeString('es-AR');
+  var pts=Object.keys(ans).filter(function(k){return ans[k]===true;}).length;
+  var pct=Math.round(pts/totalItems*100);
+  var payload={
+    actividad:'Fracciones-Decimales',
+    fecha:fechaStr, hora:horaStr,
+    nombre:nombre, curso:curso,
+    correctas:pts, total:totalItems,
+    porcentaje:pct+'%', tiempo:tiempoStr
+  };
+  var msg=document.getElementById('submit-msg');
+  fetch('https://script.google.com/macros/s/AKfycbyej47_gc_j0CyYMcSwkSB_xPTs9UWy3y65yQa6cqaT1CEOA4x35qdcin_kchcdXQF5oA/exec',{
+    method:'POST', mode:'no-cors',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(payload)
+  }).then(function(){
+    btn.style.background='#2a7a4a'; btn.textContent='✓ Entregado';
+    msg.style.display='block'; msg.className='submit-ok';
+    msg.textContent='¡Ficha entregada correctamente! Descargando guía de estudio…';
+    generarGuia(nombre, curso, fechaStr, horaStr, tiempoStr, pts, pct);
+  }).catch(function(){
+    btn.style.background='#b83a2a'; btn.textContent='⚠ Sin conexión';
+    msg.style.display='block'; msg.className='submit-ko';
+    msg.textContent='No se pudo conectar. Pedile a tu profe que registre tu puntaje manualmente.';
+    generarGuia(nombre, curso, fechaStr, horaStr, tiempoStr, pts, pct);
+  });
+}
+
+function generarGuia(nombre, curso, fecha, hora, tiempo, pts, pct){
+  // Recopilar respuestas sec1
+  var sec1Rows='';
+  sec1Data.forEach(function(d,i){
+    var inp=document.getElementById('s1_'+i);
+    var val=inp?inp.value:'';
+    var ok=ans[String(i)]===true;
+    var color=ok?'#eafaf0':'#fff0ee';
+    var icon=ok?'✓':'✗';
+    sec1Rows+='<tr><td>'+(i+1)+'</td><td>'+d.a+'/'+d.b+' de '+d.n+'</td><td style="background:'+color+';font-weight:600">'+icon+' '+val+'</td><td>'+d.res+'</td><td>Dividí '+d.n+' entre '+d.b+' y multiplicá por '+d.a+'.</td></tr>';
+  });
+  // VF
+  var vfRows='';
+  vfData.forEach(function(d,i){
+    var vBtn=document.getElementById('vf'+i+'_v');
+    var fBtn=document.getElementById('vf'+i+'_f');
+    var chosen=vBtn&&vBtn.classList.contains('chosen-v')?'V':(fBtn&&fBtn.classList.contains('chosen-f')?'F':'—');
+    var ok=ans['vf_'+i]===true;
+    var color=ok?'#eafaf0':'#fff0ee';
+    var icon=ok?'✓':'✗';
+    vfRows+='<tr><td>'+(i+1)+'</td><td>'+d.stmt.replace(/<[^>]+>/g,'')+'</td><td style="background:'+color+';font-weight:600">'+icon+' '+chosen+'</td><td>'+d.ans.toUpperCase()+'</td><td>'+d.expl.replace(/<[^>]+>/g,'')+'</td></tr>';
+  });
+  // MC
+  var mcRows='';
+  mcData.forEach(function(d,i){
+    var item=document.getElementById('sec3-container').querySelectorAll('.mc-item')[i];
+    var chosenBtn=item?item.querySelector('.wrong-opt, .correct-opt'):null;
+    var chosen=chosenBtn?chosenBtn.textContent:'—';
+    var ok=ans['mc_'+i]===true;
+    var color=ok?'#eafaf0':'#fff0ee';
+    var icon=ok?'✓':'✗';
+    mcRows+='<tr><td>'+(i+1)+'</td><td>'+d.q.replace(/<[^>]+>/g,'')+'</td><td style="background:'+color+';font-weight:600">'+icon+' '+chosen+'</td><td>'+d.opts[d.correct]+'</td><td>'+d.expl+'</td></tr>';
+  });
+  // Sec6
+  var s6Rows='';
+  sec6Data.forEach(function(d,i){
+    var inp=document.getElementById('s6_'+i);
+    var val=inp?inp.value:'';
+    var ok=ans['s6_'+i]===true;
+    var color=ok?'#eafaf0':'#fff0ee';
+    var icon=ok?'✓':'✗';
+    s6Rows+='<tr><td>'+(i+1)+'</td><td>'+d.q.replace(/<[^>]+>/g,'')+'</td><td style="background:'+color+';font-weight:600">'+icon+' '+val+'</td><td>'+d.res+'</td><td>'+d.hint+'</td></tr>';
+  });
+  // Desafíos
+  var desRows='';
+  desData.forEach(function(d,i){
+    var inp=document.getElementById('des_'+i);
+    var val=inp?inp.value:'';
+    var ok=ans['des_'+i]===true;
+    var color=ok?'#eafaf0':'#fff0ee';
+    var icon=ok?'✓':'✗';
+    desRows+='<tr><td>'+(i+1)+'</td><td>'+d.ctx.replace(/<[^>]+>/g,'')+' '+d.q+'</td><td style="background:'+color+';font-weight:600">'+icon+' '+val+' '+d.unit+'</td><td>'+d.res+' '+d.unit+'</td><td>'+d.hint+'</td></tr>';
+  });
+
+  var html='<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8">'+
+    '<style>@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Serif+4:wght@300;400;600&display=swap");'+
+    'body{font-family:"Source Serif 4",Georgia,serif;background:#f0f4fa;color:#0d1a2e;margin:0;padding:0;}'+
+    '.cover{background:#0d1a2e;color:#e8f0ff;padding:40px 48px;}.cover h1{font-family:"Playfair Display",serif;font-size:2rem;font-weight:900;margin:0 0 8px;color:#ffd700;}'+
+    '.cover .sub{font-size:0.95rem;color:#a0b8d8;}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0;}'+
+    '.gitem{background:#1a2d48;border-radius:6px;padding:10px 16px;}.glabel{font-size:0.75rem;text-transform:uppercase;letter-spacing:2px;color:#7a9ac0;}.gval{font-family:"Playfair Display",serif;font-size:1.05rem;font-weight:700;color:#fff;}'+
+    '.score-box{background:#1a1208;border-radius:8px;padding:24px;text-align:center;margin:20px 0;}.score-num{font-family:"Playfair Display",serif;font-size:3.5rem;font-weight:900;color:#ffd700;}.score-sub{color:#a0a090;font-size:0.88rem;}'+
+    '.wrap{max-width:820px;margin:auto;padding:32px 40px;}'+
+    'h2{font-family:"Playfair Display",serif;font-size:1.3rem;font-weight:700;margin:28px 0 12px;border-left:4px solid #1a4fa0;padding-left:12px;}'+
+    'table{width:100%;border-collapse:collapse;font-size:0.85rem;margin-bottom:20px;}th{background:#0d1a2e;color:#fff;padding:8px 10px;text-align:left;font-family:"Playfair Display",serif;}'+
+    'td{padding:7px 10px;border-bottom:1px solid #e4ecf7;vertical-align:top;}tr:nth-child(even){background:#f8faff;}'+
+    '.rule-card{background:#fff;border-left:4px solid #1a7a8a;padding:12px 18px;border-radius:6px;margin-bottom:10px;font-size:0.9rem;}'+
+    '.rule-card strong{color:#1a7a8a;}'+
+    '</style></head><body>'+
+    '<div class="cover">'+
+    '<h1>Fracciones: Operadores y Expresiones Decimales</h1>'+
+    '<div class="sub">Guía de estudio — Prof. José Ubeda · Matemática 1° año</div>'+
+    '</div>'+
+    '<div class="wrap">'+
+    '<div class="grid">'+
+    '<div class="gitem"><div class="glabel">Alumno/a</div><div class="gval">'+nombre+'</div></div>'+
+    '<div class="gitem"><div class="glabel">Curso</div><div class="gval">'+curso+'</div></div>'+
+    '<div class="gitem"><div class="glabel">Fecha</div><div class="gval">'+fecha+'</div></div>'+
+    '<div class="gitem"><div class="glabel">Tiempo</div><div class="gval">'+tiempo+'</div></div>'+
+    '<div class="gitem"><div class="glabel">Temática</div><div class="gval">Fracciones como operadores · Decimales</div></div>'+
+    '<div class="gitem"><div class="glabel">Código ficha</div><div class="gval">JU-MAT-FRA-2025-v1.0</div></div>'+
+    '</div>'+
+    '<div class="score-box"><div class="score-num">'+pts+'/'+totalItems+'</div><div class="score-sub">'+pct+'% de respuestas correctas</div></div>'+
+    '<h2>Repaso de reglas fundamentales</h2>'+
+    '<div class="rule-card"><strong>Fracción como operador:</strong> Para calcular a/b de N → (N ÷ b) × a</div>'+
+    '<div class="rule-card"><strong>Decimal exacto:</strong> La división termina. Tiene finitas cifras decimales. (Ej: 1/4 = 0,25)</div>'+
+    '<div class="rule-card"><strong>Decimal periódico puro:</strong> El período se repite desde el primer decimal. (Ej: 1/3 = 0,333…)</div>'+
+    '<div class="rule-card"><strong>Decimal periódico mixto:</strong> Tiene ante-período y luego período. (Ej: 1/6 = 0,1666…)</div>'+
+    '<h2>Sección 1 — Calculá la fracción de la cantidad</h2>'+
+    '<table><tr><th>#</th><th>Enunciado</th><th>Tu respuesta</th><th>Solución</th><th>Explicación</th></tr>'+sec1Rows+'</table>'+
+    '<h2>Sección 2 — Verdadero o Falso</h2>'+
+    '<table><tr><th>#</th><th>Afirmación</th><th>Tu respuesta</th><th>Correcta</th><th>Explicación</th></tr>'+vfRows+'</table>'+
+    '<h2>Sección 3 — Opción múltiple</h2>'+
+    '<table><tr><th>#</th><th>Pregunta</th><th>Tu respuesta</th><th>Correcta</th><th>Explicación</th></tr>'+mcRows+'</table>'+
+    '<h2>Sección 4 — Drag: Fracción ↔ Decimal</h2>'+
+    '<table><tr><th>Fracción</th><th>Decimal correcto</th></tr>'+
+    drag1Data.map(function(d){return '<tr><td>'+d.expr+'</td><td>'+d.res+'</td></tr>';}).join('')+
+    '</table>'+
+    '<h2>Sección 5 — Clasificación de decimales</h2>'+
+    '<table><tr><th>Decimal</th><th>Categoría correcta</th></tr>'+
+    drag2Data.map(function(d){return '<tr><td>'+d.expr+'</td><td style="text-transform:capitalize">'+d.cat+'</td></tr>';}).join('')+
+    '</table>'+
+    '<h2>Sección 6 — Convertí y aplicá</h2>'+
+    '<table><tr><th>#</th><th>Enunciado</th><th>Tu respuesta</th><th>Solución</th><th>Explicación</th></tr>'+s6Rows+'</table>'+
+    '<h2>Parte III — Desafíos contextualizados</h2>'+
+    '<table><tr><th>#</th><th>Enunciado</th><th>Tu respuesta</th><th>Solución</th><th>Explicación</th></tr>'+desRows+'</table>'+
+    '<p style="font-size:0.75rem;color:#8a9ab0;text-align:center;margin-top:32px;">© 2025 José Ubeda — Uso educativo exclusivo. JU-MAT-FRA-2025-v1.0</p>'+
+    '</div></body></html>';
+
+  var blob=new Blob([html],{type:'text/html'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url; a.download='Guia-Fracciones-'+nombre.replace(/\s+/g,'_')+'.html';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// ===================== FUNCIONES GLOBALES window.* =====================
+window._chk=chk; window._sit=sit; window._enviar=enviarYDescargar;
+window.chk=chk; window.sit=sit; window.genOp=genOp; window.showGenAns=showGenAns;
+window.drawRectaNum=drawRectaNum;
+window.resetSec1=function(){ buildSec1(); };
+window.resetSec6=function(){ buildSec6(); };
+window.checkDrag1=checkDrag1; window.resetDrag1=function(){ buildDrag1(); };
+window.checkDrag2=checkDrag2; window.resetDrag2=function(){ buildDrag2(); };
+window.chkMC=chkMC; window.enviarYDescargar=enviarYDescargar;
+window.d1DragStart=d1DragStart; window.d1DragOver=d1DragOver;
+window.d1DragLeave=d1DragLeave; window.d1Drop=d1Drop;
+window.d2DragStart=d2DragStart; window.d2DragOver=d2DragOver;
+window.d2DragLeave=d2DragLeave; window.d2Drop=d2Drop;
+
+// ===================== INICIALIZACIÓN =====================
+(function init(){
+  buildSec1Init(); buildVF(); buildMC(); buildDrag1(); buildDrag2();
+  buildSec6(); buildDesafios();
+  setTimeout(drawRectaNum, 100);
+  updPunt(); genOp();
+})();
+</script>
+</body>
+</html>
