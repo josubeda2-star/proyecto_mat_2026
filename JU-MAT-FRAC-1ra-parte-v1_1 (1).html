@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fracciones — Prof. José Ubeda | 1° año</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+html, body { height: 2800px !important; margin: 0; padding: 0; }
+:root {
+  --ink:    #0d1a2e;
+  --paper:  #f0f4fa;
+  --cream:  #e4ecf7;
+  --blue:   #1a4fa0;
+  --rust:   #b83a2a;
+  --sage:   #2a7a4a;
+  --amber:  #c8832a;
+  --violet: #6b3fa0;
+  --teal:   #1a7a8a;
+  --line:   rgba(26,79,160,0.12);
+  --radius: 8px;
+}
+body {
+  font-family: 'Source Serif 4', serif;
+  background: var(--paper);
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent, transparent 31px,
+    var(--line) 31px, var(--line) 32px
+  );
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.7;
+  padding-bottom: 80px;
+}
+body::before {
+  content:'';
+  position:fixed;
+  top:0; bottom:0; left:68px;
+  width:2px;
+  background: rgba(184,58,42,0.25);
+  z-index:0;
+  pointer-events:none;
+}
+#progress-bar-wrap { position:fixed; top:0; left:0; right:0; height:6px; z-index:1000; background:#dde6f5; }
+#progress-bar-fill { height:6px; width:0%; background: linear-gradient(90deg, var(--blue), var(--teal)); transition: width 0.4s; }
+#progress-label { position:fixed; top:8px; left:50%; transform:translateX(-50%); font-family:'Playfair Display',serif; font-size:11px; text-transform:uppercase; letter-spacing:2px; color:var(--ink); opacity:0.7; z-index:1000; }
+#timer { position:fixed; top:20px; right:20px; background:var(--ink); color:#fff; border-radius:24px; padding:6px 18px; font-family:'Playfair Display',serif; font-size:18px; font-weight:700; z-index:1000; }
+#timer.urgent { background:var(--rust); }
+.page-wrap { max-width:820px; margin:auto; padding:70px 32px 40px 92px; border-left:3px solid var(--blue); z-index:1; position:relative; }
+.main-header { margin-bottom:40px; border-bottom:2px solid var(--cream); padding-bottom:20px; }
+.subject-eyebrow { font-size:9px; text-transform:uppercase; letter-spacing:4px; color:var(--blue); margin-bottom:6px; }
+.main-header h1 { font-family:'Playfair Display',serif; font-size:2.4rem; font-weight:900; margin:0 0 6px 0; }
+.meta { font-size:13px; color:#8a9ab0; }
+.section-header { display:flex; align-items:center; gap:16px; margin:36px 0 18px 0; }
+.section-num { width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-weight:700; font-size:1rem; color:#fff; flex-shrink:0; }
+.section-tag { font-size:9px; text-transform:uppercase; letter-spacing:4px; }
+.section-title { font-family:'Playfair Display',serif; font-size:1.35rem; font-weight:700; }
+.c-blue .section-num { background:var(--blue); } .c-blue .section-tag { color:var(--blue); }
+.c-amber .section-num { background:var(--amber); } .c-amber .section-tag { color:var(--amber); }
+.c-teal .section-num { background:var(--teal); } .c-teal .section-tag { color:var(--teal); }
+.c-violet .section-num { background:var(--violet); } .c-violet .section-tag { color:var(--violet); }
+.c-rust .section-num { background:var(--rust); } .c-rust .section-tag { color:var(--rust); }
+.c-sage .section-num { background:var(--sage); } .c-sage .section-tag { color:var(--sage); }
+.card { background:#fff; border-radius:var(--radius); border-left:4px solid var(--blue); padding:20px 24px; box-shadow:0 2px 8px rgba(26,79,160,0.07); margin-bottom:14px; }
+.card h3 { font-family:'Playfair Display',serif; font-size:1.05rem; margin:0 0 8px 0; }
+.card.c-rust { border-left-color:var(--rust); }
+.card.c-sage { border-left-color:var(--sage); }
+.card.c-amber { border-left-color:var(--amber); }
+.card.c-violet { border-left-color:var(--violet); }
+.card.c-teal { border-left-color:var(--teal); }
+.theory-rule { background:var(--cream); border-left:3px solid var(--teal); padding:14px 20px; font-size:0.93rem; border-radius:4px; margin:10px 0; }
+.theory-rule strong { color:var(--teal); }
+/* FRACCIÓN VERTICAL */
+.frac { display:inline-flex; flex-direction:column; align-items:center; font-family:'Playfair Display',serif; font-weight:700; line-height:1.1; margin:0 4px; vertical-align:middle; }
+.frac .num { border-bottom:2px solid currentColor; padding:0 4px 2px 4px; font-size:1em; }
+.frac .den { padding:2px 4px 0 4px; font-size:1em; }
+.frac-sm .num, .frac-sm .den { font-size:0.85em; }
+.btn { display:inline-block; padding:9px 22px; border-radius:20px; font-family:'Source Serif 4',serif; font-size:0.9rem; cursor:pointer; border:none; transition: opacity 0.2s, transform 0.15s; text-decoration:none; }
+.btn:hover { opacity:0.85; transform:translateY(-1px); }
+.btn-violet { background:var(--violet); color:#fff; }
+.btn-ink { background:var(--ink); color:#fff; }
+.btn-sage { background:var(--sage); color:#fff; }
+.btn-rust { background:var(--rust); color:#fff; }
+.btn-blue { background:var(--blue); color:#fff; }
+.btn-amber { background:var(--amber); color:#fff; }
+.btn-teal { background:var(--teal); color:#fff; }
+.btn-outline { background:transparent; color:var(--blue); border:2px solid var(--blue); }
+.ex-item { background:#fff; border-left:4px solid var(--amber); padding:14px 18px; box-shadow:0 1px 4px rgba(0,0,0,0.06); margin-bottom:10px; border-radius:0 var(--radius) var(--radius) 0; display:flex; align-items:center; flex-wrap:wrap; gap:10px; }
+.ex-input { border:2px solid #c8d4e8; border-radius:6px; padding:5px 10px; font-family:'Source Serif 4',serif; font-size:1rem; width:90px; outline:none; transition:border 0.2s, background 0.2s; }
+.ex-input.correct { border-color:var(--sage); background:#eafaf0; }
+.ex-input.wrong { border-color:var(--rust); background:#fff0ee; }
+.hint-text { font-size:0.82rem; color:var(--rust); display:none; font-style:italic; margin-top:4px; width:100%; }
+.icon-chk { font-size:1rem; font-weight:700; min-width:20px; }
+.vf-item { background:#fff; border-left:4px solid var(--teal); padding:14px 18px; display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin-bottom:10px; border-radius:0 var(--radius) var(--radius) 0; }
+.vf-stmt { flex:1; min-width:200px; }
+.vf-btns { display:flex; gap:8px; }
+.vf-btn { border:2px solid currentColor; border-radius:16px; padding:5px 16px; font-family:'Source Serif 4',serif; font-size:0.88rem; font-weight:600; cursor:pointer; background:transparent; transition:all 0.2s; }
+.vf-btn.v { color:var(--sage); }
+.vf-btn.f { color:var(--rust); }
+.vf-btn.chosen-v { background:var(--sage); color:#fff; border-color:var(--sage); }
+.vf-btn.chosen-f { background:var(--rust); color:#fff; border-color:var(--rust); }
+.vf-btn:disabled { opacity:0.55; cursor:not-allowed; }
+.vf-feedback { font-size:0.82rem; padding:6px 12px; border-radius:6px; display:none; width:100%; margin-top:4px; }
+.vf-feedback.ok { background:#eafaf0; color:var(--sage); }
+.vf-feedback.ko { background:#fff0ee; color:var(--rust); }
+.mc-item { background:#fff; border-left:4px solid var(--violet); padding:16px 20px; margin-bottom:12px; border-radius:0 var(--radius) var(--radius) 0; }
+.mc-q { font-weight:600; margin-bottom:10px; }
+.mc-opts { display:flex; flex-direction:column; gap:6px; }
+.mc-opt { border:2px solid #c8d4e8; border-radius:6px; padding:8px 14px; cursor:pointer; font-family:'Source Serif 4',serif; font-size:0.95rem; text-align:left; background:#fff; transition:all 0.2s; }
+.mc-opt:hover:not(:disabled) { border-color:var(--violet); background:#f4f0ff; }
+.mc-opt.correct-opt { background:#eafaf0; border-color:var(--sage); color:var(--sage); font-weight:600; }
+.mc-opt.wrong-opt { background:#fff0ee; border-color:var(--rust); color:var(--rust); }
+.mc-opt:disabled { cursor:not-allowed; }
+.mc-feedback { font-size:0.82rem; margin-top:8px; padding:6px 12px; border-radius:6px; display:none; }
+.mc-feedback.ok { background:#eafaf0; color:var(--sage); }
+.mc-feedback.ko { background:#fff0ee; color:var(--rust); }
+.drag-zone { display:flex; flex-wrap:wrap; gap:8px; background:var(--cream); padding:16px; border-radius:var(--radius); min-height:56px; margin-bottom:16px; }
+.drag-chip { background:var(--ink); color:#fff; border-radius:20px; padding:6px 16px; cursor:grab; font-size:0.9rem; user-select:none; transition:opacity 0.2s; display:inline-flex; align-items:center; gap:6px; }
+.drag-chip.placed { opacity:0.35; cursor:not-allowed; pointer-events:none; }
+.drag-chip:active { cursor:grabbing; }
+.drop-targets { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin-bottom:12px; }
+.drop-target { border:2px dashed #b0bcd0; border-radius:var(--radius); min-height:64px; padding:10px; display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:6px; transition:border 0.2s, background 0.2s; }
+.drop-target.drag-over { border-color:var(--blue); background:#f0f4ff; }
+.drop-target.ok { border-color:var(--sage); border-style:solid; }
+.drop-target.ko { border-color:var(--rust); border-style:solid; }
+.drop-target-label { font-size:0.78rem; font-weight:600; text-transform:uppercase; letter-spacing:2px; color:#8a9ab0; margin-bottom:6px; display:block; }
+.clas-targets { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:12px; }
+.clas-target { border:2px dashed #b0bcd0; border-radius:var(--radius); min-height:80px; padding:10px; display:flex; flex-direction:column; align-items:center; gap:6px; transition:border 0.2s, background 0.2s; }
+.clas-target.drag-over { border-color:var(--blue); background:#f0f4ff; }
+.clas-target.ok { border-color:var(--sage); border-style:solid; }
+.clas-target.ko { border-color:var(--rust); border-style:solid; }
+.clas-label { font-size:0.82rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; }
+.drag-chip2 { background:var(--blue); color:#fff; border-radius:16px; padding:5px 14px; cursor:grab; font-size:0.88rem; user-select:none; display:inline-flex; align-items:center; }
+.drag-chip2.placed { opacity:0.35; cursor:not-allowed; pointer-events:none; }
+.aplic-item { background:#fff; border-left:4px solid var(--sage); padding:14px 18px; margin-bottom:10px; border-radius:0 var(--radius) var(--radius) 0; display:flex; align-items:center; flex-wrap:wrap; gap:10px; }
+.desafio-item { background:var(--ink); color:#e8f0ff; border-left:4px solid var(--amber); padding:18px 22px; margin-bottom:14px; border-radius:0 var(--radius) var(--radius) 0; }
+.desafio-item h4 { font-family:'Playfair Display',serif; color:#ffd700; font-size:1rem; margin:0 0 8px 0; }
+.desafio-input { border:2px solid #4a6080; border-radius:6px; padding:5px 10px; font-family:'Source Serif 4',serif; font-size:1rem; width:110px; background:#1a2d48; color:#fff; outline:none; }
+.desafio-input.correct { border-color:var(--sage); background:#1a3d2a; }
+.desafio-input.wrong { border-color:var(--rust); background:#3d1a1a; }
+#score-panel { background:var(--cream); border-left:4px solid var(--blue); padding:28px 32px; border-radius:0 var(--radius) var(--radius) 0; text-align:center; margin-top:36px; }
+#score-big { font-family:'Playfair Display',serif; font-size:3rem; font-weight:900; color:var(--blue); display:block; }
+#score-bar-wrap { background:#d0daea; border-radius:8px; height:12px; margin:12px 0 6px 0; }
+#score-bar { height:12px; border-radius:8px; background:linear-gradient(90deg,var(--blue),var(--teal)); width:0%; transition:width 0.4s; }
+#score-label { font-size:0.93rem; color:#5a6a7a; }
+#score-msg { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; margin-top:8px; color:var(--ink); }
+#submit-panel { background:var(--cream); border-left:4px solid var(--ink); padding:24px 32px; border-radius:0 var(--radius) var(--radius) 0; margin-top:20px; }
+#submit-panel h3 { font-family:'Playfair Display',serif; font-size:1.15rem; margin:0 0 14px 0; }
+.submit-row { display:flex; flex-wrap:wrap; gap:12px; align-items:flex-end; margin-bottom:14px; }
+.submit-row label { font-size:0.88rem; font-weight:600; display:flex; flex-direction:column; gap:4px; }
+.submit-input { border:2px solid #c8d4e8; border-radius:6px; padding:7px 12px; font-family:'Source Serif 4',serif; font-size:1rem; min-width:180px; }
+#btn-enviar { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; padding:12px 32px; border-radius:24px; background:var(--blue); color:#fff; border:none; cursor:pointer; transition:all 0.2s; }
+#btn-enviar:disabled { cursor:not-allowed; opacity:0.85; }
+#envio-msg { font-size:0.9rem; margin-top:10px; }
+/* Canvas */
+#canvas-wrap { background:#fff; border-radius:var(--radius); padding:18px 22px; margin-bottom:14px; box-shadow:0 2px 8px rgba(26,79,160,0.07); }
+canvas { width:100%; border-radius:4px; }
+.slider-row { display:flex; flex-wrap:wrap; gap:16px; margin:10px 0; align-items:center; }
+.slider-row label { font-size:0.88rem; display:flex; align-items:center; gap:8px; }
+.slider-row input[type=range] { accent-color:var(--blue); }
+/* Generador */
+#gen-wrap { background:var(--ink); color:#e8f0ff; border-radius:var(--radius); padding:20px 24px; margin-bottom:14px; }
+#gen-expr { font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:700; min-height:44px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+#gen-ans-box { margin-top:10px; font-size:0.95rem; display:none; }
+footer { margin-top:40px; border-top:1px solid var(--cream); padding-top:14px; font-size:0.78rem; color:#8a9ab0; text-align:center; }
+@media(max-width:640px){
+  .page-wrap { padding:60px 16px 40px 24px; }
+  body::before { left:8px; }
+  .main-header h1 { font-size:1.6rem; }
+  .drop-targets, .clas-targets { grid-template-columns:1fr; }
+  #score-big { font-size:2.2rem; }
+  .submit-row { flex-direction:column; }
+}
+@media print {
+  body { background:#fff !important; }
+  #timer, #progress-bar-wrap, #progress-label, body::before { display:none !important; }
+}
+</style>
+</head>
+<body>
+<div id="progress-bar-wrap"><div id="progress-bar-fill"></div></div>
+<div id="progress-label">Progreso: <span id="progress-pct">0%</span></div>
+<div id="timer">45:00</div>
+<div class="page-wrap">
+
+<!-- HEADER -->
+<header class="main-header">
+  <div class="subject-eyebrow">Matemática · 1° año · Prof. José Ubeda</div>
+  <h1>Fracciones</h1>
+  <div class="meta">Ficha interactiva autocorregible · © 2025 José Ubeda — Todos los derechos reservados</div>
+</header>
+
+<!-- PARTE I: TEORÍA -->
+<div class="section-header c-blue">
+  <div class="section-num">I</div>
+  <div><div class="section-tag">Parte I</div><div class="section-title">Teoría y conceptos clave</div></div>
+</div>
+
+<div class="card c-teal">
+  <h3>¿Qué es una fracción?</h3>
+  <p>Una <strong>fracción</strong> representa una o varias partes de un todo dividido en partes iguales. Se escribe con dos números:</p>
+  <div style="text-align:center; margin:12px 0; font-size:1.4rem;">
+    <span class="frac"><span class="num">numerador</span><span class="den">denominador</span></span>
+  </div>
+  <div class="theory-rule">
+    <strong>Numerador:</strong> indica cuántas partes tomamos.<br>
+    <strong>Denominador:</strong> indica en cuántas partes iguales se dividió el todo. <em>Nunca puede ser cero.</em>
+  </div>
+</div>
+
+<div class="card c-blue">
+  <h3>Representación gráfica y en la recta numérica</h3>
+  <p>Una fracción puede representarse coloreando partes de una figura o ubicando un punto en la recta numérica entre dos enteros consecutivos.</p>
+  <div class="theory-rule">
+    <strong>En la recta:</strong> el denominador divide el segmento entre dos enteros en partes iguales; el numerador indica cuántos saltos se dan desde el entero menor.
+  </div>
+</div>
+
+<div class="card c-rust">
+  <h3>Expresión decimal y comparación con 1</h3>
+  <p>Para convertir una fracción a decimal, dividimos numerador entre denominador.</p>
+  <div class="theory-rule">
+    <strong>Mayor que 1:</strong> el numerador es mayor que el denominador. Ej: <span class="frac frac-sm"><span class="num">7</span><span class="den">4</span></span> = 1,75<br>
+    <strong>Igual a 1:</strong> el numerador es igual al denominador. Ej: <span class="frac frac-sm"><span class="num">5</span><span class="den">5</span></span> = 1<br>
+    <strong>Menor que 1:</strong> el numerador es menor que el denominador. Ej: <span class="frac frac-sm"><span class="num">3</span><span class="den">8</span></span> = 0,375
+  </div>
+</div>
+
+<div class="card c-sage">
+  <h3>Fracciones equivalentes e irreducibles</h3>
+  <p>Dos fracciones son <strong>equivalentes</strong> si representan la misma cantidad: se obtienen multiplicando o dividiendo numerador y denominador por el mismo número.</p>
+  <div class="theory-rule">
+    <span class="frac frac-sm"><span class="num">1</span><span class="den">2</span></span>
+    = <span class="frac frac-sm"><span class="num">2</span><span class="den">4</span></span>
+    = <span class="frac frac-sm"><span class="num">3</span><span class="den">6</span></span>
+    = <span class="frac frac-sm"><span class="num">4</span><span class="den">8</span></span>
+  </div>
+  <p style="margin-top:10px;">Una fracción es <strong>irreducible</strong> cuando el MCD del numerador y el denominador es 1 (no se puede simplificar más).</p>
+  <div class="theory-rule">
+    <strong>Ejemplo:</strong> <span class="frac frac-sm"><span class="num">6</span><span class="den">9</span></span> → MCD(6,9)=3 → irreducible: <span class="frac frac-sm"><span class="num">2</span><span class="den">3</span></span>
+  </div>
+</div>
+
+<!-- Canvas interactivo: recta numérica -->
+<div id="canvas-wrap">
+  <div style="font-family:'Playfair Display',serif; font-size:1rem; font-weight:700; margin-bottom:10px; color:var(--blue);">🎯 Explorá la recta numérica</div>
+  <div class="slider-row">
+    <label>Numerador (A): <strong id="valA">1</strong>
+      <input type="range" id="slA" min="1" max="12" value="1">
+    </label>
+    <label>Denominador (B): <strong id="valB">4</strong>
+      <input type="range" id="slB" min="2" max="12" value="4">
+    </label>
+  </div>
+  <div style="text-align:center; font-size:1.1rem; margin-bottom:8px;">
+    Fracción: <span id="frac-display" style="font-family:'Playfair Display',serif; font-weight:700;"></span>
+    &nbsp;= <span id="dec-display" style="color:var(--teal);font-weight:600;"></span>
+    &nbsp;<span id="cmp-display" style="color:var(--rust);font-weight:600; font-size:0.9rem;"></span>
+  </div>
+  <canvas id="rectaCanvas" height="80"></canvas>
+</div>
+
+<!-- Generador aleatorio -->
+<div id="gen-wrap">
+  <div style="font-family:'Playfair Display',serif; font-size:0.85rem; text-transform:uppercase; letter-spacing:3px; color:#ffd700; margin-bottom:10px;">Generador de práctica</div>
+  <div id="gen-expr"></div>
+  <div id="gen-ans-box"></div>
+  <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;">
+    <button class="btn btn-amber" id="btn-genOp">↺ Nueva fracción</button>
+    <button class="btn btn-teal" id="btn-showAns">Ver respuesta</button>
+  </div>
+</div>
+
+<!-- PARTE II -->
+<div class="section-header c-amber">
+  <div class="section-num">II</div>
+  <div><div class="section-tag">Parte II</div><div class="section-title">Ejercitación</div></div>
+</div>
+
+<!-- SEC 1 -->
+<div class="section-header c-amber">
+  <div class="section-num">1</div>
+  <div><div class="section-tag">Sección 1 · Calculá</div><div class="section-title">Expresión decimal de fracciones</div></div>
+</div>
+<p style="font-size:0.9rem;color:#5a6a7a;">Calculá la expresión decimal de cada fracción. Usá coma decimal (,) y redondeá a 2 decimales si es necesario.</p>
+<div id="sec1-container"></div>
+<div style="margin-top:8px;display:flex;gap:10px;flex-wrap:wrap;">
+  <button class="btn btn-amber" id="btn-resetSec1">↺ Nueva variante</button>
+</div>
+
+<!-- SEC 2 -->
+<div class="section-header c-teal">
+  <div class="section-num">2</div>
+  <div><div class="section-tag">Sección 2 · Verdadero o Falso</div><div class="section-title">Afirmaciones sobre fracciones</div></div>
+</div>
+<div id="sec2-container"></div>
+
+<!-- SEC 3 -->
+<div class="section-header c-violet">
+  <div class="section-num">3</div>
+  <div><div class="section-tag">Sección 3 · Opción múltiple</div><div class="section-title">Elegí la respuesta correcta</div></div>
+</div>
+<div id="sec3-container"></div>
+
+<!-- SEC 4 -->
+<div class="section-header c-rust">
+  <div class="section-num">4</div>
+  <div><div class="section-tag">Sección 4 · Asociación</div><div class="section-title">Uní cada fracción con su equivalente irreducible</div></div>
+</div>
+<p style="font-size:0.9rem;color:#5a6a7a;">Arrastrá cada ficha al casillero con su fracción irreducible equivalente.</p>
+<div class="drag-zone" id="drag1-chips"></div>
+<div class="drop-targets" id="drag1-targets"></div>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px;">
+  <button class="btn btn-rust" id="btn-checkDrag1">Verificar asociación</button>
+  <button class="btn btn-outline" id="btn-resetDrag1">↺ Reiniciar</button>
+</div>
+<div id="drag1-fb" style="font-size:0.88rem;margin-top:6px;"></div>
+
+<!-- SEC 5 -->
+<div class="section-header c-sage">
+  <div class="section-num">5</div>
+  <div><div class="section-tag">Sección 5 · Clasificación</div><div class="section-title">Clasificá cada fracción según su relación con 1</div></div>
+</div>
+<p style="font-size:0.9rem;color:#5a6a7a;">Arrastrá cada fracción a la categoría correcta.</p>
+<div class="drag-zone" id="drag2-chips"></div>
+<div class="clas-targets" id="drag2-targets"></div>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px;">
+  <button class="btn btn-sage" id="btn-checkDrag2">Verificar clasificación</button>
+  <button class="btn btn-outline" id="btn-resetDrag2">↺ Reiniciar</button>
+</div>
+<div id="drag2-fb" style="font-size:0.88rem;margin-top:6px;"></div>
+
+<!-- SEC 6 -->
+<div class="section-header c-sage">
+  <div class="section-num">6</div>
+  <div><div class="section-tag">Sección 6 · Fracciones equivalentes</div><div class="section-title">Completá el numerador o denominador</div></div>
+</div>
+<p style="font-size:0.9rem;color:#5a6a7a;">Completá el número que falta para que las fracciones sean equivalentes.</p>
+<div id="sec6-container"></div>
+<div style="margin-top:8px;display:flex;gap:10px;flex-wrap:wrap;">
+  <button class="btn btn-sage" id="btn-resetSec6">↺ Nueva variante</button>
+</div>
+
+<!-- PARTE III -->
+<div class="section-header c-rust">
+  <div class="section-num">III</div>
+  <div><div class="section-tag">Parte III</div><div class="section-title">Desafíos contextualizados</div></div>
+</div>
+<p style="font-size:0.9rem;color:#5a6a7a;">Resolvé cada situación problemática. Escribí tu respuesta como decimal con coma.</p>
+<div id="desafios-container"></div>
+
+<!-- PANEL DE PUNTAJE -->
+<div id="score-panel">
+  <span id="score-big">0 / 42</span>
+  <div id="score-bar-wrap"><div id="score-bar"></div></div>
+  <div id="score-label">0 de 42 ítems correctos (0%)</div>
+  <div id="score-msg">¡Completá los ejercicios!</div>
+</div>
+
+<!-- PANEL ENVÍO -->
+<div id="submit-panel">
+  <h3>📤 Entregar ficha</h3>
+  <div class="submit-row">
+    <label>Nombre y apellido
+      <input class="submit-input" type="text" id="alumno-nombre" placeholder="Tu nombre completo">
+    </label>
+    <label>Curso / División
+      <input class="submit-input" type="text" id="alumno-curso" placeholder="Ej: 1° A">
+    </label>
+  </div>
+  <button class="btn" id="btn-enviar" style="background:var(--blue);color:#fff;">Entregar y descargar guía</button>
+  <div id="envio-msg"></div>
+</div>
+
+<footer>
+  Matemática — Fracciones<br>
+  Prof. José Ubeda · 1° año · Ficha interactiva autocorregible<br>
+  <span style="font-size:0.72rem;opacity:0.6;">© 2025 José Ubeda — Uso educativo exclusivo. Prohibida reproducción sin autorización. Script ID: JU-MAT-FRAC-2025-v1.U</span>
+</footer>
+
+</div><!-- end page-wrap -->
+
+<script>
+(function(){
+  document.addEventListener('contextmenu',function(e){e.preventDefault();});
+  document.addEventListener('keydown',function(e){
+    if(e.key==='F12')e.preventDefault();
+    if(e.ctrlKey&&e.shiftKey&&(e.key==='I'||e.key==='J'||e.key==='C'))e.preventDefault();
+    if(e.ctrlKey&&e.key==='u')e.preventDefault();
+    if(e.ctrlKey&&e.key==='s')e.preventDefault();
+  });
+  var _d=function(){
+    var _t=new Date();debugger;
+    if(new Date()-_t>100){document.body.innerHTML='<p style="font-family:serif;text-align:center;margin-top:20vh;font-size:1.3rem;color:#b83a2a">Acceso no permitido.<br><small>Cerrá las herramientas de desarrollador.</small></p>';}
+  };
+  setInterval(_d,3000);
+})();
+
+function qhash(s){
+  s=String(s).trim().toLowerCase().replace(',','.');
+  // normalize: also accept comma as decimal
+  let h=2166136261;
+  for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=(h*16777619)>>>0;}
+  return h.toString(16);
+}
+
+// Pre-computed hashes helper (run once to verify)
+// qhash('0.25') etc.
+
+var _startTime=Date.now();
+var _timerSecs=2700;
+var _timerInt=setInterval(function(){
+  _timerSecs--;
+  if(_timerSecs<=0){clearInterval(_timerInt);_timerSecs=0;}
+  var m=Math.floor(_timerSecs/60),s=_timerSecs%60;
+  document.getElementById('timer').textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s;
+  document.getElementById('timer').className=_timerSecs<=300?'urgent':'';
+},1000);
+
+var ans={};
+var totalItems=42;
+
+function rnd(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
+function rndNZ(min,max){var v=0;while(v===0)v=rnd(min,max);return v;}
+function shuffle(arr){for(var i=arr.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=arr[i];arr[i]=arr[j];arr[j]=t;}return arr;}
+
+function mcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){var t=b;b=a%b;a=t;}return a;}
+function fracRedu(n,d){var g=mcd(n,d);return {n:n/g,d:d/g};}
+function toDecStr(n,d){var v=n/d;var exact4=parseFloat(v.toFixed(4));// if value terminates within 4 decimal places, use exact; otherwise round to 2
+if(Math.abs(v-exact4)<1e-9){return exact4.toString().replace('.',',');}return parseFloat(v.toFixed(2)).toString().replace('.',',');}
+function toDecStrRounded(n,d){var v=n/d;return parseFloat(v.toFixed(2)).toString().replace('.',',');}
+
+// Fracción HTML vertical
+function fracHTML(n,d,cls){cls=cls||'';return '<span class="frac '+cls+'"><span class="num">'+n+'</span><span class="den">'+d+'</span></span>';}
+
+function updPunt(){
+  var pts=Object.keys(ans).filter(function(k){return ans[k]===true;}).length;
+  document.getElementById('score-big').textContent=pts+' / '+totalItems;
+  var pct=Math.round(pts/totalItems*100);
+  document.getElementById('score-bar').style.width=pct+'%';
+  document.getElementById('score-label').textContent=pts+' de '+totalItems+' ítems correctos ('+pct+'%)';
+  var msgs=['¡Completá los ejercicios!','¡Seguí así!','¡Muy buen trabajo!','¡Excelente!','¡Perfecto! 100/100'];
+  document.getElementById('score-msg').textContent=msgs[pct<20?0:pct<50?1:pct<80?2:pct<100?3:4];
+  document.getElementById('progress-bar-fill').style.width=pct+'%';
+  document.getElementById('progress-pct').textContent=pct+'%';
+}
+
+function chk(inputId,expectedHash,fbId,ansKey,altHash){
+  var el=document.getElementById(inputId);
+  var icon=document.getElementById(inputId+'_icon');
+  var fb=document.getElementById(fbId);
+  var val=el.value.trim();
+  if(val===''){
+    el.className=el.className.replace(/\s*(correct|wrong)\b/g,'');
+    if(icon)icon.textContent='';return;
+  }
+  var got=qhash(val);
+  if(got===expectedHash||(altHash&&got===altHash)){
+    el.className=el.className.replace(/\s*(correct|wrong)\b/g,'')+' correct';
+    if(icon)icon.textContent='✓';
+    if(fb)fb.style.display='none';
+    if(!ans[ansKey]){ans[ansKey]=true;updPunt();}
+  } else {
+    el.className=el.className.replace(/\s*(correct|wrong)\b/g,'')+' wrong';
+    if(icon)icon.textContent='✗';
+    if(fb&&val.length>=1)fb.style.display='block';
+    if(ans[ansKey]===true){ans[ansKey]=false;updPunt();}
+    else if(!ans[ansKey])ans[ansKey]=false;
+  }
+}
+
+function sit(id,choice,expectedHash,ansKey){
+  var vBtn=document.getElementById(id+'_v');
+  var fBtn=document.getElementById(id+'_f');
+  var fb=document.getElementById(id+'_fb');
+  vBtn.disabled=true;fBtn.disabled=true;
+  var got=qhash(choice);
+  if(got===expectedHash){
+    if(choice==='v')vBtn.classList.add('chosen-v');else fBtn.classList.add('chosen-f');
+    fb.className='vf-feedback ok';fb.style.display='block';
+    fb.textContent='✓ Correcto. '+vfData[parseInt(ansKey)].expl;
+    if(!ans['vf_'+ansKey]){ans['vf_'+ansKey]=true;updPunt();}
+  } else {
+    if(choice==='v')vBtn.classList.add('chosen-v');else fBtn.classList.add('chosen-f');
+    fb.className='vf-feedback ko';fb.style.display='block';
+    fb.textContent='✗ Respuesta incorrecta. Releé la afirmación y revisá las reglas.';
+    if(!ans['vf_'+ansKey])ans['vf_'+ansKey]=false;
+  }
+}
+
+function chkMC(wrapId,chosenIdx,mcIdx){
+  var wrap=document.getElementById(wrapId);
+  var opts=wrap.querySelectorAll('.mc-opt');
+  opts.forEach(function(o){o.disabled=true;});
+  var fb=document.getElementById(wrapId+'_fb');
+  var d=mcData[mcIdx];
+  // Compare by original index stored in data-orig (shuffle-proof)
+  var chosenOrig=parseInt(opts[chosenIdx].getAttribute('data-orig'));
+  if(chosenOrig===d.correct){
+    opts[chosenIdx].classList.add('correct-opt');
+    fb.className='mc-feedback ok';fb.style.display='block';
+    fb.textContent='✓ Correcto. '+d.expl;
+    if(!ans['mc_'+mcIdx]){ans['mc_'+mcIdx]=true;updPunt();}
+  } else {
+    opts[chosenIdx].classList.add('wrong-opt');
+    fb.className='mc-feedback ko';fb.style.display='block';
+    fb.textContent='✗ Revisá el enunciado y volvé a pensar el procedimiento.';
+    if(!ans['mc_'+mcIdx])ans['mc_'+mcIdx]=false;
+  }
+}
+
+// ===== SECCIÓN 1: EXPRESIÓN DECIMAL =====
+// Pool de fracciones con decimales exactos o redondeables
+var sec1Pool=[
+  {n:1,d:2},{n:3,d:4},{n:1,d:5},{n:2,d:5},{n:3,d:5},
+  {n:1,d:4},{n:7,d:10},{n:3,d:8},{n:5,d:8},{n:1,d:10},
+  {n:2,d:3},{n:5,d:6},{n:7,d:8},{n:4,d:5},{n:9,d:10},
+  {n:1,d:3},{n:5,d:4},{n:7,d:4},{n:5,d:2},{n:11,d:4}
+];
+var sec1Items=[];
+
+function buildSec1(){
+  var pool=shuffle(sec1Pool.slice()).slice(0,10);
+  sec1Items=pool;
+  var c=document.getElementById('sec1-container');
+  c.innerHTML='';
+  pool.forEach(function(fr,i){
+    var dec=toDecStr(fr.n,fr.d);
+    var decRounded=toDecStrRounded(fr.n,fr.d);
+    var h=qhash(dec);
+    var hAlt=(dec!==decRounded)?qhash(decRounded):null;
+    var div=document.createElement('div');
+    div.className='ex-item';
+    div.innerHTML=fracHTML(fr.n,fr.d)+
+      ' <span style="margin:0 8px;">= </span>'+
+      '<input class="ex-input" type="text" id="s1_'+i+'" placeholder="0,00" autocomplete="off">'+
+      '<span class="icon-chk" id="s1_'+i+'_icon"></span>'+
+      '<span class="hint-text" id="s1_'+i+'_fb">Dividí el numerador entre el denominador. Usá coma decimal.</span>';
+    c.appendChild(div);
+    (function(idx,hash,altH,key){
+      document.getElementById('s1_'+idx).addEventListener('input',function(){
+        chk('s1_'+idx,hash,'s1_'+idx+'_fb',key,altH);
+      });
+    })(i,h,hAlt,String(i));
+  });
+}
+
+// ===== SECCIÓN 2: V/F =====
+var vfData=[
+  {stmt:'En la fracción <span class="frac frac-sm"><span class="num">3</span><span class="den">5</span></span>, el numerador es 5.',ans:'f',expl:'El numerador es el número de arriba: 3.'},
+  {stmt:'La fracción <span class="frac frac-sm"><span class="num">4</span><span class="den">4</span></span> es igual a 1.',ans:'v',expl:'Cuando numerador y denominador son iguales, la fracción vale 1.'},
+  {stmt:'La fracción <span class="frac frac-sm"><span class="num">7</span><span class="den">3</span></span> es menor que 1.',ans:'f',expl:'Como 7 > 3, la fracción es mayor que 1.'},
+  {stmt:'<span class="frac frac-sm"><span class="num">2</span><span class="den">4</span></span> y <span class="frac frac-sm"><span class="num">1</span><span class="den">2</span></span> son fracciones equivalentes.',ans:'v',expl:'Al simplificar 2/4 dividiendo por 2 obtenemos 1/2.'},
+  {stmt:'La fracción irreducible de <span class="frac frac-sm"><span class="num">6</span><span class="den">8</span></span> es <span class="frac frac-sm"><span class="num">3</span><span class="den">4</span></span>.',ans:'v',expl:'MCD(6,8)=2. Dividiendo ambos por 2 se obtiene 3/4.'},
+  {stmt:'Para obtener una fracción equivalente se puede sumar el mismo número al numerador y al denominador.',ans:'f',expl:'Las fracciones equivalentes se obtienen multiplicando o dividiendo por un mismo número (≠0).'},
+  {stmt:'La expresión decimal de <span class="frac frac-sm"><span class="num">1</span><span class="den">4</span></span> es 0,25.',ans:'v',expl:'1 ÷ 4 = 0,25.'},
+  {stmt:'Toda fracción con denominador 10 puede escribirse como décimas en la recta numérica.',ans:'v',expl:'El denominador 10 indica que el segmento entre enteros se divide en 10 partes iguales (décimas).'}
+];
+
+function buildVF(){
+  var c=document.getElementById('sec2-container');
+  c.innerHTML='';
+  vfData.forEach(function(d,i){
+    var h=qhash(d.ans);
+    var dAltH=null;
+    if(!d.ans.includes('/')){var dRounded=parseFloat(d.ans.replace(',','.')).toFixed(2).replace('.',',');dAltH=(dRounded!==d.ans)?qhash(dRounded):null;}
+    var div=document.createElement('div');
+    div.className='vf-item';
+    div.innerHTML='<div class="vf-stmt">'+(i+1)+'. '+d.stmt+'</div>'+
+      '<div class="vf-btns">'+
+      '<button class="vf-btn v" id="vf_'+i+'_v">Verdadero</button>'+
+      '<button class="vf-btn f" id="vf_'+i+'_f">Falso</button>'+
+      '</div>'+
+      '<div class="vf-feedback" id="vf_'+i+'_fb"></div>';
+    c.appendChild(div);
+    (function(idx,hash){
+      document.getElementById('vf_'+idx+'_v').addEventListener('click',function(){sit('vf_'+idx,'v',hash,String(idx));});
+      document.getElementById('vf_'+idx+'_f').addEventListener('click',function(){sit('vf_'+idx,'f',hash,String(idx));});
+    })(i,h);
+  });
+}
+
+// ===== SECCIÓN 3: OPCIÓN MÚLTIPLE =====
+var mcData=[
+  {q:'¿Cuál es la forma irreducible de '+fracHTML(6,9)+'?',
+   opts:[fracHTML(2,3),fracHTML(3,6),fracHTML(6,9),fracHTML(1,3)],correct:0,
+   expl:'MCD(6,9)=3. Dividiendo: 6÷3=2 y 9÷3=3. Irreducible: 2/3.'},
+  {q:'¿Qué fracción es equivalente a '+fracHTML(3,5)+'?',
+   opts:[fracHTML(6,15),fracHTML(9,15),fracHTML(6,10),fracHTML(4,6)],correct:2,
+   expl:'3×2=6 y 5×2=10. Entonces 6/10 es equivalente a 3/5.'},
+  {q:'¿Cuál de estas fracciones es mayor que 1?',
+   opts:[fracHTML(2,5),fracHTML(4,4),fracHTML(7,6),fracHTML(1,3)],correct:2,
+   expl:'7/6: el numerador (7) es mayor que el denominador (6), por lo tanto es mayor que 1.'},
+  {q:'¿Dónde se ubica '+fracHTML(3,4)+' en la recta numérica?',
+   opts:['Entre 0 y 1, más cerca de 1','Entre 1 y 2','Exactamente en 1','Entre 0 y 1, más cerca de 0'],correct:0,
+   expl:'3/4 = 0,75. Está entre 0 y 1, y como 0,75 > 0,5 está más cerca de 1.'},
+  {q:'¿Cuál es la expresión decimal de '+fracHTML(3,8)+'?',
+   opts:['0,38','3,8','0,375 ≈ 0,38','0,3'],correct:2,
+   expl:'3 ÷ 8 = 0,375. Redondeando a 2 decimales: 0,38.'},
+  {q:'Si '+fracHTML('n','5')+' = '+fracHTML(4,10)+', ¿cuánto vale n?',
+   opts:['1','2','4','8'],correct:1,
+   expl:'4/10 = 2/5 (dividiendo por 2). Entonces n = 2.'}
+];
+
+function buildMC(){
+  var c=document.getElementById('sec3-container');
+  c.innerHTML='';
+  mcData.forEach(function(d,i){
+    var shuffled=d.opts.map(function(o,oi){return {text:o,origIdx:oi};});
+    shuffle(shuffled);
+    var newCorrect=shuffled.findIndex(function(x){return x.origIdx===d.correct;});
+    var div=document.createElement('div');
+    div.className='mc-item';
+    div.id='mc_wrap_'+i;
+    var optsHTML=shuffled.map(function(o,si){
+      return '<button class="mc-opt" data-mc="'+i+'" data-si="'+si+'" data-orig="'+o.origIdx+'">'+o.text+'</button>';
+    }).join('');
+    div.innerHTML='<div class="mc-q">'+(i+1)+'. '+d.q+'</div>'+
+      '<div class="mc-opts">'+optsHTML+'</div>'+
+      '<div class="mc-feedback" id="mc_wrap_'+i+'_fb"></div>';
+    c.appendChild(div);
+    var btns=div.querySelectorAll('.mc-opt');
+    btns.forEach(function(btn,si){
+      btn.addEventListener('click',function(){
+        chkMC('mc_wrap_'+i,si,i);
+      });
+    });
+  });
+}
+
+// ===== SECCIÓN 4: DRAG MATCH (fracción → irreducible) =====
+var drag1Data=[
+  {expr:fracHTML(2,4),res:fracHTML(1,2),resText:'1/2'},
+  {expr:fracHTML(3,9),res:fracHTML(1,3),resText:'1/3'},
+  {expr:fracHTML(4,6),res:fracHTML(2,3),resText:'2/3'},
+  {expr:fracHTML(6,8),res:fracHTML(3,4),resText:'3/4'},
+  {expr:fracHTML(5,10),res:fracHTML(1,2),resText:'1/2'},
+  {expr:fracHTML(4,10),res:fracHTML(2,5),resText:'2/5'}
+];
+var drag1Placed={};
+var drag1DragIdx=null;
+
+function buildDrag1(){
+  drag1Placed={};
+  ans['drag1']=undefined;
+  var chips=document.getElementById('drag1-chips');
+  var targets=document.getElementById('drag1-targets');
+  chips.innerHTML='';
+  targets.innerHTML='';
+  document.getElementById('drag1-fb').textContent='';
+
+  // Create shuffled target order
+  var targetOrder=shuffle(drag1Data.map(function(_,i){return i;}));
+
+  drag1Data.forEach(function(d,i){
+    var chip=document.createElement('div');
+    chip.className='drag-chip';
+    chip.id='d1chip_'+i;
+    chip.innerHTML=d.expr;
+    chip.draggable=true;
+    chip.addEventListener('dragstart',function(){window.d1DragStart(i);});
+    chips.appendChild(chip);
+  });
+
+  targetOrder.forEach(function(ti){
+    var d=drag1Data[ti];
+    var target=document.createElement('div');
+    target.className='drop-target';
+    target.id='d1target_'+ti;
+    target.innerHTML='<span class="drop-target-label">'+d.res+'</span>';
+    target.addEventListener('dragover',function(e){window.d1DragOver(e,ti);});
+    target.addEventListener('dragleave',function(){window.d1DragLeave(ti);});
+    target.addEventListener('drop',function(e){window.d1Drop(e,ti);});
+    targets.appendChild(target);
+  });
+}
+
+function d1DragStart(i){drag1DragIdx=i;}
+function d1DragOver(e,ti){e.preventDefault();document.getElementById('d1target_'+ti).classList.add('drag-over');}
+function d1DragLeave(ti){document.getElementById('d1target_'+ti).classList.remove('drag-over');}
+function d1Drop(e,ti){
+  e.preventDefault();
+  var target=document.getElementById('d1target_'+ti);
+  target.classList.remove('drag-over');
+  if(drag1DragIdx===null)return;
+
+  // Remove chip from previous target if placed
+  Object.keys(drag1Placed).forEach(function(ci){
+    if(drag1Placed[ci]===ti){
+      delete drag1Placed[ci];
+      document.getElementById('d1chip_'+ci).classList.remove('placed');
+    }
+  });
+
+  drag1Placed[drag1DragIdx]=ti;
+  document.getElementById('d1chip_'+drag1DragIdx).classList.add('placed');
+
+  // Show chip in target
+  var existing=target.querySelector('.placed-chip');
+  if(existing)existing.remove();
+  var placed=document.createElement('span');
+  placed.className='placed-chip drag-chip';
+  placed.style.background='var(--blue)';
+  placed.innerHTML=drag1Data[drag1DragIdx].expr;
+  target.appendChild(placed);
+  drag1DragIdx=null;
+}
+function checkDrag1(){
+  var correct=0;
+  drag1Data.forEach(function(_,i){
+    var t=document.getElementById('d1target_'+i);
+    t.classList.remove('ok','ko');
+    var ci=drag1Placed[i]; // chip index placed in target i
+    // check: chip i should go to target i (same index = same fracción)
+    // We need: drag1Placed[chipIdx] === targetIdx where chipIdx reduces to same as target
+    // Simpler: for each chip, its target should be same index
+    if(ci!==undefined && ci===i){t.classList.add('ok');correct++;}
+    else if(Object.values(drag1Placed).includes(i)){t.classList.add('ko');}
+  });
+
+  // Recalc: correct when chipIdx===targetIdx
+  var allCorrect=drag1Data.every(function(_,i){return drag1Placed[i]===i;});
+  if(allCorrect){
+    ans['drag1']=true;
+    document.getElementById('drag1-fb').innerHTML='<span style="color:var(--sage)">✓ ¡Todas las asociaciones son correctas!</span>';
+  } else {
+    ans['drag1']=false;
+    document.getElementById('drag1-fb').innerHTML='<span style="color:var(--rust)">✗ Hay asociaciones incorrectas. Revisá cada fracción y su forma irreducible.</span>';
+  }
+  updPunt();
+}
+
+// ===== SECCIÓN 5: DRAG CLASIFICACIÓN =====
+// cat: 0=Mayor que 1, 1=Igual a 1, 2=Menor que 1
+var drag2Data=[
+  {expr:fracHTML(5,3),cat:0,res:'Mayor que 1'},
+  {expr:fracHTML(7,7),cat:1,res:'Igual a 1'},
+  {expr:fracHTML(2,5),cat:2,res:'Menor que 1'},
+  {expr:fracHTML(9,4),cat:0,res:'Mayor que 1'},
+  {expr:fracHTML(3,3),cat:1,res:'Igual a 1'},
+  {expr:fracHTML(1,6),cat:2,res:'Menor que 1'}
+];
+var drag2Placed={};
+var drag2DragIdx=null;
+var catLabels=['Mayor que 1','Igual a 1','Menor que 1'];
+var catColors=['var(--teal)','var(--blue)','var(--violet)'];
+
+function buildDrag2(){
+  drag2Placed={};
+  ans['drag2']=undefined;
+  var chips=document.getElementById('drag2-chips');
+  var targets=document.getElementById('drag2-targets');
+  chips.innerHTML='';
+  targets.innerHTML='';
+  document.getElementById('drag2-fb').textContent='';
+
+  shuffle(drag2Data).forEach(function(_,i){});// just for looks; actual data order kept
+  drag2Data.forEach(function(d,i){
+    var chip=document.createElement('div');
+    chip.className='drag-chip2';
+    chip.id='d2chip_'+i;
+    chip.innerHTML=d.expr;
+    chip.draggable=true;
+    chip.addEventListener('dragstart',function(){window.d2DragStart(i);});
+    chips.appendChild(chip);
+  });
+
+  catLabels.forEach(function(label,ci){
+    var target=document.createElement('div');
+    target.className='clas-target';
+    target.id='d2target_'+ci;
+    target.innerHTML='<div class="clas-label" style="color:'+catColors[ci]+'">'+label+'</div>';
+    target.addEventListener('dragover',function(e){window.d2DragOver(e,ci);});
+    target.addEventListener('dragleave',function(){window.d2DragLeave(ci);});
+    target.addEventListener('drop',function(e){window.d2Drop(e,ci);});
+    targets.appendChild(target);
+  });
+}
+
+function d2DragStart(i){drag2DragIdx=i;}
+function d2DragOver(e,ci){e.preventDefault();document.getElementById('d2target_'+ci).classList.add('drag-over');}
+function d2DragLeave(ci){document.getElementById('d2target_'+ci).classList.remove('drag-over');}
+function d2Drop(e,ci){
+  e.preventDefault();
+  document.getElementById('d2target_'+ci).classList.remove('drag-over');
+  if(drag2DragIdx===null)return;
+  // Remove previous placement
+  if(drag2Placed[drag2DragIdx]!==undefined){
+    var prev=document.getElementById('d2chip_'+drag2DragIdx+'_placed');
+    if(prev)prev.remove();
+  }
+  drag2Placed[drag2DragIdx]=ci;
+  document.getElementById('d2chip_'+drag2DragIdx).classList.add('placed');
+  var placed=document.createElement('span');
+  placed.className='drag-chip2';
+  placed.id='d2chip_'+drag2DragIdx+'_placed';
+  placed.style.fontSize='0.82rem';
+  placed.style.cursor='default';
+  placed.innerHTML=drag2Data[drag2DragIdx].expr;
+  document.getElementById('d2target_'+ci).appendChild(placed);
+  drag2DragIdx=null;
+}
+function checkDrag2(){
+  var correct=0;
+  catLabels.forEach(function(_,ci){
+    document.getElementById('d2target_'+ci).classList.remove('ok','ko');
+  });
+  drag2Data.forEach(function(d,i){
+    if(drag2Placed[i]===d.cat)correct++;
+  });
+  var all=correct===drag2Data.length;
+  if(all){
+    ans['drag2']=true;
+    document.getElementById('drag2-fb').innerHTML='<span style="color:var(--sage)">✓ ¡Clasificación perfecta!</span>';
+    catLabels.forEach(function(_,ci){document.getElementById('d2target_'+ci).classList.add('ok');});
+  } else {
+    ans['drag2']=false;
+    document.getElementById('drag2-fb').innerHTML='<span style="color:var(--rust)">✗ Hay errores. Recordá: si num > den → mayor que 1; si num = den → igual a 1; si num < den → menor que 1.</span>';
+  }
+  updPunt();
+}
+
+// ===== SECCIÓN 6: FRACCIONES EQUIVALENTES =====
+// Pool: find the missing number (num or den)
+var sec6Pool=[];
+function genSec6Pool(){
+  var bases=[
+    {n:1,d:2},{n:1,d:3},{n:2,d:3},{n:1,d:4},{n:3,d:4},
+    {n:1,d:5},{n:2,d:5},{n:3,d:5},{n:4,d:5},{n:1,d:6}
+  ];
+  var pool=[];
+  var mults=[2,3,4,5,6];
+  bases.forEach(function(b){
+    mults.forEach(function(m){
+      pool.push({base:b,mult:m});
+    });
+  });
+  return pool;
+}
+
+var sec6Items=[];
+function buildSec6(){
+  if(!sec6Pool.length)sec6Pool=genSec6Pool();
+  var pool=shuffle(sec6Pool.slice()).slice(0,10);
+  sec6Items=pool;
+  var c=document.getElementById('sec6-container');
+  c.innerHTML='';
+  pool.forEach(function(item,i){
+    var b=item.base,m=item.mult;
+    var n2=b.n*m,d2=b.d*m;
+    // randomly hide num or den of equivalent fraction
+    var hideNum=Math.random()>0.5;
+    var answer=hideNum?n2:d2;
+    var h=qhash(String(answer));
+    var eq=hideNum?
+      '<span class="frac"><span class="num"><input class="ex-input" type="text" id="s6_'+i+'" placeholder="?" autocomplete="off" style="width:60px;text-align:center;"></span><span class="den">'+d2+'</span></span>':
+      '<span class="frac"><span class="num">'+n2+'</span><span class="den"><input class="ex-input" type="text" id="s6_'+i+'" placeholder="?" autocomplete="off" style="width:60px;text-align:center;"></span></span>';
+    var div=document.createElement('div');
+    div.className='aplic-item';
+    div.innerHTML=fracHTML(b.n,b.d)+
+      ' = '+eq+
+      ' <span class="icon-chk" id="s6_'+i+'_icon"></span>'+
+      '<span class="hint-text" id="s6_'+i+'_fb">Pensá en qué número multiplica o divide al numerador para obtener el denominador equivalente.</span>';
+    c.appendChild(div);
+    (function(idx,hash){
+      document.getElementById('s6_'+idx).addEventListener('input',function(){
+        chk('s6_'+idx,hash,'s6_'+idx+'_fb','s6_'+idx);
+      });
+    })(i,h);
+  });
+}
+
+// ===== PARTE III: DESAFÍOS =====
+var desafiosData=[];
+function buildDesafios(){
+  // Generate 6 contextual problems with random values
+  var a=rnd(1,4),b=rnd(5,9); // a/b < 1
+  var c=rnd(3,7),d=rnd(2,c-1); // d/c > 1 wait, c>d so c/d>1
+  var e=rnd(2,6),f=rnd(1,e-1);
+  var g=rnd(4,10),h2=rnd(2,g);
+  var j=rnd(3,8),k=rnd(1,j-1);
+  var p=rnd(2,9),q=rnd(1,p-1);
+
+  desafiosData=[
+    {
+      id:'des_0',
+      title:'🍕 Pizza entre amigos',
+      text:'Una pizza se cortó en '+b+' porciones iguales. Nico se comió '+a+' porciones. ¿Qué fracción de la pizza comió Nico? Expresala como decimal (redondeá a 2 decimales si es necesario).',
+      ans:toDecStr(a,b),
+      hint:'Formá la fracción: porciones comidas sobre total de porciones. Luego dividí.'
+    },
+    {
+      id:'des_1',
+      title:'📏 Cinta de costura',
+      text:'Una cinta mide '+c+' metros. Se usaron '+d+' metros. ¿Qué fracción del total se usó? Expresala como decimal.',
+      ans:toDecStr(d,c),
+      hint:'La fracción es metros usados sobre metros totales. Dividí para obtener el decimal.'
+    },
+    {
+      id:'des_2',
+      title:'🎯 Tiros al arco',
+      text:'Un jugador pateó '+j+' penales y convirtió '+k+'. ¿Qué fracción de los penales convirtió? Escribí la fracción irreducible como dos números separados por / (ej: 2/3).',
+      ans:(function(){var r=fracRedu(k,j);return r.n+'/'+r.d;})(),
+      hint:'Formá la fracción convertidos/totales y reducila dividiendo por el MCD.'
+    },
+    {
+      id:'des_3',
+      title:'💧 Bidón de agua',
+      text:'Un bidón tiene '+g+' litros de capacidad y contiene '+h2+' litros. ¿Qué fracción del bidón está llena? Expresala como decimal.',
+      ans:toDecStr(h2,g),
+      hint:'Fracción = litros actuales / capacidad total. Luego dividí.'
+    },
+    {
+      id:'des_4',
+      title:'📚 Libros leídos',
+      text:'María tiene que leer '+e+' capítulos de un libro. Ya leyó '+f+'. ¿Qué fracción le falta leer? Expresala como decimal.',
+      ans:toDecStr(e-f,e),
+      hint:'Capítulos que faltan = total − leídos. Formá la fracción sobre el total.'
+    },
+    {
+      id:'des_5',
+      title:'🏃 Vuelta al patio',
+      text:'El patio de la escuela mide '+p*10+' metros de largo. Lucas corrió '+q*10+' metros. ¿Qué fracción de la vuelta completó? Escribila como fracción irreducible (num/den).',
+      ans:(function(){var r=fracRedu(q,p);return r.n+'/'+r.d;})(),
+      hint:'Fracción = metros recorridos / metros totales. Simplificá dividiendo por el MCD.'
+    }
+  ];
+
+  var c2=document.getElementById('desafios-container');
+  c2.innerHTML='';
+  desafiosData.forEach(function(d,i){
+    var h=qhash(d.ans);
+    var dAltH=null;
+    if(!d.ans.includes('/')){var dRounded=parseFloat(d.ans.replace(',','.')).toFixed(2).replace('.',',');dAltH=(dRounded!==d.ans)?qhash(dRounded):null;}
+    var div=document.createElement('div');
+    div.className='desafio-item';
+    div.innerHTML='<h4>Desafío '+(i+1)+': '+d.title+'</h4>'+
+      '<p style="margin:0 0 10px 0;">'+d.text+'</p>'+
+      '<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">'+
+      '<input class="desafio-input" type="text" id="'+d.id+'" placeholder="Tu respuesta" autocomplete="off">'+
+      '<span class="icon-chk" id="'+d.id+'_icon" style="color:#ffd700;font-size:1.1rem;"></span>'+
+      '</div>'+
+      '<div class="hint-text" id="'+d.id+'_fb" style="color:#f0b060;">💡 Pista: '+d.hint+'</div>';
+    c2.appendChild(div);
+    (function(id2,hash,altH,key){
+      document.getElementById(id2).addEventListener('input',function(){
+        chk(id2,hash,id2+'_fb',key,altH);
+      });
+    })(d.id,h,dAltH,d.id);
+  });
+}
+
+// ===== CANVAS: RECTA NUMÉRICA =====
+function drawRectaNum(){
+  var canvas=document.getElementById('rectaCanvas');
+  if(!canvas)return;
+  canvas.width=canvas.offsetWidth||700;
+  canvas.height=80;
+  var ctx=canvas.getContext('2d');
+  var W=canvas.width,H=canvas.height;
+  var A=parseInt(document.getElementById('slA').value)||1;
+  var B=parseInt(document.getElementById('slB').value)||4;
+  document.getElementById('valA').textContent=A;
+  document.getElementById('valB').textContent=B;
+  // Update displays
+  var dec=(A/B);
+  document.getElementById('frac-display').innerHTML=fracHTML(A,B,'frac-sm');
+  document.getElementById('dec-display').textContent=parseFloat(dec.toFixed(4)).toString().replace('.',',');
+  var cmp=A>B?'> 1 (Mayor que 1)':A===B?'= 1 (Igual a 1)':'< 1 (Menor que 1)';
+  document.getElementById('cmp-display').textContent=cmp;
+
+  ctx.clearRect(0,0,W,H);
+  var pad=40,y=H/2;
+  var maxVal=Math.max(2,Math.ceil(A/B)+1);
+  var scale=(W-2*pad)/maxVal;
+
+  // Draw line
+  ctx.strokeStyle='#0d1a2e';ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(W-pad,y);ctx.stroke();
+  // Arrows
+  ctx.beginPath();ctx.moveTo(W-pad,y);ctx.lineTo(W-pad-10,y-6);ctx.moveTo(W-pad,y);ctx.lineTo(W-pad-10,y+6);ctx.stroke();
+
+  // Draw integer ticks
+  for(var n=0;n<=maxVal;n++){
+    var x=pad+n*scale;
+    ctx.beginPath();ctx.strokeStyle='#0d1a2e';ctx.lineWidth=1.5;
+    ctx.moveTo(x,y-8);ctx.lineTo(x,y+8);ctx.stroke();
+    ctx.fillStyle='#0d1a2e';ctx.font='bold 12px Source Serif 4,serif';ctx.textAlign='center';
+    ctx.fillText(n,x,y+22);
+  }
+
+  // Draw subdivision ticks
+  if(B<=12){
+    for(var seg=0;seg<maxVal;seg++){
+      for(var k=1;k<B;k++){
+        var tx=pad+(seg+k/B)*scale;
+        ctx.beginPath();ctx.strokeStyle='rgba(26,79,160,0.3)';ctx.lineWidth=1;
+        ctx.moveTo(tx,y-4);ctx.lineTo(tx,y+4);ctx.stroke();
+      }
+    }
+  }
+
+  // Point
+  var fx=pad+(A/B)*scale;
+  ctx.beginPath();ctx.arc(fx,y,7,0,Math.PI*2);
+  ctx.fillStyle='var(--blue)'||'#1a4fa0';ctx.fill();
+  ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke();
+
+  // Label
+  ctx.fillStyle='#1a4fa0';ctx.font='bold 13px Playfair Display,serif';ctx.textAlign='center';
+  ctx.fillText(A+'/'+B,fx,y-16);
+}
+
+document.getElementById('slA').addEventListener('input',drawRectaNum);
+document.getElementById('slB').addEventListener('input',drawRectaNum);
+
+// ===== GENERADOR =====
+var genTypes=['decimal','irreducible','compare','position','equivalent'];
+var genAns='';
+function genOp(){
+  var type=genTypes[rnd(0,genTypes.length-1)];
+  var n,d,r,g,n2,d2,m;
+  var el=document.getElementById('gen-expr');
+  document.getElementById('gen-ans-box').style.display='none';
+  document.getElementById('gen-ans-box').innerHTML='';
+
+  if(type==='decimal'){
+    n=rnd(1,11);d=rnd(2,10);
+    el.innerHTML='Calculá la expresión decimal de '+fracHTML(n,d);
+    genAns='Decimal: '+(n/d).toFixed(4).replace('.',',')+' ≈ '+parseFloat((n/d).toFixed(2)).toString().replace('.',',');
+  } else if(type==='irreducible'){
+    g=rnd(2,5);r=fracRedu(rnd(1,5)*g,rnd(2,6)*g);n=r.n*g;d=r.d*g;
+    var red=fracRedu(n,d);
+    el.innerHTML='Escribí la forma irreducible de '+fracHTML(n,d);
+    genAns='MCD('+n+','+d+')='+g+' → '+fracHTML(red.n,red.d);
+  } else if(type==='compare'){
+    n=rnd(1,9);d=rnd(2,9);
+    var comp=n>d?'Mayor que 1':n===d?'Igual a 1':'Menor que 1';
+    el.innerHTML='¿'+fracHTML(n,d)+' es mayor, menor o igual a 1?';
+    genAns=comp+' ('+n+(n>d?'>':n===d?'=':'<')+d+')';
+  } else if(type==='position'){
+    n=rnd(1,7);d=rnd(2,8);
+    el.innerHTML='¿Entre qué dos enteros se ubica '+fracHTML(n,d)+' en la recta numérica?';
+    genAns='Entre '+Math.floor(n/d)+' y '+Math.ceil(n/d)+' (decimal: '+parseFloat((n/d).toFixed(2)).toString().replace('.',',')+')';
+  } else {
+    n=rnd(1,5);d=rnd(2,8);m=rnd(2,6);n2=n*m;d2=d*m;
+    var hide=Math.random()>0.5;
+    if(hide){
+      el.innerHTML=fracHTML(n,d)+' = '+fracHTML('?',d2);
+      genAns='El numerador es '+n2+' (se multiplicó por '+m+')';
+    } else {
+      el.innerHTML=fracHTML(n,d)+' = '+fracHTML(n2,'?');
+      genAns='El denominador es '+d2+' (se multiplicó por '+m+')';
+    }
+  }
+}
+function showGenAns(){
+  var box=document.getElementById('gen-ans-box');
+  box.style.display='block';
+  box.innerHTML='<span style="color:#ffd700;">✓ '+genAns+'</span>';
+}
+document.getElementById('btn-genOp').addEventListener('click',genOp);
+document.getElementById('btn-showAns').addEventListener('click',showGenAns);
+
+// Reset buttons
+document.getElementById('btn-resetSec1').addEventListener('click',function(){buildSec1();});
+document.getElementById('btn-resetSec6').addEventListener('click',function(){buildSec6();});
+document.getElementById('btn-checkDrag1').addEventListener('click',function(){checkDrag1();});
+document.getElementById('btn-resetDrag1').addEventListener('click',function(){buildDrag1();});
+document.getElementById('btn-checkDrag2').addEventListener('click',function(){checkDrag2();});
+document.getElementById('btn-resetDrag2').addEventListener('click',function(){buildDrag2();});
+
+// ===== ENVÍO =====
+function enviarYDescargar(){
+  var nombre=document.getElementById('alumno-nombre').value.trim();
+  var curso=document.getElementById('alumno-curso').value.trim();
+  if(!nombre||!curso){alert('Por favor ingresá tu nombre y curso antes de entregar.');return;}
+  var btn=document.getElementById('btn-enviar');
+  btn.disabled=true;btn.style.background='#8a9ab0';btn.textContent='⏳ Enviando…';
+  document.getElementById('alumno-nombre').disabled=true;
+  document.getElementById('alumno-curso').disabled=true;
+
+  var tiempoSeg=Math.floor((Date.now()-_startTime)/1000);
+  var m2=Math.floor(tiempoSeg/60),s2=tiempoSeg%60;
+  var tiempoStr=(m2<10?'0':'')+m2+':'+(s2<10?'0':'')+s2;
+  var fechaStr=new Date().toLocaleDateString('es-AR');
+  var horaStr=new Date().toLocaleTimeString('es-AR');
+  var pts=Object.keys(ans).filter(function(k){return ans[k]===true;}).length;
+  var pct=Math.round(pts/totalItems*100);
+
+  var payload={
+    actividad:'Fracciones',
+    fecha:fechaStr,hora:horaStr,nombre:nombre,curso:curso,
+    correctas:pts,total:totalItems,porcentaje:pct+'%',tiempo:tiempoStr
+  };
+
+  fetch('https://script.google.com/macros/s/AKfycbyej47_gc_j0CyYMcSwkSB_xPTs9UWy3y65yQa6cqaT1CEOA4x35qdcin_kchcdXQF5oA/exec',{
+    method:'POST',mode:'no-cors',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(payload)
+  }).then(function(){
+    btn.style.background='var(--sage)';btn.textContent='✓ Entregado';
+    document.getElementById('envio-msg').innerHTML='<span style="color:var(--sage);font-weight:600;">✓ Resultado enviado correctamente.</span>';
+  }).catch(function(){
+    btn.style.background='var(--rust)';btn.textContent='⚠ Sin conexión';
+    document.getElementById('envio-msg').innerHTML='<span style="color:var(--rust);">⚠ No se pudo enviar. Guardá tu guía de estudio.</span>';
+  });
+
+  // Generar guía de estudio
+  setTimeout(function(){generarGuia(nombre,curso,fechaStr,horaStr,tiempoStr,pts,pct);},800);
+}
+
+function generarGuia(nombre,curso,fecha,hora,tiempo,pts,pct){
+  // Gather answers
+  function getS1(){
+    var rows='';
+    sec1Items.forEach(function(fr,i){
+      var el=document.getElementById('s1_'+i);
+      var val=el?el.value:'—';
+      var ok=el&&el.classList.contains('correct');
+      var dec=toDecStr(fr.n,fr.d);
+      rows+='<tr><td>'+(i+1)+'</td><td>'+fr.n+'/'+fr.d+'</td><td style="color:'+(ok?'#2a7a4a':'#b83a2a')+';font-weight:600;">'+(val||'—')+' '+(ok?'✓':'✗')+'</td><td>'+dec+'</td><td>Dividí '+fr.n+' ÷ '+fr.d+'</td></tr>';
+    });
+    return rows;
+  }
+  function getVF(){
+    var rows='';
+    vfData.forEach(function(d,i){
+      var vBtn=document.getElementById('vf_'+i+'_v');
+      var fBtn=document.getElementById('vf_'+i+'_f');
+      var chosen=vBtn&&vBtn.classList.contains('chosen-v')?'Verdadero':fBtn&&fBtn.classList.contains('chosen-f')?'Falso':'—';
+      var correct=d.ans==='v'?'Verdadero':'Falso';
+      var ok=chosen===correct;
+      rows+='<tr><td>'+(i+1)+'</td><td>'+d.stmt.replace(/<[^>]+>/g,'')+'</td><td style="color:'+(ok?'#2a7a4a':'#b83a2a')+';font-weight:600;">'+chosen+' '+(ok?'✓':'✗')+'</td><td>'+correct+'</td><td>'+d.expl+'</td></tr>';
+    });
+    return rows;
+  }
+  function getMC(){
+    var rows='';
+    mcData.forEach(function(d,i){
+      var wrap=document.getElementById('mc_wrap_'+i);
+      var chosen='—',ok=false;
+      if(wrap){
+        var cor=wrap.querySelector('.correct-opt');
+        var wr=wrap.querySelector('.wrong-opt');
+        if(cor){chosen=cor.textContent.trim();ok=true;}
+        else if(wr){chosen=wr.textContent.trim();}
+      }
+      var correctText=d.opts[d.correct].replace(/<[^>]+>/g,'');
+      rows+='<tr><td>'+(i+1)+'</td><td>'+d.q.replace(/<[^>]+>/g,'')+'</td><td style="color:'+(ok?'#2a7a4a':'#b83a2a')+';font-weight:600;">'+chosen+' '+(ok?'✓':'✗')+'</td><td>'+correctText+'</td><td>'+d.expl+'</td></tr>';
+    });
+    return rows;
+  }
+  function getS6(){
+    var rows='';
+    sec6Items.forEach(function(item,i){
+      var el=document.getElementById('s6_'+i);
+      var val=el?el.value:'—';
+      var ok=el&&el.classList.contains('correct');
+      var b=item.base,m=item.mult;
+      rows+='<tr><td>'+(i+1)+'</td><td>'+b.n+'/'+b.d+' = ?/'+(b.d*m)+' o '+(b.n*m)+'/? </td><td style="color:'+(ok?'#2a7a4a':'#b83a2a')+';font-weight:600;">'+(val||'—')+' '+(ok?'✓':'✗')+'</td><td>'+b.n*m+' / '+b.d*m+'</td><td>Multiplicar por '+m+'</td></tr>';
+    });
+    return rows;
+  }
+  function getDes(){
+    var rows='';
+    desafiosData.forEach(function(d,i){
+      var el=document.getElementById(d.id);
+      var val=el?el.value:'—';
+      var ok=el&&el.classList.contains('correct');
+      rows+='<tr><td>'+(i+1)+'</td><td>'+d.title+'</td><td style="color:'+(ok?'#2a7a4a':'#b83a2a')+';font-weight:600;">'+(val||'—')+' '+(ok?'✓':'✗')+'</td><td>'+d.ans+'</td><td>'+d.hint+'</td></tr>';
+    });
+    return rows;
+  }
+
+  var tableStyle='width:100%;border-collapse:collapse;margin-bottom:20px;font-size:13px;';
+  var thStyle='background:#1a4fa0;color:#fff;padding:7px 10px;text-align:left;';
+  var tdStyle='padding:6px 10px;border-bottom:1px solid #e4ecf7;';
+
+  var html='<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8">'+
+    '<style>@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Serif+4:wght@300;400;600&display=swap");'+
+    'body{font-family:"Source Serif 4",serif;background:#f0f4fa;color:#0d1a2e;margin:0;padding:24px;}'+
+    'h1,h2,h3{font-family:"Playfair Display",serif;}'+
+    '.cover{background:#0d1a2e;color:#e8f0ff;padding:32px;border-radius:10px;margin-bottom:24px;}'+
+    '.cover h1{font-size:2rem;font-weight:900;margin:0 0 8px 0;}'+
+    '.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;}'+
+    '.cell{background:rgba(255,255,255,0.08);padding:10px 14px;border-radius:6px;font-size:0.88rem;}'+
+    '.cell strong{display:block;font-size:0.72rem;text-transform:uppercase;letter-spacing:2px;opacity:0.6;margin-bottom:2px;}'+
+    '.score-box{background:#1a2d48;border:2px solid #ffd700;border-radius:10px;text-align:center;padding:20px;margin-top:16px;}'+
+    '.score-num{font-family:"Playfair Display",serif;font-size:3rem;font-weight:900;color:#ffd700;}'+
+    '.section{background:#fff;border-radius:8px;padding:18px 22px;margin-bottom:16px;box-shadow:0 2px 6px rgba(0,0,0,0.06);}'+
+    '.section h2{font-size:1.1rem;border-bottom:2px solid #e4ecf7;padding-bottom:8px;margin-top:0;}'+
+    'table{'+tableStyle+'}'+
+    'th{'+thStyle+'}'+
+    'td{'+tdStyle+'}'+
+    'tr:nth-child(even) td{background:#f8fafe;}'+
+    '</style><title>Guía de estudio — Fracciones</title></head><body>'+
+    '<div class="cover">'+
+    '<h1>Guía de estudio — Fracciones</h1>'+
+    '<p style="margin:0;opacity:0.7;font-size:0.9rem;">Matemática · 1° año · Prof. José Ubeda</p>'+
+    '<div class="grid">'+
+    '<div class="cell"><strong>Alumno/a</strong>'+nombre+'</div>'+
+    '<div class="cell"><strong>Curso</strong>'+curso+'</div>'+
+    '<div class="cell"><strong>Fecha</strong>'+fecha+'</div>'+
+    '<div class="cell"><strong>Tiempo</strong>'+tiempo+'</div>'+
+    '<div class="cell"><strong>Temática</strong>Fracciones</div>'+
+    '<div class="cell"><strong>Código ficha</strong>JU-MAT-FRAC-2025-v1.U</div>'+
+    '</div>'+
+    '<div class="score-box"><div class="score-num">'+pts+' / '+totalItems+'</div><div style="color:#ffd700;font-size:1.1rem;font-weight:600;">'+pct+'% de logro</div></div>'+
+    '</div>'+
+    '<div class="section"><h2>📖 Reglas y conceptos</h2>'+
+    '<ul><li><strong>Fracción:</strong> representa partes de un todo. Num = partes tomadas; Den = partes totales.</li>'+
+    '<li><strong>Mayor que 1:</strong> num > den. <strong>Igual a 1:</strong> num = den. <strong>Menor que 1:</strong> num < den.</li>'+
+    '<li><strong>Decimal:</strong> dividir num ÷ den.</li>'+
+    '<li><strong>Equivalentes:</strong> multiplicar o dividir num y den por el mismo número ≠ 0.</li>'+
+    '<li><strong>Irreducible:</strong> cuando MCD(num, den) = 1.</li></ul></div>'+
+    '<div class="section"><h2>Sección 1 — Expresión decimal</h2>'+
+    '<table><tr><th>#</th><th>Fracción</th><th>Tu respuesta</th><th>Solución</th><th>Explicación</th></tr>'+getS1()+'</table></div>'+
+    '<div class="section"><h2>Sección 2 — Verdadero o Falso</h2>'+
+    '<table><tr><th>#</th><th>Afirmación</th><th>Tu respuesta</th><th>Solución</th><th>Explicación</th></tr>'+getVF()+'</table></div>'+
+    '<div class="section"><h2>Sección 3 — Opción múltiple</h2>'+
+    '<table><tr><th>#</th><th>Pregunta</th><th>Tu respuesta</th><th>Solución</th><th>Explicación</th></tr>'+getMC()+'</table></div>'+
+    '<div class="section"><h2>Sección 4 — Asociación (Drag)</h2><p>Uní cada fracción con su forma irreducible equivalente.</p></div>'+
+    '<div class="section"><h2>Sección 5 — Clasificación (Drag)</h2><p>Clasificá cada fracción según si es mayor, igual o menor que 1.</p></div>'+
+    '<div class="section"><h2>Sección 6 — Fracciones equivalentes</h2>'+
+    '<table><tr><th>#</th><th>Ejercicio</th><th>Tu respuesta</th><th>Solución</th><th>Explicación</th></tr>'+getS6()+'</table></div>'+
+    '<div class="section"><h2>Parte III — Desafíos contextualizados</h2>'+
+    '<table><tr><th>#</th><th>Situación</th><th>Tu respuesta</th><th>Solución</th><th>Estrategia</th></tr>'+getDes()+'</table></div>'+
+    '<p style="text-align:center;font-size:0.75rem;color:#8a9ab0;margin-top:20px;">© 2025 José Ubeda — Matemática · Fracciones · JU-MAT-FRAC-2025-v1.U</p>'+
+    '</body></html>';
+
+  var blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url;a.download='Guia_Fracciones_'+nombre.replace(/\s+/g,'_')+'.html';
+  document.body.appendChild(a);a.click();
+  setTimeout(function(){URL.revokeObjectURL(url);document.body.removeChild(a);},1000);
+}
+
+document.getElementById('btn-enviar').addEventListener('click',enviarYDescargar);
+
+// ===== WINDOW GLOBALS =====
+window._chk=chk;window._sit=sit;window._enviar=enviarYDescargar;
+window.chk=chk;window.sit=sit;window.genOp=genOp;window.showGenAns=showGenAns;
+window.drawRectaNum=drawRectaNum;
+window.resetSec1=function(){buildSec1();};
+window.resetSec6=function(){buildSec6();};
+window.checkDrag1=checkDrag1;window.resetDrag1=function(){buildDrag1();};
+window.checkDrag2=checkDrag2;window.resetDrag2=function(){buildDrag2();};
+window.chkMC=chkMC;window.enviarYDescargar=enviarYDescargar;
+window.d1DragStart=d1DragStart;window.d1DragOver=d1DragOver;
+window.d1DragLeave=d1DragLeave;window.d1Drop=d1Drop;
+window.d2DragStart=d2DragStart;window.d2DragOver=d2DragOver;
+window.d2DragLeave=d2DragLeave;window.d2Drop=d2Drop;
+
+// ===== INIT =====
+(function init(){
+  buildSec1();buildVF();buildMC();buildDrag1();buildDrag2();
+  buildSec6();buildDesafios();
+  setTimeout(drawRectaNum,100);
+  updPunt();genOp();
+})();
+</script>
+</body>
+</html>
