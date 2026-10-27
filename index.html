@@ -21,13 +21,9 @@
     --ochre-dim:#a97f31;
     --error:#e0796b;
   }
-
   *{ box-sizing:border-box; }
-
   html,body{
-    margin:0;
-    padding:0;
-    min-height:100vh;
+    margin:0; padding:0; min-height:100vh;
     background:
       linear-gradient(var(--board-line) 1px, transparent 1px) 0 0/38px 38px,
       linear-gradient(90deg, var(--board-line) 1px, transparent 1px) 0 0/38px 38px,
@@ -35,153 +31,56 @@
     color:var(--chalk);
     font-family:'IBM Plex Sans', sans-serif;
   }
-
-  .wrap{
-    max-width:760px;
-    margin:0 auto;
-    padding:64px 24px 80px;
-  }
-
-  header{ margin-bottom:56px; }
-
+  .wrap{ max-width:760px; margin:0 auto; padding:64px 24px 80px; }
+  header{ margin-bottom:48px; }
   .eyebrow{
-    font-family:'JetBrains Mono', monospace;
-    font-size:13px;
-    letter-spacing:.14em;
-    text-transform:uppercase;
-    color:var(--ochre);
-    display:flex;
-    align-items:center;
-    gap:10px;
-    margin-bottom:18px;
+    font-family:'JetBrains Mono', monospace; font-size:13px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--ochre);
+    display:flex; align-items:center; gap:10px; margin-bottom:18px;
   }
-
-  .eyebrow::before{
-    content:"";
-    width:22px;
-    height:2px;
-    background:var(--ochre);
-    display:inline-block;
-  }
-
+  .eyebrow::before{ content:""; width:22px; height:2px; background:var(--ochre); display:inline-block; }
   h1{
-    font-family:'Space Grotesk', sans-serif;
-    font-weight:700;
-    font-size:clamp(32px, 5.4vw, 48px);
-    line-height:1.08;
-    margin:0 0 14px;
-    letter-spacing:-.01em;
+    font-family:'Space Grotesk', sans-serif; font-weight:700;
+    font-size:clamp(32px, 5.4vw, 48px); line-height:1.08;
+    margin:0 0 14px; letter-spacing:-.01em;
   }
-
   h1 .eq{ color:var(--ochre); }
+  .sub{ color:var(--chalk-dim); font-size:16px; line-height:1.6; max-width:52ch; margin:0; }
 
-  .sub{
-    color:var(--chalk-dim);
-    font-size:16px;
-    line-height:1.6;
-    max-width:52ch;
-    margin:0;
+  .group{ margin-bottom:36px; }
+  .group-title{
+    font-family:'JetBrains Mono', monospace; font-size:13px; font-weight:500;
+    letter-spacing:.12em; text-transform:uppercase; color:var(--ochre);
+    margin:0 0 12px; padding-bottom:8px; border-bottom:1px solid var(--board-line);
   }
-
-  .list{
-    display:flex;
-    flex-direction:column;
-    gap:14px;
-  }
+  .list{ display:flex; flex-direction:column; gap:10px; }
 
   .item{
-    display:flex;
-    align-items:center;
-    gap:18px;
-    padding:20px 22px;
-    text-decoration:none;
-    color:var(--chalk);
-    border:1px solid var(--board-line);
-    border-left:3px solid var(--ochre-dim);
+    display:flex; align-items:center; gap:18px;
+    padding:18px 22px; text-decoration:none; color:var(--chalk);
+    border:1px solid var(--board-line); border-left:3px solid var(--ochre-dim);
     background:rgba(255,255,255,0.02);
     transition:border-color .15s ease, background .15s ease, transform .15s ease;
   }
-
-  .item:hover{
-    border-left-color:var(--ochre);
-    background:rgba(217,164,65,0.08);
-    transform:translateX(4px);
-  }
-
-  .item:focus-visible{
-    outline:2px solid var(--ochre);
-    outline-offset:2px;
-  }
-
-  .tag{
-    font-family:'JetBrains Mono', monospace;
-    font-size:12px;
-    color:var(--ochre);
-    background:rgba(217,164,65,0.12);
-    border:1px solid var(--ochre-dim);
-    padding:3px 8px;
-    border-radius:3px;
-    flex-shrink:0;
-    white-space:nowrap;
-  }
-
-  .item-body{ flex:1; min-width:0; }
-
+  .item:hover{ border-left-color:var(--ochre); background:rgba(217,164,65,0.08); transform:translateX(4px); }
+  .item:focus-visible{ outline:2px solid var(--ochre); outline-offset:2px; }
   .item-title{
-    font-family:'Space Grotesk', sans-serif;
-    font-weight:600;
-    font-size:17px;
-    margin:0 0 3px;
+    flex:1; min-width:0; margin:0;
+    font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:17px; line-height:1.3;
+    overflow-wrap:anywhere;
   }
+  .arrow{ font-family:'JetBrains Mono', monospace; color:var(--chalk-dim); font-size:18px; flex-shrink:0; }
 
-  .item-desc{
-    font-size:13.5px;
-    color:var(--chalk-dim);
-    margin:0;
-    font-family:'JetBrains Mono', monospace;
-  }
-
-  .arrow{
-    font-family:'JetBrains Mono', monospace;
-    color:var(--chalk-dim);
-    font-size:18px;
-    flex-shrink:0;
-  }
-
-  .state{
-    padding:40px 22px;
-    border:1px dashed var(--board-line);
-    color:var(--chalk-dim);
-    font-size:14.5px;
-    text-align:center;
-  }
-
-  .state.err{
-    border-color:var(--error);
-    color:var(--error);
-  }
-
-  @keyframes pulse{
-    0%,100%{ opacity:.5; }
-    50%{ opacity:1; }
-  }
-
+  .state{ padding:40px 22px; border:1px dashed var(--board-line); color:var(--chalk-dim); font-size:14.5px; text-align:center; }
+  .state.err{ border-color:var(--error); color:var(--error); }
+  @keyframes pulse{ 0%,100%{opacity:.5;} 50%{opacity:1;} }
   .state.loading{ animation:pulse 1.4s ease-in-out infinite; }
 
   footer{
-    margin-top:64px;
-    padding-top:22px;
-    border-top:1px solid var(--board-line);
-    font-family:'JetBrains Mono', monospace;
-    font-size:12px;
-    color:var(--chalk-dim);
-    letter-spacing:.02em;
+    margin-top:64px; padding-top:22px; border-top:1px solid var(--board-line);
+    font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--chalk-dim); letter-spacing:.02em;
   }
-
-  @media (max-width:480px){
-    .item{ padding:16px; gap:12px; }
-    .tag{ display:none; }
-  }
+  @media (max-width:480px){ .item{ padding:15px 16px; gap:12px; } }
 </style>
 </head>
 <body>
@@ -193,42 +92,163 @@
     <p class="sub">Elegí la actividad que corresponde a la clase de hoy.</p>
   </header>
 
-  <div class="list" id="list">
+  <div id="list">
     <div class="state loading" id="state">Cargando actividades…</div>
   </div>
 
-  <footer>
-    © 2026 José Ubeda — Uso educativo exclusivo
-  </footer>
+  <footer>© 2026 José Ubeda — Uso educativo exclusivo</footer>
 
 </div>
 
 <script>
 (function () {
-  // ── CONFIGURACIÓN: si alguna vez cambiás de usuario o de repo, actualizá esto ──
+  // ── CONFIGURACIÓN ───────────────────────────────────────────────────────────
   var OWNER = "josubeda2-star";
   var REPO  = "proyecto_mat_2026";
-  // ─────────────────────────────────────────────────────────────────────────────
+
+  // Temas y su orden en la página. Una actividad va al primer tema cuyo
+  // texto clave aparezca en su título (sin tildes ni mayúsculas).
+  var TEMAS = [
+    ["Ecuaciones",                          ["ecuaci"]],
+    ["Números enteros",                     ["entero"]],
+    ["Fracciones",                          ["fraccion"]],
+    ["Potenciación y radicación",           ["potenci", "radicaci"]],
+    ["Razones, proporciones y porcentajes", ["razon", "proporci", "porcentaj"]],
+    ["Geometría",                           ["geometr", "recta", "angulo", "mediatriz", "triangul"]],
+    ["Funciones",                           ["funcion"]]
+  ];
+  var OTROS = "Otras actividades";
+
+  // Opcional: corregir a mano una actividad puntual. Ejemplo:
+  // "archivo.html": { titulo: "Título que quiero", tema: "Geometría" }
+  var MANUAL = {};
+
+  // La lista se guarda en el navegador este tiempo (minutos) para no consultar
+  // a GitHub en cada visita. Si subís una actividad nueva, aparece al vencer
+  // o al recargar con Ctrl+F5.
+  var CACHE_MIN = 15;
+  var CACHE_KEY = "mat_actividades_v2";
+  // ────────────────────────────────────────────────────────────────────────────
 
   var listEl = document.getElementById("list");
-  var stateEl = document.getElementById("state");
 
-  function showError(msg) {
-    stateEl.className = "state err";
-    stateEl.textContent = msg;
+  function normalizar(s) {
+    return s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
   }
 
-  function titleFromFilename(name) {
-    var base = name.replace(/\.html?$/i, "");
-    base = base.replace(/[_-]+/g, " ").trim();
-    return base.charAt(0).toUpperCase() + base.slice(1);
+  function limpiarTitulo(t) {
+    t = t.replace(/\s+/g, " ").trim();
+    t = t.replace(/\s*[—–|·]\s*(prof\b|1\s*[.°º]|1ro|1er|primer).*$/i, "");
+    t = t.replace(/\s+-\s+(prof\b|1\s*[.°º]|1ro).*$/i, "");
+    return t.trim();
   }
 
-  function tagFromFilename(name) {
-    var base = name.replace(/\.html?$/i, "").replace(/[0-9]+$/,"");
-    base = base.replace(/[_-]+/g, " ").trim();
-    return base ? base.toUpperCase() : "ACTIVIDAD";
+  function tituloDesdeArchivo(name) {
+    var b = name.replace(/\.html?$/i, "")
+      .replace(/\(\d+\)/g, " ")
+      .replace(/\b(auditada|final|publicar|pdf)\b/ig, " ")
+      .replace(/\bv\d+([_.]\d+)*\b/ig, " ")
+      .replace(/\b(ju|mat|2026)\b/ig, " ")
+      .replace(/[_-]+/g, " ").replace(/\s+/g, " ").trim();
+    return b ? b.charAt(0).toUpperCase() + b.slice(1) : "Actividad";
   }
+
+  function temaDe(titulo, archivo) {
+    var fuentes = [normalizar(titulo), normalizar(archivo)];
+    for (var f = 0; f < fuentes.length; f++) {
+      for (var i = 0; i < TEMAS.length; i++) {
+        for (var k = 0; k < TEMAS[i][1].length; k++) {
+          if (fuentes[f].indexOf(TEMAS[i][1][k]) !== -1) return TEMAS[i][0];
+        }
+      }
+    }
+    return OTROS;
+  }
+
+  function render(items) {
+    listEl.innerHTML = "";
+    if (!items.length) {
+      var vacio = document.createElement("div");
+      vacio.className = "state";
+      vacio.textContent = "Todavía no hay actividades publicadas.";
+      listEl.appendChild(vacio);
+      return;
+    }
+    var orden = TEMAS.map(function (t) { return t[0]; }).concat([OTROS]);
+    orden.forEach(function (tema) {
+      var grupo = items.filter(function (x) { return x.tema === tema; });
+      if (!grupo.length) return;
+
+      var sec = document.createElement("section");
+      sec.className = "group";
+      var h = document.createElement("h2");
+      h.className = "group-title";
+      h.textContent = tema;
+      sec.appendChild(h);
+
+      var lista = document.createElement("div");
+      lista.className = "list";
+      grupo.forEach(function (it) {
+        var a = document.createElement("a");
+        a.className = "item";
+        a.href = encodeURI(it.name);
+        var p = document.createElement("p");
+        p.className = "item-title";
+        p.textContent = it.titulo;
+        var ar = document.createElement("span");
+        ar.className = "arrow";
+        ar.textContent = "→";
+        a.appendChild(p);
+        a.appendChild(ar);
+        lista.appendChild(a);
+      });
+      sec.appendChild(lista);
+      listEl.appendChild(sec);
+    });
+  }
+
+  function leerCache(ignorarVencimiento) {
+    try {
+      var c = JSON.parse(localStorage.getItem(CACHE_KEY));
+      if (!c || !c.items) return null;
+      if (!ignorarVencimiento && Date.now() - c.t > CACHE_MIN * 60000) return null;
+      return c.items;
+    } catch (e) { return null; }
+  }
+  function guardarCache(items) {
+    try { localStorage.setItem(CACHE_KEY, JSON.stringify({ t: Date.now(), items: items })); } catch (e) {}
+  }
+
+  function mostrarError() {
+    listEl.innerHTML = "";
+    var e = document.createElement("div");
+    e.className = "state err";
+    e.textContent = "No se pudo cargar la lista de actividades. Probá recargar la página en unos minutos.";
+    listEl.appendChild(e);
+  }
+
+  function construir(f) {
+    var m = MANUAL[f.name] || {};
+    return fetch(f.download_url)
+      .then(function (r) { return r.ok ? r.text() : ""; })
+      .then(function (html) {
+        var t = "";
+        if (html) {
+          // DOMParser decodifica entidades (&#x50; etc.) del <title>
+          t = new DOMParser().parseFromString(html, "text/html").title || "";
+        }
+        t = limpiarTitulo(t) || tituloDesdeArchivo(f.name);
+        var titulo = m.titulo || t;
+        return { name: f.name, titulo: titulo, tema: m.tema || temaDe(titulo, f.name) };
+      })
+      .catch(function () {
+        var t = m.titulo || tituloDesdeArchivo(f.name);
+        return { name: f.name, titulo: t, tema: m.tema || temaDe(t, f.name) };
+      });
+  }
+
+  var cacheada = leerCache(false);
+  if (cacheada) { render(cacheada); return; }
 
   fetch("https://api.github.com/repos/" + OWNER + "/" + REPO + "/contents/")
     .then(function (res) {
@@ -237,52 +257,17 @@
     })
     .then(function (files) {
       var htmlFiles = files.filter(function (f) {
-        return f.type === "file" &&
-               /\.html?$/i.test(f.name) &&
-               f.name.toLowerCase() !== "index.html";
+        return f.type === "file" && /\.html?$/i.test(f.name) && f.name.toLowerCase() !== "index.html";
       }).sort(function (a, b) { return a.name.localeCompare(b.name); });
-
-      if (htmlFiles.length === 0) {
-        stateEl.className = "state";
-        stateEl.textContent = "Todavía no hay actividades publicadas.";
-        return;
-      }
-
-      // Para cada archivo, intentamos leer su <title> real; si falla, usamos el nombre del archivo.
-      var promises = htmlFiles.map(function (f) {
-        return fetch(f.download_url)
-          .then(function (r) { return r.ok ? r.text() : ""; })
-          .then(function (html) {
-            var m = html.match(/<title>([^<]*)<\/title>/i);
-            return {
-              name: f.name,
-              title: m && m[1].trim() ? m[1].trim() : titleFromFilename(f.name)
-            };
-          })
-          .catch(function () {
-            return { name: f.name, title: titleFromFilename(f.name) };
-          });
-      });
-
-      Promise.all(promises).then(function (items) {
-        listEl.innerHTML = "";
-        items.forEach(function (item) {
-          var a = document.createElement("a");
-          a.className = "item";
-          a.href = item.name;
-          a.innerHTML =
-            '<span class="tag">' + tagFromFilename(item.name) + '</span>' +
-            '<span class="item-body">' +
-              '<p class="item-title">' + item.title + '</p>' +
-              '<p class="item-desc">' + item.name + '</p>' +
-            '</span>' +
-            '<span class="arrow">→</span>';
-          listEl.appendChild(a);
-        });
-      });
+      return Promise.all(htmlFiles.map(construir));
+    })
+    .then(function (items) {
+      guardarCache(items);
+      render(items);
     })
     .catch(function () {
-      showError("No se pudo cargar la lista de actividades. Probá recargar la página.");
+      var vieja = leerCache(true);   // si GitHub falla, mejor mostrar la lista guardada
+      if (vieja) render(vieja); else mostrarError();
     });
 })();
 </script>
